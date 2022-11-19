@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@taskforce/core';
 import { User } from '@taskforce/shared-types';
 import { UserEntity } from './user.entity';
 
+@Injectable()
 export class UserMemoryRepository
   implements CRUDRepository<UserEntity, number, User>
 {
