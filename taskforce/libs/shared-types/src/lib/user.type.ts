@@ -1,12 +1,13 @@
 import { UserRole } from './user-role.enum';
 import { AvailableCities } from './available-cities.type';
 
-export interface UserInterface {
+export type User = {
   id?: number;
+  name: string;
   email: string;
   city: AvailableCities;
-  password: string;
+  passwordHash: string;
   role: UserRole;
   avatar?: string;
   birthday: Date;
-}
+};
