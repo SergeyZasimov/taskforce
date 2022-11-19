@@ -16,6 +16,10 @@ export class UserEntity implements User {
     this.fillEntity(user);
   }
 
+  public toObject() {
+    return { ...this };
+  }
+
   public async comparePassword(password: string): Promise<boolean> {
     return await compare(password, this.passwordHash);
   }
