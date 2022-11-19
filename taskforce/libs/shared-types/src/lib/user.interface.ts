@@ -1,7 +1,7 @@
 import { UserRole } from './user-role.enum';
 import { AvailableCities } from './available-cities.type';
 
-export type User = {
+export interface UserInterface {
   id?: number;
   email: string;
   city: AvailableCities;
@@ -9,4 +9,4 @@ export type User = {
   role: UserRole;
   avatar?: string;
   birthday: Date;
-};
+}
