@@ -6,7 +6,7 @@ export type User = {
   name: string;
   email: string;
   city: AvailableCities;
-  passwordHash: string;
+  passwordHash?: string;
   role: UserRole;
   avatar?: string;
   birthday: Date;
