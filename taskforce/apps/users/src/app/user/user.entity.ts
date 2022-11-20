@@ -41,6 +41,6 @@ export class UserEntity implements User {
     this.role = user.role;
     this.birthday = user.birthday;
     this.avatar = user.avatar || DEFAULT_AVATAR;
-    this.passwordHash = DEFAULT_PASSWORD_HASH;
+    this.passwordHash = user.passwordHash || DEFAULT_PASSWORD_HASH;
   }
 }

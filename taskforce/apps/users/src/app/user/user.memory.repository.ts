@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CRUDRepository } from '@taskforce/core';
 import { User } from '@taskforce/shared-types';
 import { UserEntity } from './user.entity';
+import * as crypto from 'crypto';
+import { MEMORY_REPOSITORY_MAX_USERS } from './user.const';
 
 @Injectable()
 export class UserMemoryRepository
@@ -18,7 +20,7 @@ export class UserMemoryRepository
 
   public async findByEmail(email: string): Promise<User> | null {
     const existUser = Object.values(this.repository).find((userItem) => {
-      userItem.email === email;
+      return userItem.email === email;
     });
 
     if (existUser) {
@@ -28,7 +30,10 @@ export class UserMemoryRepository
   }
 
   public async create(entity: UserEntity): Promise<User> {
-    const entry = { ...entity.toObject(), id: parseInt(crypto.randomUUID()) };
+    const entry = {
+      ...entity.toObject(),
+      id: crypto.randomInt(MEMORY_REPOSITORY_MAX_USERS),
+    };
     this.repository[entry.id] = entry;
     return { ...entry };
   }
