@@ -52,4 +52,14 @@ export class AuthService {
 
     return verifyUserEntity.toObject();
   }
+
+  public async getUser(id: number): Promise<User> {
+    const existUser = await this.userRepository.findById(id);
+
+    if (!existUser) {
+      throw new Error('User not found');
+    }
+
+    return existUser;
+  }
 }
