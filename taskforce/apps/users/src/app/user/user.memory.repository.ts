@@ -43,9 +43,9 @@ export class UserMemoryRepository
     entity: Partial<UserEntity>
   ): Promise<User> | null {
     if (this.findById(id)) {
-      const newItem = { ...this.repository[id], ...entity };
-      this.repository[id] = newItem;
-      return { ...newItem };
+      const updatedUser = { ...this.repository[id], ...entity.toObject() };
+      this.repository[id] = updatedUser;
+      return { ...updatedUser };
     }
     return null;
   }
@@ -53,6 +53,7 @@ export class UserMemoryRepository
   public async delete(id: number): Promise<void> | null {
     if (this.findById(id)) {
       delete this.repository[id];
+      return;
     }
     return null;
   }
