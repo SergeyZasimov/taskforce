@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { TaskMemoryRepository } from './task.memory.repository';
 
-@Module({})
+@Module({
+  providers: [TaskMemoryRepository],
+  exports: [TaskMemoryRepository],
+})
 export class TaskModule {}
