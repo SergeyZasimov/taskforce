@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 
 import { TaskModule } from './task/task.module';
-import { CrudModule } from './crud/crud.module';
 
 @Module({
-  imports: [TaskModule, CrudModule],
+  imports: [TaskModule],
   controllers: [],
   providers: [],
 })

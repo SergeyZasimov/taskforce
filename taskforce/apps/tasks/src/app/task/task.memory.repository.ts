@@ -17,6 +17,12 @@ export class TaskMemoryRepository
     return null;
   }
 
+  public async findAllByCategory(category: string): Promise<Task[]> | null {
+    return await Object.values(this.repository).filter((taskItem) => {
+      return (taskItem.category = category);
+    });
+  }
+
   public async create(entity: TaskEntity): Promise<Task> {
     const entry = { ...entity.toObject(), _id: crypto.randomUUID() };
     this.repository[entry._id] = entry;
