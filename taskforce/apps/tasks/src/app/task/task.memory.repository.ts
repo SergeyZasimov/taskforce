@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common/decorators';
 export class TaskMemoryRepository
   implements CRUDRepository<TaskEntity, string, Task>
 {
-  private repository: Record<string, Task>;
+  private repository: Record<string, Task> = {};
 
   public async findById(id: string): Promise<Task> | null {
     if (this.repository[id]) {
@@ -34,7 +34,9 @@ export class TaskMemoryRepository
     entity: Partial<TaskEntity>
   ): Promise<Task> | null {
     if (this.findById(id)) {
-      const updatedTask = { ...this.repository[id], ...entity.toObject() };
+      console.log(entity);
+
+      const updatedTask = { ...this.repository[id], ...entity };
       this.repository[id] = updatedTask;
       return { ...updatedTask };
     }

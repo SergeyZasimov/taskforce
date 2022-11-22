@@ -3,7 +3,7 @@ export class CreateTaskDto {
   public description: string;
   public category: string;
   public price?: number;
-  public executionTerm?: Date;
+  public executionTerm?: string;
   public address?: string;
   public tags?: string[];
 }
