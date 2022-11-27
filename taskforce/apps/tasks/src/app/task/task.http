@@ -1,0 +1,34 @@
+@baseUrl = http://localhost:3333/api
+@httpVersion = HTTP/1.1
+@contentType = application/json
+@taskId = {{create.response.body.id}}
+
+### Create Task
+# @name create
+POST {{baseUrl}}/task {{httpVersion}}
+Content-Type: {{contentType}}
+
+{
+  "title": "New Task",
+  "description": "New Task Description",
+  "category": "Test",
+  "price": 30,
+  "tags": "test"
+}
+
+### Get Task
+GET {{baseUrl}}/task/{{taskId}} {{httpVersion}}
+
+### Get by Category
+GET {{baseUrl}}/task?category=Test {{httpVersion}}
+
+### Update Task
+PATCH {{baseUrl}}/task/{{taskId}} {{httpVersion}}
+Content-Type: {{contentType}}
+
+{
+  "price": 100
+}
+
+### Delete Task
+DELETE {{baseUrl}}/task/{{taskId}} {{httpVersion}}

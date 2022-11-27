@@ -5,8 +5,7 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder } from '@nestjs/swagger';
-import { SwaggerModule } from '@nestjs/swagger/dist';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 
@@ -17,9 +16,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Taskforce')
-    .setDescription('The «Users» service API specification')
+    .setDescription('The «Tasks» service API specification')
     .setVersion('1.0')
-    .addTag('Users')
+    .addTag('Tasks')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('spec', app, document);
