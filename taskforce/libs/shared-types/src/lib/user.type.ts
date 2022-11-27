@@ -2,7 +2,7 @@ import { UserRole } from './user-role.enum';
 import { AvailableCities } from './available-cities.type';
 
 export type User = {
-  id?: number;
+  _id?: string;
   name: string;
   email: string;
   city: AvailableCities;

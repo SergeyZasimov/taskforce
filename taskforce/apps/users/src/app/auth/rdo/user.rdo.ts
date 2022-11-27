@@ -1,15 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AvailableCities, UserRole } from '@taskforce/shared-types';
-import { Expose } from 'class-transformer';
-import { Cities } from 'libs/shared-types/src/lib/const';
+import { Expose, Transform } from 'class-transformer';
 
 export class UserRdo {
-  @Expose()
+  @Expose({ name: '_id' })
+  @Transform(({ obj }) => obj._id)
   @ApiProperty({
     description: 'User ID',
-    example: 12,
+    example: '6382db68d4aa0280d04bb17f',
   })
-  public id: number;
+  public id: string;
 
   @Expose()
   @ApiProperty({

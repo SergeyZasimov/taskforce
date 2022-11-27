@@ -1,8 +1,12 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { AvailableCities, User, UserRole } from '@taskforce/shared-types';
 import { Cities } from 'libs/shared-types/src/lib/const';
+import { Document } from 'mongoose';
 
-export class UserModel implements User {
+@Schema({
+  collection: 'users',
+})
+export class UserModel extends Document implements User {
   @Prop({
     required: true,
   })
