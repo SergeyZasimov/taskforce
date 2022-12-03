@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id            Int        @id @default(autoincrement())
+  title         String
+  description   String
+  category      Category   @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  price         Decimal?   @db.Money
+  executionTerm DateTime?
+  image         String?
+  address       Address?   @relation(fields: [addressId], references: [id])
+  addressId     Int
+  tags          Tag[]
+  status        Status     @default(New)
+  userId        String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  comments      Comment[]
+  responses     Response[]
+
+  @@map("Tasks")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  title String
+  tasks Task[]
+
+  @@map("Categories")
+}
+
+model Address {
+  id      Int    @id @default(autoincrement())
+  city    String
+  address String
+  tasks   Task[]
+
+  @@map("Addresses")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  title String
+  tasks Task[]
+
+  @@map("Tags")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  userId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    Int
+  createdAt DateTime @default(now())
+
+  @@map("Comments")
+}
+
+model Response {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    Int
+  createdAt DateTime @default(now())
+
+  @@map("Responses")
+}
+
+enum Status {
+  New
+  Cancel
+  Process
+  Complete
+  Fail
+}
