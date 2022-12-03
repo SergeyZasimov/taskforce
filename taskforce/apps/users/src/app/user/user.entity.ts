@@ -7,7 +7,7 @@ import {
 } from './user.const';
 
 export class UserEntity implements User {
-  public id: number;
+  public _id: string;
   public name: string;
   public email: string;
   public passwordHash: string;
@@ -34,7 +34,7 @@ export class UserEntity implements User {
   }
 
   private fillEntity(user: User): void {
-    this.id = user.id;
+    this._id = user._id;
     this.name = user.name;
     this.email = user.email;
     this.city = user.city;

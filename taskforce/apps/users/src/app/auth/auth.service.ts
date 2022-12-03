@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserRole } from '@taskforce/shared-types';
 import { UserEntity } from '../user/user.entity';
-import { UserMemoryRepository } from '../user/user.memory.repository';
 import { AUTH_USER_EXIST_ERROR } from './auth.const';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as dayjs from 'dayjs';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepository: UserMemoryRepository) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   public async register(dto: CreateUserDto): Promise<User> {
     const { name, email, city, birthday, password } = dto;
@@ -53,7 +53,7 @@ export class AuthService {
     return verifyUserEntity.toObject();
   }
 
-  public async getUser(id: number): Promise<User> {
+  public async getUser(id: string): Promise<User> {
     const existUser = await this.userRepository.findById(id);
 
     if (!existUser) {

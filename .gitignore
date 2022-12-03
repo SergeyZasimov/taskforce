@@ -10,3 +10,5 @@
 coverage
 *.log
 tasks.todo
+taskforce/enviroments/.users.env
+db/
