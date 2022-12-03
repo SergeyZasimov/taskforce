@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../../../node_modules/.prisma/client"
+  output   = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -71,6 +71,8 @@ model Comment {
 
 model Response {
   id        Int      @id @default(autoincrement())
+  feedback  String
+  price     Decimal  @db.Money
   userId    String
   task      Task     @relation(fields: [taskId], references: [id])
   taskId    Int

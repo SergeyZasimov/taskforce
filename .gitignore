@@ -12,3 +12,4 @@ coverage
 tasks.todo
 .env
 db/
+migrations/
