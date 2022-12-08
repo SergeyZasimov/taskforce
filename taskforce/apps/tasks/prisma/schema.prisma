@@ -71,7 +71,7 @@ model Comment {
 
 model Feedback {
   id        Int      @id @default(autoincrement())
-  text      String
+  text      String?
   price     Decimal? @db.Decimal(8, 2)
   userId    String
   task      Task     @relation(fields: [taskId], references: [id])
