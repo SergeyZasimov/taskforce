@@ -99,13 +99,18 @@ async function fillDb() {
             ),
           },
         },
-        responses: {
+        feedbacks: {
           createMany: {
             data: Array.from(
               { length: Number(faker.random.numeric()) },
               () => ({
-                feedback: faker.lorem.sentence(),
-                price: Number(faker.commerce.price()),
+                text: faker.lorem.sentence(),
+                price: faker.helpers.maybe(
+                  () => Number(faker.commerce.price()),
+                  {
+                    probability: 0.7,
+                  }
+                ),
                 userId: faker.helpers.arrayElement(currentUserIds.slice(1)),
               })
             ),

@@ -1,6 +1,7 @@
-export type Comment = {
+export type Feedback = {
   id?: number;
-  text: string;
+  text?: string;
+  price?: number;
   userId: string;
   taskId: number;
   createdAt?: Date;

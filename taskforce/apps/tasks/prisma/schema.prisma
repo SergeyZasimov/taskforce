@@ -28,14 +28,14 @@ model Task {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   comments      Comment[]
-  responses     Response[]
+  feedbacks     Feedback[]
 
   @@map("Tasks")
 }
 
 model Category {
   id    Int    @id @default(autoincrement())
-  title String
+  title String @unique
   tasks Task[]
 
   @@map("Categories")
@@ -52,7 +52,7 @@ model Address {
 
 model Tag {
   id    Int    @id @default(autoincrement())
-  title String
+  title String @unique
   tasks Task[]
 
   @@map("Tags")
@@ -69,16 +69,16 @@ model Comment {
   @@map("Comments")
 }
 
-model Response {
+model Feedback {
   id        Int      @id @default(autoincrement())
-  feedback  String
-  price     Decimal  @db.Decimal(8, 2)
+  text      String
+  price     Decimal? @db.Decimal(8, 2)
   userId    String
   task      Task     @relation(fields: [taskId], references: [id])
   taskId    Int
   createdAt DateTime @default(now())
 
-  @@map("Responses")
+  @@map("Feedbacks")
 }
 
 enum Status {

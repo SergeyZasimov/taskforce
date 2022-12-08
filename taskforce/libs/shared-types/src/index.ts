@@ -6,6 +6,5 @@ export * from './lib/task.type';
 export * from './lib/address.type';
 export * from './lib/category.type';
 export * from './lib/comment.type';
-export * from './lib/entity.interface';
-export * from './lib/response.type';
 export * from './lib/tag.type';
+export * from './lib/feedback.type';

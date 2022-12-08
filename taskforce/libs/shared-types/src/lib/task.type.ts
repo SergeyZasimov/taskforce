@@ -3,13 +3,14 @@ import { Category } from './category.type';
 import { Tag } from './tag.type';
 import { TaskStatus } from './task-status.enum';
 import { Comment } from './comment.type';
-import { Response } from './response.type';
+import { Feedback } from './feedback.type';
 
 export type Task = {
-  id?: string;
+  id?: number;
   title: string;
   description: string;
   category: Category;
+  userId: string;
   price?: number;
   executionTerm?: Date;
   image?: string;
@@ -19,5 +20,5 @@ export type Task = {
   createdAt?: Date;
   updatedAt?: Date;
   comments?: Comment[];
-  responses?: Response[];
+  feedbacks?: Feedback[];
 };
