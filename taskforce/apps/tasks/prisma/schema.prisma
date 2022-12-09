@@ -20,8 +20,7 @@ model Task {
   price         Decimal?   @db.Decimal(8, 2)
   executionTerm DateTime?
   image         String?
-  address       Address?   @relation(fields: [addressId], references: [id])
-  addressId     Int
+  address       String?
   tags          Tag[]
   status        Status     @default(New)
   userId        String
@@ -41,15 +40,6 @@ model Category {
   @@map("Categories")
 }
 
-model Address {
-  id      Int    @id @default(autoincrement())
-  city    String
-  address String
-  tasks   Task[]
-
-  @@map("Addresses")
-}
-
 model Tag {
   id    Int    @id @default(autoincrement())
   title String @unique
@@ -62,7 +52,7 @@ model Comment {
   id        Int      @id @default(autoincrement())
   text      String
   userId    String
-  task      Task     @relation(fields: [taskId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    Int
   createdAt DateTime @default(now())
 
@@ -74,7 +64,7 @@ model Feedback {
   text      String?
   price     Decimal? @db.Decimal(8, 2)
   userId    String
-  task      Task     @relation(fields: [taskId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    Int
   createdAt DateTime @default(now())
 

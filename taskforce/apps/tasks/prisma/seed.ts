@@ -20,21 +20,12 @@ const categories: { title: string }[] = faker.helpers.uniqueArray(
 
 const tags: { title: string }[] = faker.helpers.uniqueArray(
   () => ({
-    title: faker.lorem.word(),
+    title: faker.lorem.word().toLowerCase(),
   }),
   SUB_MOCK_COUNT
 );
 
 const cities = ['Москва', 'Санкт-Петербург', 'Владивосток'];
-
-const addresses: { city: string; address: string }[] =
-  faker.helpers.uniqueArray(
-    () => ({
-      city: faker.helpers.arrayElement(cities),
-      address: faker.address.streetAddress(),
-    }),
-    SUB_MOCK_COUNT
-  );
 
 async function fillDb() {
   await prisma.category.createMany({
@@ -47,14 +38,8 @@ async function fillDb() {
   });
   console.info('Tags were created');
 
-  await prisma.address.createMany({
-    data: addresses,
-  });
-  console.info('Addresses were created');
-
   const categoryIds = await prisma.category.findMany({ select: { id: true } });
   const tagIds = await prisma.tag.findMany({ select: { id: true } });
-  const addressIds = await prisma.address.findMany({ select: { id: true } });
 
   for (let i = 1; i <= MOCK_COUNT; i++) {
     const currentUserIds = faker.helpers.shuffle(userIds);
@@ -76,9 +61,9 @@ async function fillDb() {
           { probability: 0.7 }
         ),
         userId: currentUserIds[0],
-        address: {
-          connect: faker.helpers.arrayElement(addressIds),
-        },
+        address: `${faker.helpers.arrayElement(
+          cities
+        )} ${faker.address.streetAddress()}`,
         executionTerm: faker.helpers.maybe(() => faker.date.soon(5), {
           probability: 0.3,
         }),
