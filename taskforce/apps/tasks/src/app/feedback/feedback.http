@@ -1,0 +1,25 @@
+@baseUrl = http://localhost:3333/api
+@contentType = application/json
+
+### Create New Feedback
+POST {{baseUrl}}/feedback HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "text": "New Feedback",
+  "taskId": 1,
+  "userId": "3f637fb1eccee5a5feef0de7"
+}
+
+### Create New Feedback
+POST {{baseUrl}}/feedback HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "taskId": 1,
+  "userId": "3f637fb1eccee5a5feef0de7"
+}
+
+### Get feedbacks for Task
+GET {{baseUrl}}/feedback?taskId=1 HTTP/1.1
+

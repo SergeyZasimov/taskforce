@@ -1,36 +1,51 @@
-import { Task, TaskStatus } from '@taskforce/shared-types';
-import { TASK_DEFAULT } from './task.const';
+import { Entity } from '@taskforce/core';
+import {
+  Category,
+  Comment,
+  Feedback,
+  Tag,
+  Task,
+  TaskStatus,
+} from '@taskforce/shared-types';
 
-export class TaskEntity implements Task {
-  public _id: string;
-  public title: string;
-  public description: string;
-  public category: string;
-  public price: number;
-  public address: string;
-  public executionTerm: Date;
-  public image: string;
-  public tags: string[];
-  public status: TaskStatus;
+export class TaskEntity implements Entity<TaskEntity>, Task {
+  title: string;
+  description: string;
+  category: Category;
+  userId: string;
+  price?: number;
+  executionTerm?: Date;
+  image?: string;
+  address?: string;
+  tags?: Tag[];
+  status?: TaskStatus;
+  comments?: Comment[];
+  feedbacks?: Feedback[];
 
   constructor(task: Task) {
     this.fillEntity(task);
   }
 
-  public toObject(): Task {
-    return { ...this };
+  public toObject(): TaskEntity {
+    return {
+      ...this,
+      price: this.price || 0,
+      category: this.category ? { title: this.category } : {},
+      tags: this.tags ? this.tags.map((tag) => ({ title: tag })) : [],
+    };
   }
-
-  private fillEntity(task: Task): void {
-    this._id = task._id;
-    this.title = task.title;
-    this.description = task.description;
-    this.category = task.category;
-    this.price = task.price || TASK_DEFAULT.PRICE;
-    this.address = task.address || TASK_DEFAULT.ADDRESS;
-    this.executionTerm = task.executionTerm || TASK_DEFAULT.EXECUTION_TERM;
-    this.image = task.image || TASK_DEFAULT.IMAGE;
-    this.tags = task.tags || TASK_DEFAULT.TAGS;
-    this.status = task.status || TASK_DEFAULT.STATUS;
+  public fillEntity(item: Task) {
+    this.title = item.title;
+    this.description = item.description;
+    this.category = item.category;
+    this.userId = item.userId;
+    this.price = item.price;
+    this.executionTerm = item.executionTerm;
+    this.image = item.image;
+    this.address = item.address;
+    this.tags = item.tags;
+    this.status = item.status;
+    this.comments = item.comments;
+    this.feedbacks = item.feedbacks;
   }
 }

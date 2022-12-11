@@ -3,3 +3,7 @@ export * from './lib/user-role.enum';
 export * from './lib/available-cities.type';
 export * from './lib/task-status.enum';
 export * from './lib/task.type';
+export * from './lib/category.type';
+export * from './lib/comment.type';
+export * from './lib/tag.type';
+export * from './lib/feedback.type';

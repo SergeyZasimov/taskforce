@@ -1,54 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from '../dto/create-task.dto';
-import { TaskEntity } from './task.entity';
-import { TaskMemoryRepository } from './task.memory.repository';
-import * as dayjs from 'dayjs';
 import { Task } from '@taskforce/shared-types';
-import { UpdateTaskDto } from '../dto/update-task.dto';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskEntity } from './task.entity';
+import { TaskRepository } from './task.repository';
 
 @Injectable()
 export class TaskService {
-  constructor(private readonly taskMemoryRepository: TaskMemoryRepository) {}
+  constructor(private readonly taskRepository: TaskRepository) {}
 
-  public async getTask(id: string): Promise<Task> | null {
-    return await this.taskMemoryRepository.findById(id);
-  }
-
-  public async getByCategory(category: string): Promise<Task[]> | null {
-    return await this.taskMemoryRepository.findAllByCategory(category);
+  public async getTask(id: number): Promise<Task> {
+    return this.taskRepository.findById(id);
   }
 
   public async createTask(dto: CreateTaskDto): Promise<Task> {
-    const {
-      title,
-      description,
-      category,
-      address,
-      executionTerm,
-      price,
-      tags,
-    } = dto;
-
-    const newTask = {
-      title,
-      description,
-      category,
-      address,
-      executionTerm: dayjs(executionTerm).toDate(),
-      price,
-      tags,
-    };
-
-    const taskEntity: TaskEntity = await new TaskEntity(newTask);
-
-    return await this.taskMemoryRepository.create(taskEntity);
+    const newTaskEntity = new TaskEntity(dto);
+    return await this.taskRepository.create(newTaskEntity);
   }
 
-  public async updateTask(id: string, dto: UpdateTaskDto): Promise<Task> | null {
-    return await this.taskMemoryRepository.update(id, dto);
+  public async updateTask(id: number, dto: UpdateTaskDto): Promise<Task> {
+    const updatedTaskEntity = new TaskEntity(dto);
+    return await this.taskRepository.update(id, updatedTaskEntity);
   }
 
-  public async deleteTask(id: string): Promise<void> | null {
-    return await this.taskMemoryRepository.delete(id);
+  public async deleteTask(id: number): Promise<void> {
+    await this.taskRepository.delete(id);
   }
 }

@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id            Int        @id @default(autoincrement())
+  title         String
+  description   String
+  category      Category   @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+  price         Decimal?   @db.Decimal(8, 2)
+  executionTerm DateTime?
+  image         String?
+  address       String?
+  tags          Tag[]
+  status        Status     @default(New)
+  userId        String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  comments      Comment[]
+  feedbacks     Feedback[]
+
+  @@map("Tasks")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  title String @unique
+  tasks Task[]
+
+  @@map("Categories")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  title String @unique
+  tasks Task[]
+
+  @@map("Tags")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  userId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    Int
+  createdAt DateTime @default(now())
+
+  @@map("Comments")
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  text      String?
+  price     Decimal? @db.Decimal(8, 2)
+  userId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    Int
+  createdAt DateTime @default(now())
+
+  @@map("Feedbacks")
+}
+
+enum Status {
+  New
+  Cancel
+  Process
+  Complete
+  Fail
+}

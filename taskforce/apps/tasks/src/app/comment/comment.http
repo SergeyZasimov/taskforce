@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:3333/api
+@contentType = application/json
+
+### Create New Comment
+POST {{baseUrl}}/comment HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "text": "New Comment",
+  "taskId": 1,
+  "userId": "3f637fb1eccee5a5feef0de7"
+}
+
+### Get Comment By Task ID
+GET {{baseUrl}}/comment/1 HTTP/1.1
+
