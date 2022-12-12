@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserRole } from '@taskforce/shared-types';
 import { UserEntity } from '../user/user.entity';
-import { AUTH_USER_EXIST_ERROR } from './auth.const';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as dayjs from 'dayjs';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -25,7 +24,7 @@ export class AuthService {
     const existUser = await this.userRepository.findByEmail(newUser.email);
 
     if (existUser) {
-      throw new Error(AUTH_USER_EXIST_ERROR);
+      throw new Error('User with this email is exist');
     }
 
     const newUserEntity: UserEntity = await new UserEntity(newUser).setPassword(

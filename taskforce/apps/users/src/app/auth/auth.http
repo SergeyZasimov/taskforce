@@ -12,7 +12,8 @@ Content-Type: {{contentType}}
   "email": "user@mail.com",
   "password": "secret",
   "city": "Москва",
-  "birthday": "2020-11-20"
+  "birthday": "2020-11-20",
+  "role": "customer"
 }
 
 
@@ -29,3 +30,15 @@ Content-Type: {{contentType}}
 
 ### Get User
 GET {{baseUrl}}/auth/{{userId}}
+
+### Create User Bad Request
+POST {{baseUrl}}/auth/register HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "us",
+  "email": "usermail.com",
+  "password": "secret",
+  "city": "Москва",
+  "birthday": "2020-11-20"
+}
