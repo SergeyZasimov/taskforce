@@ -5,10 +5,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as dayjs from 'dayjs';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UserRepository } from '../user/user.repository';
+import { UnauthorizedException } from '@nestjs/common/exceptions';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService
+  ) {}
 
   public async register(dto: CreateUserDto): Promise<User> {
     const { name, email, city, birthday, password } = dto;
@@ -40,13 +45,13 @@ export class AuthService {
     const existUser = await this.userRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new Error('User not found');
+      throw new UnauthorizedException('User not found');
     }
 
     const verifyUserEntity = new UserEntity(existUser);
 
     if (!(await verifyUserEntity.comparePassword(password))) {
-      throw new Error('Wrong password');
+      throw new UnauthorizedException('Wrong password');
     }
 
     return verifyUserEntity.toObject();
@@ -60,5 +65,18 @@ export class AuthService {
     }
 
     return existUser;
+  }
+
+  public async loginUser(user: User) {
+    const payload = {
+      sub: user._id,
+      email: user.email,
+      role: user.role,
+      name: user.name,
+    };
+
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+    };
   }
 }

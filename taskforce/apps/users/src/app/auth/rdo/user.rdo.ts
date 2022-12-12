@@ -3,7 +3,7 @@ import { Expose, Transform } from 'class-transformer';
 
 export class UserRdo {
   @Expose({ name: '_id' })
-  @Transform(({ obj }) => obj._id)
+  @Transform(({ obj }) => obj._id.toString())
   @ApiProperty({
     description: 'User ID',
     example: '6382db68d4aa0280d04bb17f',

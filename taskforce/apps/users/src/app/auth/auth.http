@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3333/api
 @contentType = application/json
-@userId = {{login.response.body.id}}
+@accessToken = {{login.response.body.accessToken}}
 
 
 ### Register User
@@ -29,7 +29,8 @@ Content-Type: {{contentType}}
 
 
 ### Get User
-GET {{baseUrl}}/auth/{{userId}}
+GET {{baseUrl}}/auth/6396a84a58dbfb187fc4350e
+Authorization: Bearer {{accessToken}}
 
 ### Create User Bad Request
 POST {{baseUrl}}/auth/register HTTP/1.1

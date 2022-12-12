@@ -6,12 +6,15 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger/dist';
 import { fillObject } from '@taskforce/core';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { UserRdo } from './rdo/user.rdo';
 
 @ApiTags('auth')
@@ -39,9 +42,11 @@ export class AuthController {
   })
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
-    return fillObject(UserRdo, verifiedUser);
+    const loggedUser = await this.authService.loginUser(verifiedUser);
+    return fillObject(LoggedUserRdo, loggedUser);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @ApiResponse({
     status: HttpStatus.OK,
