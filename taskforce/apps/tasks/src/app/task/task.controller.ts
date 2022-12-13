@@ -20,8 +20,8 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get('/:id')
-  public async show(@Param('id') id: string) {
-    const task = await this.taskService.getTask(parseInt(id, 10));
+  public async show(@Param('id') id: number) {
+    const task = await this.taskService.getTask(id);
     return fillObject(TaskRdo, task);
   }
 
@@ -32,17 +32,14 @@ export class TaskController {
   }
 
   @Patch('/:id')
-  public async update(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
-    const updatedTask = await this.taskService.updateTask(
-      parseInt(id, 10),
-      dto
-    );
+  public async update(@Param('id') id: number, @Body() dto: UpdateTaskDto) {
+    const updatedTask = await this.taskService.updateTask(id, dto);
     return fillObject(TaskRdo, updatedTask);
   }
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async delete(@Param('id') id: string) {
-    await this.taskService.deleteTask(parseInt(id, 10));
+  public async delete(@Param('id') id: number) {
+    await this.taskService.deleteTask(id);
   }
 }

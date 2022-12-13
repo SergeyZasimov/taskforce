@@ -7,7 +7,7 @@ Content-Type: {{contentType}}
 
 {
   "text": "New Feedback",
-  "taskId": 1,
+  "taskId": 2,
   "userId": "3f637fb1eccee5a5feef0de7"
 }
 
@@ -16,10 +16,20 @@ POST {{baseUrl}}/feedback HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "taskId": 1,
-  "userId": "3f637fb1eccee5a5feef0de7"
+  "taskId": 2,
+  "userId": "6396a84a58dbfb187fc4350f"
 }
 
 ### Get feedbacks for Task
-GET {{baseUrl}}/feedback?taskId=1 HTTP/1.1
+GET {{baseUrl}}/feedback?taskId=2 HTTP/1.1
 
+### Create Feedback Not Valid
+POST {{baseUrl}}/feedback HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "text": "Not Valid Feedback",
+  "price": -234.789,
+  "taskId": "2",
+  "userId": "3f637fb1eccee5a5feef0de"
+}

@@ -9,10 +9,8 @@ export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
   @Get('/:taskId')
-  public async showAllByTaskId(@Param('taskId') taskId: string) {
-    const comments = await this.commentService.getComments(
-      parseInt(taskId, 10)
-    );
+  public async showAllByTaskId(@Param('taskId') taskId: number) {
+    const comments = await this.commentService.getComments(taskId);
     return fillObject(CommentRdo, comments);
   }
 

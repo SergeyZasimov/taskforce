@@ -7,6 +7,7 @@ import {
   Task,
   TaskStatus,
 } from '@taskforce/shared-types';
+import * as dayjs from 'dayjs';
 
 export class TaskEntity implements Entity<TaskEntity>, Task {
   title: string;
@@ -32,6 +33,9 @@ export class TaskEntity implements Entity<TaskEntity>, Task {
       price: this.price || 0,
       category: this.category ? { title: this.category } : {},
       tags: this.tags ? this.tags.map((tag) => ({ title: tag })) : [],
+      executionTerm: this.executionTerm
+        ? dayjs(this.executionTerm).toDate()
+        : null,
     };
   }
   public fillEntity(item: Task) {
