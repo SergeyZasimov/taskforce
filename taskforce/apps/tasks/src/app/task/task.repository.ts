@@ -17,8 +17,9 @@ export class TaskRepository
       include: {
         category: true,
         tags: true,
-        comments: true,
-        feedbacks: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
       },
     });
     return this.convertTask(task);
@@ -67,8 +68,6 @@ export class TaskRepository
       include: {
         category: true,
         tags: true,
-        comments: true,
-        feedbacks: true,
       },
     });
     return this.convertTask(newTask);
@@ -121,8 +120,9 @@ export class TaskRepository
       include: {
         category: true,
         tags: true,
-        comments: true,
-        feedbacks: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
       },
     });
     return this.convertTask(updatedTask);
@@ -137,12 +137,10 @@ export class TaskRepository
       ...prismaTask,
       price: Number(prismaTask.price),
       status: TaskStatus[prismaTask.status],
-      feedbacks:
-        prismaTask.feedbacks.length > 0 &&
-        prismaTask.feedbacks.map((feedback) => ({
-          ...feedback,
-          price: Number(feedback.price),
-        })),
+      category: prismaTask.category.title,
+      tags: prismaTask.tags.map((tag) => tag.title),
+      commentsCount: prismaTask._count?.comments || 0,
+      feedbacksCount: prismaTask._count?.feedbacks || 0,
     };
   }
 }

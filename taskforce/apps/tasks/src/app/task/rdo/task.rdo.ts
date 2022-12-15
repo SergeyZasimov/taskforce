@@ -1,8 +1,4 @@
-import {
-  Category,
-  Tag,
-  TaskStatus,
-} from '@taskforce/shared-types';
+import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
 import { Expose, Type } from 'class-transformer';
 import { CommentRdo } from '../../comment/rdo/comment.rdo';
 import { FeedbackRdo } from '../../feedback/rdo/feedback.rdo';
@@ -34,11 +30,7 @@ export class TaskRdo {
 
   @Expose() public updatedAt: Date;
 
-  @Expose()
-  @Type(() => CommentRdo)
-  public comments: CommentRdo[];
+  @Expose() public commentsCount: number;
 
-  @Expose()
-  @Type(() => FeedbackRdo)
-  public feedbacks: FeedbackRdo[];
+  @Expose() public feedbacksCount: number;
 }
