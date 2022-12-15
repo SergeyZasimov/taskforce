@@ -67,7 +67,7 @@ export class TaskRepository
         },
       },
       take: limit,
-      skip: page > 0 && limit * (page - 1),
+      skip: page > 0 ? limit * (page - 1) : undefined,
     });
     return tasks.map((task) => this.convertTask(task));
   }

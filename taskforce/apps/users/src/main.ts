@@ -22,9 +22,9 @@ async function bootstrap() {
     .addTag('Users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('spec', app, document);
+  SwaggerModule.setup('spec/users', app, document);
 
-  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(new ValidationPipe());
 
   const port = process.env.PORT || 3333;
   await app.listen(port);

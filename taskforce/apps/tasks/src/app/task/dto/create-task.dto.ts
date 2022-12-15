@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Category, Tag } from '@taskforce/shared-types';
 import {
   ArrayMaxSize,
@@ -32,25 +33,61 @@ const {
 } = CREATE_TASK_VALIDATION_ERROR;
 
 export class CreateTaskDto {
+  @ApiProperty({
+    description: 'Task title',
+    example: 'Lorem ipsum dolor si amet.',
+    minLength: 20,
+    maxLength: 50,
+    required: true,
+  })
   @Length(20, 50, { message: TITLE_LENGTH_NOT_VALID })
   @IsString({ message: TITLE_REQUIRED })
   public title: string;
 
+  @ApiProperty({
+    description: 'Detailed description of the task',
+    example:
+      'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
+    minLength: 100,
+    maxLength: 1024,
+    required: true,
+  })
   @Length(100, 1024, { message: DESCRIPTION_LENGTH_NOT_VALID })
   @IsString({ message: DESCRIPTION_REQUIRED })
   public description: string;
 
+  @ApiProperty({
+    description: 'Task category',
+    type: 'string',
+    example: 'Works',
+    required: true,
+  })
   @IsString({ message: CATEGORY_REQUIRED })
   public category: Category;
 
+  @ApiProperty({
+    description: 'User ID of the task creator',
+    example: 'facbf9678dea73a5df67165c',
+    required: true,
+  })
   @IsMongoId({ message: USER_ID_NOT_VALID })
   public userId: string;
 
+  @ApiProperty({
+    description: 'Task completion price',
+    example: '350.50',
+    required: false,
+  })
   @IsNumber({ maxDecimalPlaces: 2 }, { message: PRICE_NOT_VALID })
   @Min(0, { message: PRICE_NEGATIVE })
   @IsOptional()
   public price?: number;
 
+  @ApiProperty({
+    description: 'The deadline for completion the task',
+    example: '2022-12-22',
+    required: false,
+  })
   @Validate(ExecutionTermValidator, {
     message: EXECUTION_TERM_MIN_DATE_NOT_VALID,
   })
@@ -58,10 +95,31 @@ export class CreateTaskDto {
   @IsOptional()
   public executionTerm?: Date;
 
+  @ApiProperty({
+    description: 'Task address',
+    example: 'Москва Ленинградское ш., 23',
+    minLength: 10,
+    maxLength: 255,
+    required: false,
+  })
   @Length(10, 255, { message: ADDRESS_LENGTH_NOT_VALID })
   @IsOptional()
   public address?: string;
 
+  @ApiProperty({
+    description: 'Task tags',
+    example: ['new', 'tag'],
+    maxItems: 5,
+    type: 'array',
+    items: {
+      type: 'string',
+      description: 'Task tag starting with a letter',
+      minLength: 3,
+      maxLength: 10,
+      example: 'tag',
+    },
+    required: false,
+  })
   @Matches(/^[ЁёА-яa-zA-Z]{1}.*$/, {
     each: true,
     message: TAG_STARTS_WITH_NOT_VALID,
