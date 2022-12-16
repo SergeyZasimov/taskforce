@@ -1,21 +1,31 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { CommentQuery } from './query/comment.query';
 import { CommentRdo } from './rdo/comment.rdo';
 
-@Controller('comment')
+@Controller('comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @Get('/:taskId')
-  public async showAllByTaskId(@Param('taskId') taskId: string) {
-    const comments = await this.commentService.getComments(
-      parseInt(taskId, 10)
-    );
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Show comments by task ID',
+    type: CommentRdo,
+  })
+  @Get('/')
+  public async showAllByTaskId(@Query() { taskId }: CommentQuery) {
+    const comments = await this.commentService.getComments(taskId);
     return fillObject(CommentRdo, comments);
   }
 
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Create new comment',
+    type: CommentRdo,
+  })
   @Post('/')
   public async create(@Body() dto: CreateCommentDto) {
     const newComment = await this.commentService.createComment(dto);

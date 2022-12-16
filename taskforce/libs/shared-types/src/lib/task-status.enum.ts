@@ -1,7 +1,7 @@
 export enum TaskStatus {
-  New = 'new',
-  Cancel = 'cancel',
-  Process = 'process',
-  Complete = 'complete',
-  Fail = 'fail',
+  New = 'New',
+  Cancel = 'Cancel',
+  Process = 'Process',
+  Complete = 'Complete',
+  Fail = 'Fail',
 }

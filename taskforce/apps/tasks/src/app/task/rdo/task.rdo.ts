@@ -1,44 +1,112 @@
-import {
-  Category,
-  Tag,
-  TaskStatus,
-} from '@taskforce/shared-types';
-import { Expose, Type } from 'class-transformer';
-import { CommentRdo } from '../../comment/rdo/comment.rdo';
-import { FeedbackRdo } from '../../feedback/rdo/feedback.rdo';
+import { ApiProperty } from '@nestjs/swagger';
+import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
+import { Expose } from 'class-transformer';
 
 export class TaskRdo {
-  @Expose() public id: number;
+  @ApiProperty({
+    description: 'Task ID',
+    example: '3',
+  })
+  @Expose()
+  public id: number;
 
-  @Expose() public title: string;
+  @ApiProperty({
+    description: 'Task title',
+    example: 'Lorem ipsum dolor si amet.',
+  })
+  @Expose()
+  public title: string;
 
-  @Expose() public description: string;
+  @ApiProperty({
+    description: 'Detailed description of the task',
+    example:
+      'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
+  })
+  @Expose()
+  public description: string;
 
-  @Expose() public category: Category;
+  @ApiProperty({
+    description: 'Task category',
+    example: 'Works',
+  })
+  @Expose()
+  public category: string;
 
-  @Expose() public userId: string;
+  @ApiProperty({
+    description: 'User ID of the task creator',
+    example: 'facbf9678dea73a5df67165c',
+  })
+  @Expose()
+  public userId: string;
 
-  @Expose() public price: number;
+  @ApiProperty({
+    description: 'Task completion price',
+    example: '350.50',
+  })
+  @Expose()
+  public price: number;
 
-  @Expose() public executionTerm?: Date;
+  @ApiProperty({
+    description: 'The deadline for completion the task',
+    example: '2022-12-22',
+  })
+  @Expose()
+  public executionTerm: Date;
 
   @Expose() public image: string;
 
-  @Expose() public address: string;
-
-  @Expose() public tags: Tag[];
-
-  @Expose() public status: TaskStatus;
-
-  @Expose() public createdAt: Date;
-
-  @Expose() public updatedAt: Date;
-
+  @ApiProperty({
+    description: 'Task address',
+    example: 'Москва Ленинградское ш., 23',
+  })
   @Expose()
-  @Type(() => CommentRdo)
-  public comments: CommentRdo[];
+  public address: string;
 
+  @ApiProperty({
+    description: 'Task tags',
+    example: ['new', 'tag'],
+    type: 'array',
+    items: {
+      type: 'string',
+      description: 'Task tag starting with a letter',
+      example: 'tag',
+    },
+  })
   @Expose()
-  @Type(() => FeedbackRdo)
-  public feedbacks: FeedbackRdo[];
+  public tags: string[];
+
+  @ApiProperty({
+    description: 'Task status',
+    example: 'new',
+  })
+  @Expose()
+  public status: TaskStatus;
+
+  @ApiProperty({
+    description: 'Date the task was created',
+    example: '2022-12-09T03:25:45.222Z',
+  })
+  @Expose()
+  public createdAt: Date;
+
+  @ApiProperty({
+    description: 'Date the task was updated',
+    example: '2022-12-09T03:25:45.222Z',
+  })
+  @Expose()
+  public updatedAt: Date;
+
+  @ApiProperty({
+    description: 'Count of comments',
+    example: '8',
+  })
+  @Expose()
+  public commentsCount: number;
+
+  @ApiProperty({
+    description: 'Count of feedbacks',
+    example: '8',
+  })
+  @Expose()
+  public feedbacksCount: number;
 }

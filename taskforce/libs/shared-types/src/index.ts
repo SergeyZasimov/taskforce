@@ -7,3 +7,4 @@ export * from './lib/category.type';
 export * from './lib/comment.type';
 export * from './lib/tag.type';
 export * from './lib/feedback.type';
+export * from './lib/const';

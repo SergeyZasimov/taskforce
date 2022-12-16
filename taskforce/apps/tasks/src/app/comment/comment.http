@@ -2,15 +2,24 @@
 @contentType = application/json
 
 ### Create New Comment
-POST {{baseUrl}}/comment HTTP/1.1
+POST {{baseUrl}}/comments HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "text": "New Comment",
-  "taskId": 1,
-  "userId": "3f637fb1eccee5a5feef0de7"
+  "text": "New Comment for task id 2 by user 6396a84a58dbfb187fc4350e",
+  "taskId": 2,
+  "userId": "6396a84a58dbfb187fc4350e"
 }
 
 ### Get Comment By Task ID
-GET {{baseUrl}}/comment/1 HTTP/1.1
+GET {{baseUrl}}/comments/3 HTTP/1.1
 
+### Create Comment Not Valid
+POST {{baseUrl}}/comments HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "text": "New",
+  "taskId": "2",
+  "userId": "6396a84a58dbfb187fc4350"
+}

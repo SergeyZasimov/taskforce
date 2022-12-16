@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Task } from '@taskforce/shared-types';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { TaskQuery } from './query/task.query';
 import { TaskEntity } from './task.entity';
 import { TaskRepository } from './task.repository';
 
@@ -25,5 +26,9 @@ export class TaskService {
 
   public async deleteTask(id: number): Promise<void> {
     await this.taskRepository.delete(id);
+  }
+
+  public async getTasks(query: TaskQuery): Promise<Task[]> {
+    return await this.taskRepository.find(query);
   }
 }

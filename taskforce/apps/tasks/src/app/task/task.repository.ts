@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, Status, Tag } from '@prisma/client';
+import { Prisma, Status } from '@prisma/client';
 import { CRUDRepository } from '@taskforce/core';
-import { AvailableCities, Task, TaskStatus } from '@taskforce/shared-types';
+import { Task, TaskStatus } from '@taskforce/shared-types';
 import { PrismaService } from '../prisma/prisma.service';
+import { TaskQuery } from './query/task.query';
 import { TaskEntity } from './task.entity';
 
 @Injectable()
@@ -17,11 +18,58 @@ export class TaskRepository
       include: {
         category: true,
         tags: true,
-        comments: true,
-        feedbacks: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
       },
     });
     return this.convertTask(task);
+  }
+
+  public async find({
+    category: queryCategory,
+    limit,
+    city,
+    page,
+    sortingDirection,
+    sortingOption,
+    tags: queryTags,
+  }: TaskQuery): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: {
+        category: {
+          title: queryCategory,
+        },
+        tags: {
+          some: {
+            title: {
+              in: queryTags,
+            },
+          },
+        },
+        address: {
+          contains: city,
+        },
+      },
+      orderBy:
+        sortingOption === 'createdAt'
+          ? { createdAt: sortingDirection }
+          : {
+              [sortingOption]: {
+                _count: sortingDirection,
+              },
+            },
+      include: {
+        category: true,
+        tags: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
+      },
+      take: limit,
+      skip: page > 0 ? limit * (page - 1) : undefined,
+    });
+    return tasks.map((task) => this.convertTask(task));
   }
 
   public async create(entity: TaskEntity): Promise<Task> {
@@ -67,8 +115,6 @@ export class TaskRepository
       include: {
         category: true,
         tags: true,
-        comments: true,
-        feedbacks: true,
       },
     });
     return this.convertTask(newTask);
@@ -121,8 +167,9 @@ export class TaskRepository
       include: {
         category: true,
         tags: true,
-        comments: true,
-        feedbacks: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
       },
     });
     return this.convertTask(updatedTask);
@@ -137,12 +184,10 @@ export class TaskRepository
       ...prismaTask,
       price: Number(prismaTask.price),
       status: TaskStatus[prismaTask.status],
-      feedbacks:
-        prismaTask.feedbacks.length > 0 &&
-        prismaTask.feedbacks.map((feedback) => ({
-          ...feedback,
-          price: Number(feedback.price),
-        })),
+      category: prismaTask.category.title,
+      tags: prismaTask.tags.map((tag) => tag.title),
+      commentsCount: prismaTask._count?.comments || 0,
+      feedbacksCount: prismaTask._count?.feedbacks || 0,
     };
   }
 }
