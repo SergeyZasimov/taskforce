@@ -11,5 +11,6 @@ coverage
 *.log
 tasks.todo
 .env
+*.env
 db/
 migrations/
