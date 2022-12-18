@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: taskforce-rabbirmq
+    ports:
+      - '5672:5672'
+      - '8084:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: secret
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
