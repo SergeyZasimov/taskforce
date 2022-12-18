@@ -4,8 +4,8 @@ services:
     image: rabbitmq:3.11-management
     container_name: taskforce-rabbirmq
     ports:
-      - '5672:5672'
-      - '8084:15672'
+      - 5672:5672
+      - 8084:15672
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: secret
@@ -15,3 +15,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+  fakesmtp:
+    image: gessnerfl/fake-smtp-server
+    container_name: taskforce-fake-smtp
+    ports:
+      - 5025:5025
+      - 8083:5080
