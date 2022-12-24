@@ -8,3 +8,5 @@ export * from './lib/comment.type';
 export * from './lib/tag.type';
 export * from './lib/feedback.type';
 export * from './lib/const';
+export * from './lib/subscribe-event.enum';
+export * from './lib/subscriber.type';
