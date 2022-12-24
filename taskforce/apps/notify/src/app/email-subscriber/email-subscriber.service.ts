@@ -18,7 +18,9 @@ export class EmailSubscriberService {
   public async addSubscriber(subscriber: CreateSubscriberDto): Promise<void> {
     const { email } = subscriber;
 
-    const existSubscriber = this.emailSubscriberRepository.findByEmail(email);
+    const existSubscriber = await this.emailSubscriberRepository.findByEmail(
+      email
+    );
 
     if (existSubscriber) {
       throw new Error(EMAIL_SUBSCRIBER_EXISTS);

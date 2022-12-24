@@ -9,7 +9,7 @@ Content-Type: {{contentType}}
 
 {
   "name": "user",
-  "email": "user@mail.com",
+  "email": "user43@mail.com",
   "password": "secret",
   "city": "Москва",
   "birthday": "2020-11-20",

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { User, UserRole } from '@taskforce/shared-types';
+import { Inject, Injectable } from '@nestjs/common';
+import { User, UserRole, SubscribeEvent } from '@taskforce/shared-types';
 import { UserEntity } from '../user/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as dayjs from 'dayjs';
@@ -7,12 +7,16 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserRepository } from '../user/user.repository';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
+import { RABBITMQ_SERVICE_NAME } from './auth.constant';
+import { ClientProxy } from '@nestjs/microservices';
+import { createEvent } from '@taskforce/core';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    @Inject(RABBITMQ_SERVICE_NAME) private readonly rabbitClient: ClientProxy
   ) {}
 
   public async register(dto: CreateUserDto): Promise<User> {
@@ -36,7 +40,13 @@ export class AuthService {
       password
     );
 
-    return await this.userRepository.create(newUserEntity);
+    const createdUser = await this.userRepository.create(newUserEntity);
+
+    this.rabbitClient.emit(createEvent(SubscribeEvent.AddSubscriber), {
+      email: createdUser.email,
+    });
+
+    return createdUser;
   }
 
   public async verifyUser(dto: LoginUserDto): Promise<User> {

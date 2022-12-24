@@ -11,3 +11,5 @@ export const AUTH_USER_VALIDATION_ERRORS = {
   BIRTHDAY_NOT_VALID: 'Неверный формат даты',
   ROLE_REQUIRED: 'Выберете роль - Заказчик или Исполнитель',
 };
+
+export const RABBITMQ_SERVICE_NAME = 'RABBITMQ_SERVICE';
