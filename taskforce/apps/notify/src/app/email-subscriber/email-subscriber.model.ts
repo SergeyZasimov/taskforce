@@ -11,7 +11,7 @@ export class EmailSubscriberModel extends Document implements Subscriber {
   public email: string;
 
   @Prop({ required: false })
-  public lastDistribution?: Date;
+  public lastNotify?: Date;
 }
 
 export const EmailSubscriberSchema =
