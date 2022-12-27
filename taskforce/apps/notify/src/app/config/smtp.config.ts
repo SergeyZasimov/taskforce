@@ -1,7 +1,7 @@
 import { MailerOptions } from '@nestjs-modules/mailer';
 import { ConfigService, registerAs } from '@nestjs/config';
 
-export default registerAs('smtp', () => ({
+export const smtpOptions = registerAs('smtp', () => ({
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
 }));
