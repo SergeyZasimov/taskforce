@@ -10,3 +10,4 @@ export * from './lib/feedback.type';
 export * from './lib/const';
 export * from './lib/subscribe-event.enum';
 export * from './lib/subscriber.type';
+export * from './lib/review.type';

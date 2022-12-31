@@ -3,93 +3,131 @@ db.createCollection('users');
 
 db.users.insertMany([
   {
-    name: 'Севастьян Шестаков',
-    email: 'Olin_Schinner@ya.ru',
-    avatar: '',
-    birthday: '1975-04-21T11:38:03.271Z',
+    name: 'Борислав Муравьев',
+    email: 'Domingo_Zieme53@mail.ru',
+    role: 'заказчик',
+    passwordHash:
+      '$2b$10$peYJAE0YC1EWZkQkj9tlqO1DzOPbfJi0qgZS8dit6E68IU5UbVTLC',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/58.jpg',
+    birthday: '1947-10-23T22:54:30.952Z',
     city: 'Москва',
-    role: 'contractor',
-    passwordHash: '$2b$05$V8C6l/vwzcMfmnCiEnE/zeFiY//T7iue8cFONwbulsSD211t.EnPm'
+    createdAt: '2022-12-12T06:42:40.948Z',
+    updatedAt: '2022-12-27T16:12:43.836Z',
   },
   {
-    name: 'Никанор Комиссаров',
-    email: 'Arch.Daniel@yandex.ru',
-    avatar: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1208.jpg',
-    birthday: '1983-12-19T13:54:54.406Z',
-    city: 'Санкт-Петербург',
-    role: 'customer',
-    passwordHash: '$2b$05$kMO.jSUhhMkslShwH8xg1eO70n4iCn3nnxWJRfOSmskl0Vas.d7h2'
-  },
-  {
-    name: 'Владимир Шилов',
-    email: 'Anastasia84@yandex.ru',
+    name: 'Милен Кабанов',
+    email: 'Nicklaus.Adams@gmail.com',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$XT/7F5WWyrcFEmt.g9oyNOh5CML2s0LOgR6/0UIZgwlQmVUoEQFpO',
     avatar: '',
-    birthday: '1984-12-25T23:48:18.648Z',
-    city: 'Москва',
-    role: 'customer',
-    passwordHash: '$2b$05$O9DbPgChlLqn3DkDYTpHku03FGzLsKvokK87Ue8YEPx3Hkl6c3ou2'
-  },
-  {
-    name: 'Панфил Киселев',
-    email: 'Abby9@yahoo.com',
-    avatar: '',
-    birthday: '1973-12-21T09:26:51.497Z',
-    city: 'Москва',
-    role: 'customer',
-    passwordHash: '$2b$05$PAK.vkZCr/1RWZrL8FI2LePRHcP34yngJQK7OWoddAPnDZ/Xo1S66'
-  },
-  {
-    name: 'Леон Суворов',
-    email: 'Axel26@gmail.com',
-    avatar: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/592.jpg',
-    birthday: '1966-04-09T04:17:51.867Z',
-    city: 'Санкт-Петербург',
-    role: 'customer',
-    passwordHash: '$2b$05$6KGBCgq2JIz9h0lnUcLwge0edxfy.n7fNaalBwuEKWVyimoFtGYSK'
-  },
-  {
-    name: 'Митофан Кузнецов',
-    email: 'Kole_Schmitt@hotmail.com',
-    avatar: '',
-    birthday: '1952-09-30T00:33:08.718Z',
-    city: 'Москва',
-    role: 'contractor',
-    passwordHash: '$2b$05$e5/G5orr8CLmci4RN74eQuS3Epq3mANzpAYBvu4nMs5lktxWa.UrS'
-  },
-  {
-    name: 'Флорентин Егоров',
-    email: 'Troy_Kiehn@hotmail.com',
-    avatar: '',
-    birthday: '1994-01-09T09:56:20.310Z',
-    city: 'Санкт-Петербург',
-    role: 'customer',
-    passwordHash: '$2b$05$U9oLS7B5tKBW0p6vvrP7JeGIm83ZPM8QRL26Iucmh7eXG3YbxJHiO'
-  },
-  {
-    name: 'Рубен Горшков',
-    email: 'Khalil26@gmail.com',
-    avatar: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/770.jpg',
-    birthday: '1943-04-28T07:57:50.454Z',
-    city: 'Москва',
-    role: 'customer',
-    passwordHash: '$2b$05$6ycowPvPyE6zcSZEE8R1des/YQvEYvrkvLaVWIhIwyAWrudnzg0O6'
-  },
-  {
-    name: 'Юлиан Кудрявцев',
-    email: 'Arnaldo_Boehm@yahoo.com',
-    avatar: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/698.jpg',
-    birthday: '1972-06-26T05:30:29.519Z',
+    birthday: '1990-06-20T12:59:04.453Z',
     city: 'Владивосток',
-    role: 'contractor',
-    passwordHash: '$2b$05$0z4Ce7u2VMJrReYuBFNRquy.JNhuFNHcZflWhFi7MvmVJv8LC7I1i'
+    createdAt: '2022-12-05T02:31:50.107Z',
+    updatedAt: '2022-12-29T21:38:36.100Z',
   },
   {
-    name: 'Максимильян Макаров',
-    email: 'Ludie.Deckow@hotmail.com',
-    avatar: 'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1168.jpg',
-    birthday: '1975-07-21T15:29:42.936Z',
+    name: 'Георгий Вишняков',
+    email: 'Fanny.Walsh@yahoo.com',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$bNQ0KCfTuEjrGKX/lvQ6m.eQXb.W.kaejkKq79HibekzlKpSlANLe',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/771.jpg',
+    birthday: '1947-05-23T15:11:13.202Z',
+    city: 'Москва',
+    createdAt: '2022-12-08T07:39:01.434Z',
+    updatedAt: '2022-12-26T18:32:48.135Z',
+  },
+  {
+    name: 'Фока Сидоров',
+    email: 'Elenora_Russel10@gmail.com',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$s96IOho/mR9EfJ8aE.sp0.0b9e5h/EOMVseLyLEc9FCmcAWQW/6PW',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/32.jpg',
+    birthday: '1955-06-24T00:05:44.924Z',
     city: 'Владивосток',
-    role: 'contractor',
-    passwordHash: '$2b$05$xk1JXvZ2lAmOV5t3uqT3e.9LrV/cqJwb4G0cwXge944iRnIn/O4Qa'
-  }
-])
+    createdAt: '2022-12-07T16:29:53.884Z',
+    updatedAt: '2022-12-30T02:34:19.674Z',
+  },
+  {
+    name: 'Глеб Веселов',
+    email: 'Domenic58@mail.ru',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$R8SIAdyQ3uqdCQcVzhRw/uGl5W52ZCjBYvRMMClaSQ/JbjTB2focu',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/542.jpg',
+    birthday: '1995-07-13T04:14:40.403Z',
+    city: 'Санкт-Петербург',
+    createdAt: '2022-12-12T07:41:52.202Z',
+    updatedAt: '2022-12-27T09:27:43.065Z',
+  },
+  {
+    name: 'Никифор Марков',
+    email: 'Tremayne.Wunsch22@gmail.com',
+    role: 'заказчик',
+    passwordHash:
+      '$2b$10$oY4rJcurHdPvAegQ7KegaOXJ7xytt5hJ3U0BIZtJz6HrYAhg/CmXu',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/880.jpg',
+    birthday: '1965-05-24T14:30:31.349Z',
+    city: 'Москва',
+    createdAt: '2022-12-12T15:55:39.856Z',
+    updatedAt: '2022-12-25T23:10:59.969Z',
+  },
+  {
+    name: 'Егор Ефремов',
+    email: 'Bart_Nitzsche@yahoo.com',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$S0cz09EooDN8Jt0shg4tVuTRtEf6tiNEdssKap9O.HX9dbwcGTn8i',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/32.jpg',
+    birthday: '1961-02-17T06:04:37.563Z',
+    city: 'Москва',
+    createdAt: '2022-12-27T06:46:53.181Z',
+    updatedAt: '2022-12-25T16:12:40.124Z',
+  },
+  {
+    name: 'Чеслав Лобанов',
+    email: 'Hermina1@ya.ru',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$hOmQhB6KGU1fWrVqJ0IxVe1pAPLNH9YoWRXLthDxFY/5HJKPoX4ha',
+    avatar: '',
+    birthday: '1953-08-03T14:00:24.619Z',
+    city: 'Москва',
+    createdAt: '2022-12-27T03:25:20.167Z',
+    updatedAt: '2022-12-27T09:13:00.100Z',
+  },
+  {
+    name: 'Емельян Воробьев',
+    email: 'Dax_Murphy51@hotmail.com',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$tltRbLFkrn5JcXQhgucTYelHsvwrOG4RI/Y35nNk04l6Sq2NyU3.e',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/57.jpg',
+    birthday: '1945-07-09T07:01:32.900Z',
+    city: 'Санкт-Петербург',
+    createdAt: '2022-12-18T01:32:17.770Z',
+    updatedAt: '2022-12-28T17:25:09.729Z',
+  },
+  {
+    name: 'Святослав Мясников',
+    email: 'Madie36@hotmail.com',
+    role: 'исполнитель',
+    passwordHash:
+      '$2b$10$3s4EDF2xhRgF1BHsTYydiuRdoCoR3Kzw3bw8Pc7wh.G3iyPmSUlmO',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/547.jpg',
+    birthday: '2002-03-21T04:30:01.572Z',
+    city: 'Владивосток',
+    createdAt: '2022-12-01T20:31:46.867Z',
+    updatedAt: '2022-12-28T21:13:08.582Z',
+  },
+]);

@@ -23,13 +23,13 @@ POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "email": "user@mail.com",
+  "email": "Domingo_Zieme53@mail.ru",
   "password": "secret"
 }
 
 
 ### Get User
-GET {{baseUrl}}/auth/6396a84a58dbfb187fc4350e
+GET {{baseUrl}}/auth/63aebc286a8cf9c071bdda50
 Authorization: Bearer {{accessToken}}
 
 ### Create User Bad Request

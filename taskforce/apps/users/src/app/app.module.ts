@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose/dist';
 import { getMongoDbConfig } from './config/mongodb.config';
 import { jwtOptions } from './config/jwt.config';
 import { rabbitMqOptions } from './config/rabbitmq.config';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { rabbitMqOptions } from './config/rabbitmq.config';
     MongooseModule.forRootAsync(getMongoDbConfig()),
     UserModule,
     AuthModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [],
