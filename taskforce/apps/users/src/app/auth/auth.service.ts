@@ -5,11 +5,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as dayjs from 'dayjs';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UserRepository } from '../user/user.repository';
-import { UnauthorizedException } from '@nestjs/common/exceptions';
+import {
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
 import { createEvent } from '@taskforce/core';
 import { RABBITMQ_SERVICE_NAME } from '../app.constant';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -88,5 +92,31 @@ export class AuthService {
     return {
       accessToken: await this.jwtService.signAsync(payload),
     };
+  }
+
+  public async changePassword(
+    id: string,
+    dto: ChangePasswordDto
+  ): Promise<User> {
+    const { currentPassword, newPassword } = dto;
+
+    const existUser = await this.userRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    const userEntity = new UserEntity(existUser);
+
+    const isValid = await userEntity.comparePassword(currentPassword);
+    console.log(isValid);
+
+    if (!isValid) {
+      throw new UnauthorizedException('Wrong Password');
+    }
+
+    const updatedUserEntity = await userEntity.setPassword(newPassword);
+    const updatedUser = await this.userRepository.update(id, updatedUserEntity);
+    return updatedUser;
   }
 }

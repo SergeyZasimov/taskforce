@@ -8,10 +8,12 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { Patch } from '@nestjs/common/decorators';
 import { ApiResponse, ApiTags } from '@nestjs/swagger/dist';
 import { fillObject } from '@taskforce/core';
 import { MongoidValidationPipe } from '../pipes/mongoid-validation.pipe';
 import { AuthService } from './auth.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -45,6 +47,14 @@ export class AuthController {
     const verifiedUser = await this.authService.verifyUser(dto);
     const loggedUser = await this.authService.loginUser(verifiedUser);
     return fillObject(LoggedUserRdo, loggedUser);
+  }
+
+  @Patch(':id/change-password')
+  public async changePassword(
+    @Param('id', MongoidValidationPipe) id: string,
+    @Body() dto: ChangePasswordDto
+  ) {
+    return this.authService.changePassword(id, dto);
   }
 
   @UseGuards(JwtAuthGuard)

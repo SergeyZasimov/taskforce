@@ -46,7 +46,7 @@ export class UserEntity implements User {
     this.passwordHash = user.passwordHash || DEFAULT_PASSWORD_HASH;
     this.resume = user.resume;
     this.specialty = [
-      ...new Set(user.specialty.map((item) => item.toLowerCase())),
+      ...new Set(user.specialty?.map((item) => item.toLowerCase())),
     ];
   }
 }

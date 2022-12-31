@@ -9,11 +9,11 @@ Content-Type: {{contentType}}
 
 {
   "name": "user",
-  "email": "user43@mail.com",
+  "email": "user54@mail.com",
   "password": "secret",
   "city": "Москва",
   "birthday": "2020-11-20",
-  "role": "customer"
+  "role": "заказчик"
 }
 
 
@@ -42,4 +42,31 @@ Content-Type: {{contentType}}
   "password": "secret",
   "city": "Москва",
   "birthday": "2020-11-20"
+}
+
+### Change Password
+PATCH {{baseUrl}}/auth/63b02297c7d1400af65e1106/change-password
+Content-Type: {{contentType}}
+
+{
+  "currentPassword": "secret",
+  "newPassword": "newSecret"
+}
+
+### Login User New Password
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "user54@mail.com",
+  "password": "secret"
+}
+
+### Change Password
+PATCH {{baseUrl}}/auth/63b02297c7d1400af65e1106/change-password
+Content-Type: {{contentType}}
+
+{
+  "currentPassword": "newSecret",
+  "newPassword": "secret"
 }
