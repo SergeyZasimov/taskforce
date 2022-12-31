@@ -7,9 +7,9 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserRepository } from '../user/user.repository';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
-import { RABBITMQ_SERVICE_NAME } from './auth.constant';
 import { ClientProxy } from '@nestjs/microservices';
 import { createEvent } from '@taskforce/core';
+import { RABBITMQ_SERVICE_NAME } from '../app.constant';
 
 @Injectable()
 export class AuthService {

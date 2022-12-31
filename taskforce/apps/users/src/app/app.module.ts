@@ -10,6 +10,7 @@ import { getMongoDbConfig } from './config/mongodb.config';
 import { jwtOptions } from './config/jwt.config';
 import { rabbitMqOptions } from './config/rabbitmq.config';
 import { ReviewModule } from './review/review.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ReviewModule } from './review/review.module';
     UserModule,
     AuthModule,
     ReviewModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [],

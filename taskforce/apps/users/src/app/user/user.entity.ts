@@ -4,7 +4,7 @@ import {
   DEFAULT_AVATAR,
   DEFAULT_PASSWORD_HASH,
   SALT_ROUNDS,
-} from './user.const';
+} from '../app.constant';
 
 export class UserEntity implements User {
   public _id: string;
@@ -15,6 +15,8 @@ export class UserEntity implements User {
   public city: AvailableCities;
   public role: UserRole;
   public birthday: Date;
+  public resume?: string;
+  public specialty?: string[];
 
   constructor(user: User) {
     this.fillEntity(user);
@@ -42,5 +44,9 @@ export class UserEntity implements User {
     this.birthday = user.birthday;
     this.avatar = user.avatar || DEFAULT_AVATAR;
     this.passwordHash = user.passwordHash || DEFAULT_PASSWORD_HASH;
+    this.resume = user.resume;
+    this.specialty = [
+      ...new Set(user.specialty.map((item) => item.toLowerCase())),
+    ];
   }
 }

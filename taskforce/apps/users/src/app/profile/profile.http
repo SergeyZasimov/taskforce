@@ -1,0 +1,21 @@
+### Update User
+POST http://localhost:3333/api/profile/63aebc286a8cf9c071bdda55 HTTP/1.1
+Content-Type: application/json
+
+{
+  "resume": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu",
+  "name": "Иван Иванов",
+  "specialty": ["Lorem", "ipsum"],
+}
+
+### Update User Not Valid
+POST http://localhost:3333/api/profile/63aebc286a8cf9c071bdda55 HTTP/1.1
+Content-Type: application/json
+
+{
+  "resume": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec p",
+  "name": "Ив",
+  "specialty": ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetuer"],
+  "role": "заказчик",
+  "email": "user.com"
+}

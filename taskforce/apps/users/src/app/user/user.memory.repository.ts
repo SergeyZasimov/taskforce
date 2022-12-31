@@ -3,7 +3,7 @@ import { CRUDRepository } from '@taskforce/core';
 import { User } from '@taskforce/shared-types';
 import { UserEntity } from './user.entity';
 import * as crypto from 'crypto';
-import { MEMORY_REPOSITORY_MAX_USERS } from './user.const';
+import { MEMORY_REPOSITORY_MAX_USERS } from '../app.constant';
 
 @Injectable()
 export class UserMemoryRepository

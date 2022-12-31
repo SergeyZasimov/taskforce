@@ -6,11 +6,9 @@ import {
   IsEnum,
   IsString,
   Length,
-  MaxLength,
-  MinLength,
 } from 'class-validator';
 import { Cities } from 'libs/shared-types/src/lib/const';
-import { AUTH_USER_VALIDATION_ERRORS } from '../auth.constant';
+import { USER_VALIDATION_ERRORS } from '../../app.constant';
 
 const {
   NAME_LENGTH_NOT_VALID,
@@ -21,7 +19,7 @@ const {
   CITY_NOT_VALID,
   BIRTHDAY_NOT_VALID,
   ROLE_REQUIRED,
-} = AUTH_USER_VALIDATION_ERRORS;
+} = USER_VALIDATION_ERRORS;
 
 export class CreateUserDto {
   @ApiProperty({

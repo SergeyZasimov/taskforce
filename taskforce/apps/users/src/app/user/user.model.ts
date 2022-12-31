@@ -11,41 +11,54 @@ export class UserModel extends Document implements User {
   @Prop({
     required: true,
   })
-  name: string;
+  public name: string;
 
   @Prop({
     required: true,
     unique: true,
+    immutable: true,
   })
-  email: string;
+  public email: string;
 
   @Prop({
     required: true,
     type: String,
     enum: Cities,
   })
-  city: AvailableCities;
+  public city: AvailableCities;
 
   @Prop({
     required: true,
   })
-  passwordHash: string;
+  public passwordHash: string;
 
   @Prop()
-  avatar: string;
+  public avatar: string;
 
   @Prop({
     required: true,
   })
-  birthday: Date;
+  public birthday: Date;
 
   @Prop({
     required: true,
     type: String,
     enum: UserRole,
     default: UserRole.Customer,
+    immutable: true,
   })
-  role: UserRole;
+  public role: UserRole;
+
+  @Prop({
+    required: false,
+    maxlength: 300,
+  })
+  public resume: string;
+
+  @Prop({
+    required: true,
+  })
+  public specialty: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
