@@ -56,9 +56,33 @@ export class UserModel extends Document implements User {
   public resume: string;
 
   @Prop({
-    required: true,
+    required: false,
   })
   public specialty: string[];
+
+  @Prop({
+    required: false,
+    default: 0,
+  })
+  public tasksCount: number;
+
+  @Prop({
+    required: false,
+    default: 0,
+  })
+  public newTasksCount: number;
+
+  @Prop({
+    required: false,
+    default: 0,
+  })
+  public completedTasksCount: number;
+
+  @Prop({
+    required: false,
+    default: 0,
+  })
+  public failedTasksCount: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

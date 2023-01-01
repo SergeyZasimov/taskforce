@@ -12,4 +12,8 @@ export type User = {
   birthday?: Date;
   resume?: string;
   specialty?: string[];
+  tasksCount?: number;
+  newTasksCount?: number;
+  completedTasksCount?: number;
+  failedTasksCount?: number;
 };

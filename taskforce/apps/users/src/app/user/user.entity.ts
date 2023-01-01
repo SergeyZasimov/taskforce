@@ -17,6 +17,10 @@ export class UserEntity implements User {
   public birthday: Date;
   public resume?: string;
   public specialty?: string[];
+  public tasksCount?: number;
+  public newTasksCount?: number;
+  public completedTasksCount?: number;
+  public failedTasksCount?: number;
 
   constructor(user: User) {
     this.fillEntity(user);
@@ -48,5 +52,9 @@ export class UserEntity implements User {
     this.specialty = [
       ...new Set(user.specialty?.map((item) => item.toLowerCase())),
     ];
+    this.tasksCount = user.tasksCount;
+    this.newTasksCount = user.newTasksCount;
+    this.completedTasksCount = user.completedTasksCount;
+    this.failedTasksCount = user.failedTasksCount;
   }
 }

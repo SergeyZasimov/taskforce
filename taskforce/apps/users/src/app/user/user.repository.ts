@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CRUDRepository } from '@taskforce/core';
-import { User } from '@taskforce/shared-types';
+import { ChangeTasksCounterDirection, User } from '@taskforce/shared-types';
 import { Model } from 'mongoose';
+import { ChangeTaskCounterQuery } from '../query/change-tasks-counter.query';
 import { UserEntity } from './user.entity';
 import { UserModel } from './user.model';
 
@@ -37,5 +38,19 @@ export class UserRepository
 
   public async delete(id: string): Promise<void> | null {
     await this.userModel.deleteOne({ id });
+  }
+
+  public async changeTasksCounter(
+    id: string,
+    query: ChangeTaskCounterQuery
+  ): Promise<User> | null {
+    const { counterName, direction } = query;
+    return this.userModel.findByIdAndUpdate(
+      id,
+      {
+        $inc: { [counterName]: +direction || ChangeTasksCounterDirection.Inc },
+      },
+      { new: true }
+    );
   }
 }

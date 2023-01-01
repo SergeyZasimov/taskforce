@@ -11,3 +11,4 @@ export * from './lib/const';
 export * from './lib/subscribe-event.enum';
 export * from './lib/subscriber.type';
 export * from './lib/review.type';
+export * from './lib/change-task-counter.enum';

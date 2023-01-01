@@ -19,3 +19,12 @@ Content-Type: application/json
   "role": "заказчик",
   "email": "user.com"
 }
+
+### Inc Tasks Count
+GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=tasksCount
+
+### Inc New Tasks Count
+GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=newTasksCount
+
+### Decr New Tasks Count
+GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=newTasksCount&direction=-1
