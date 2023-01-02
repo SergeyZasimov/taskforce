@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### Get Review
-GET http://localhost:3333/api/review?contractorId=63aebc286a8cf9c071bdda51
+GET http://localhost:3333/api/review?contractorId=7deb879fadc8c622ddb3095b
 
 
 ### Create Review Not Valid

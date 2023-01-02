@@ -23,14 +23,9 @@ POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "email": "Domingo_Zieme53@mail.ru",
+  "email": "Zoila34@ya.ru",
   "password": "secret"
 }
-
-
-### Get User
-GET {{baseUrl}}/auth/63aebc286a8cf9c071bdda50
-Authorization: Bearer {{accessToken}}
 
 ### Create User Bad Request
 POST {{baseUrl}}/auth/register HTTP/1.1

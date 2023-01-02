@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@taskforce/shared-types';
+import { User, UserRole } from '@taskforce/shared-types';
 import { ChangeTaskCounterQuery } from '../query/change-tasks-counter.query';
 import { UserEntity } from '../user/user.entity';
 import { UserRepository } from '../user/user.repository';
@@ -18,5 +18,19 @@ export class ProfileService {
     query: ChangeTaskCounterQuery
   ): Promise<User> {
     return this.userRepository.changeTasksCounter(id, query);
+  }
+
+  public async getUser(id: string): Promise<User> {
+    const existUser = await this.userRepository.findById(id);
+
+    if (!existUser) {
+      throw new Error('User not found');
+    }
+
+    if (existUser.role === UserRole.Contractor) {
+      return this.userRepository.findContractorById(id);
+    }
+
+    return existUser;
   }
 }

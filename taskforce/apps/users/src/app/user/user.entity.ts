@@ -1,10 +1,6 @@
 import { AvailableCities, User, UserRole } from '@taskforce/shared-types';
 import { compare, hash } from 'bcrypt';
-import {
-  DEFAULT_AVATAR,
-  DEFAULT_PASSWORD_HASH,
-  SALT_ROUNDS,
-} from '../app.constant';
+import { DEFAULT_PASSWORD_HASH, SALT_ROUNDS } from '../app.constant';
 
 export class UserEntity implements User {
   public _id: string;
@@ -46,7 +42,7 @@ export class UserEntity implements User {
     this.city = user.city;
     this.role = user.role;
     this.birthday = user.birthday;
-    this.avatar = user.avatar || DEFAULT_AVATAR;
+    this.avatar = user.avatar;
     this.passwordHash = user.passwordHash || DEFAULT_PASSWORD_HASH;
     this.resume = user.resume;
     this.specialty = [

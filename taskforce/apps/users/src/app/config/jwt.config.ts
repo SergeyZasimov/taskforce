@@ -10,6 +10,6 @@ export async function getJwtConfig(
 ): Promise<JwtModuleOptions> {
   return {
     secret: configService.get<string>('jwt.secret'),
-    signOptions: { expiresIn: '30s', algorithm: 'HS256' },
+    signOptions: { expiresIn: '1h', algorithm: 'HS256' },
   };
 }

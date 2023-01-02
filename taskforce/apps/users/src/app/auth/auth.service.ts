@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User, UserRole, SubscribeEvent } from '@taskforce/shared-types';
+import { User, UserRole, SubscribeEvent, AccessTokenPayload } from '@taskforce/shared-types';
 import { UserEntity } from '../user/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as dayjs from 'dayjs';
@@ -71,22 +71,11 @@ export class AuthService {
     return verifyUserEntity.toObject();
   }
 
-  public async getUser(id: string): Promise<User> {
-    const existUser = await this.userRepository.findById(id);
-
-    if (!existUser) {
-      throw new Error('User not found');
-    }
-
-    return existUser;
-  }
-
   public async loginUser(user: User) {
-    const payload = {
+    const payload: AccessTokenPayload = {
       sub: user._id,
       email: user.email,
       role: user.role,
-      name: user.name,
     };
 
     return {

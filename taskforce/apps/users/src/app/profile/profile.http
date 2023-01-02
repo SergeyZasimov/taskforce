@@ -28,3 +28,7 @@ GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-coun
 
 ### Decr New Tasks Count
 GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=newTasksCount&direction=-1
+
+### Get User
+GET http://localhost:3333/api/profile/55a3b67fca6aa7e1ade51d51
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MjY3MzIyNiwiZXhwIjoxNjcyNjc2ODI2fQ.5mYcVfJ0-pNzj8lE2_2TZNqPjVPCc9baFFBXNzJqS9Q

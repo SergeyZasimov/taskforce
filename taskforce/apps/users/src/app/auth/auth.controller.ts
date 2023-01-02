@@ -56,16 +56,4 @@ export class AuthController {
   ) {
     return this.authService.changePassword(id, dto);
   }
-
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'User details',
-    type: UserRdo,
-  })
-  public async show(@Param('id', MongoidValidationPipe) id: string) {
-    const existUser = await this.authService.getUser(id);
-    return fillObject(UserRdo, existUser);
-  }
 }

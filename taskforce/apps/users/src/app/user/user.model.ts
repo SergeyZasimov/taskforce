@@ -32,7 +32,9 @@ export class UserModel extends Document implements User {
   })
   public passwordHash: string;
 
-  @Prop()
+  @Prop({
+    default: '',
+  })
   public avatar: string;
 
   @Prop({
@@ -52,35 +54,41 @@ export class UserModel extends Document implements User {
   @Prop({
     required: false,
     maxlength: 300,
+    default: '',
   })
   public resume: string;
 
   @Prop({
     required: false,
+    default: [],
   })
   public specialty: string[];
 
   @Prop({
     required: false,
     default: 0,
+    min: 0,
   })
   public tasksCount: number;
 
   @Prop({
     required: false,
     default: 0,
+    min: 0,
   })
   public newTasksCount: number;
 
   @Prop({
     required: false,
     default: 0,
+    min: 0,
   })
   public completedTasksCount: number;
 
   @Prop({
     required: false,
     default: 0,
+    min: 0,
   })
   public failedTasksCount: number;
 }
