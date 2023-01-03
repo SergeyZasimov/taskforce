@@ -30,5 +30,17 @@ GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-coun
 GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=newTasksCount&direction=-1
 
 ### Get User
-GET http://localhost:3333/api/profile/55a3b67fca6aa7e1ade51d51
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MjcyMjIwMywiZXhwIjoxNjcyNzI1ODAzfQ.aXmoh_VShWFOqFKqs5q3dyvS84PA9wvv0BVj5_i8vm4
+GET http://localhost:3333/api/profile/26e1ca8c3072acdabfccc2d2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjc1NDUwNSwiZXhwIjoxNjcyNzU4MTA1fQ.est_4Hs8Kiy8LQT9EHBKktV9Mg3qHEn4Bvw-EOnHMxk
+
+### Upload Avatar
+POST http://localhost:3333/api/profile/upload-avatar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjc1Mzk5MCwiZXhwIjoxNjcyNzU3NTkwfQ.KI6BT-iiWOyJiDiwmUwamq_sAMlqS4-0DysfenTs2FA
+Content-Type: multipart/form-data; boundary=Upload
+
+--Upload
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: image/png
+
+< ../../../../../../markup/img/avatars/1.png
+--Upload--

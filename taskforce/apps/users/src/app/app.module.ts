@@ -11,6 +11,7 @@ import { jwtOptions } from './config/jwt.config';
 import { rabbitMqOptions } from './config/rabbitmq.config';
 import { ReviewModule } from './review/review.module';
 import { ProfileModule } from './profile/profile.module';
+import { multerOptions } from './config/multer.config';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ProfileModule } from './profile/profile.module';
       cache: true,
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
-      load: [databaseConfig, jwtOptions, rabbitMqOptions],
+      load: [databaseConfig, jwtOptions, rabbitMqOptions, multerOptions],
       validate: validateEnvironments,
     }),
     MongooseModule.forRootAsync(getMongoDbConfig()),

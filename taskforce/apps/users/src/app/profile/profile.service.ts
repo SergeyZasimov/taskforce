@@ -3,6 +3,7 @@ import { User, UserRole } from '@taskforce/shared-types';
 import { ChangeTaskCounterQuery } from '../query/change-tasks-counter.query';
 import { UserEntity } from '../user/user.entity';
 import { UserRepository } from '../user/user.repository';
+import { UpdateUserAvatarDto } from './dto/update-user-avatar.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
@@ -32,5 +33,14 @@ export class ProfileService {
     }
 
     return existUser;
+  }
+
+  public async updateAvatar(
+    id: string,
+    dto: UpdateUserAvatarDto
+  ): Promise<User> {
+    const { avatar } = dto;
+    const avatarPath = `http://${process.env.HOST}:${process.env.PORT}/${process.env.UPLOAD_DEST}/${avatar}`;
+    return this.userRepository.update(id, { avatar: avatarPath });
   }
 }

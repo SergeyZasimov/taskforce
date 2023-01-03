@@ -51,9 +51,9 @@ export class ProfileRdo {
     description: 'User birthday',
     example: '2022-11-20',
   })
+  @Expose({ name: 'birthday' })
   @Transform(({ value }) => dayjs().diff(dayjs(value), 'y'))
-  @Expose({ name: 'birthday', groups: [UserRole.Contractor] })
-  public age: string;
+  public age: number;
 
   @Expose({ groups: [UserRole.Customer] })
   public tasksCount: number;
