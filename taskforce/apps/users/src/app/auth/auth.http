@@ -12,7 +12,7 @@ Content-Type: {{contentType}}
   "email": "user56@mail.com",
   "password": "secret",
   "city": "Москва",
-  "birthday": "2020-11-20",
+  "birthday": "2005-01-03",
   "role": "заказчик"
 }
 
@@ -35,7 +35,7 @@ Content-Type: {{contentType}}
   "name": "us",
   "email": "usermail.com",
   "password": "secret",
-  "city": "Москва",
+  "city": "Воронеж",
   "birthday": "2020-11-20"
 }
 

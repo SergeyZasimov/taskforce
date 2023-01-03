@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '@taskforce/shared-types';
 import { Expose, Transform } from 'class-transformer';
+import * as dayjs from 'dayjs';
 
 export class ProfileRdo {
   @Expose({ name: '_id' })
@@ -46,12 +47,13 @@ export class ProfileRdo {
   })
   public role: string;
 
-  @Expose({ groups: [UserRole.Contractor] })
   @ApiProperty({
     description: 'User birthday',
     example: '2022-11-20',
   })
-  public birthday: string;
+  @Transform(({ value }) => dayjs().diff(dayjs(value), 'y'))
+  @Expose({ name: 'birthday', groups: [UserRole.Contractor] })
+  public age: string;
 
   @Expose({ groups: [UserRole.Customer] })
   public tasksCount: number;

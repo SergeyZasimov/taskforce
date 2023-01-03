@@ -18,7 +18,7 @@ export const USER_VALIDATION_ERRORS = {
   PASSWORD_LENGTH_NOT_VALID:
     'Пароль должен быть не менее 6 символов, и не более 12',
   CITY_NOT_VALID:
-    'Возможен только один город изи списка: Москва, Санкт-Петербург, Владивосток',
+    'Возможен только один город из списка: Москва, Санкт-Петербург, Владивосток',
   BIRTHDAY_NOT_VALID: 'Неверный формат даты',
   ROLE_REQUIRED: 'Выберете роль - Заказчик или Исполнитель',
   RESUME_LENGTH_NOT_VALID:
@@ -26,6 +26,7 @@ export const USER_VALIDATION_ERRORS = {
   SPECIALTY_LENGTH_NOT_VALID: 'Допустимо не более 5 вариантов специализации',
   EMAIL_NOT_UPDATE: 'Почтовый адрес нельзя изменить',
   ROLE_NOT_UPDATE: 'Роль нельзя изменить',
+  TEENAGE_CONSTRAINT: 'Возраст должен быть больше 18 лет',
 };
 
 export const RABBITMQ_SERVICE_NAME = 'RABBITMQ_SERVICE';

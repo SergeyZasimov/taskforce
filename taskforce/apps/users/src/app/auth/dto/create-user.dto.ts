@@ -6,9 +6,11 @@ import {
   IsEnum,
   IsString,
   Length,
+  Validate,
 } from 'class-validator';
 import { Cities } from 'libs/shared-types/src/lib/const';
 import { USER_VALIDATION_ERRORS } from '../../app.constant';
+import { TeenageValidator } from '../../validators/teenage.validator';
 
 const {
   NAME_LENGTH_NOT_VALID,
@@ -19,6 +21,7 @@ const {
   CITY_NOT_VALID,
   BIRTHDAY_NOT_VALID,
   ROLE_REQUIRED,
+  TEENAGE_CONSTRAINT,
 } = USER_VALIDATION_ERRORS;
 
 export class CreateUserDto {
@@ -68,6 +71,7 @@ export class CreateUserDto {
     example: '2022-11-20',
     required: true,
   })
+  @Validate(TeenageValidator, { message: TEENAGE_CONSTRAINT })
   @IsDateString({}, { message: BIRTHDAY_NOT_VALID })
   public birthday: string;
 

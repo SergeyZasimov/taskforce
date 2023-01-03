@@ -9,8 +9,10 @@ import {
   IsString,
   Length,
   MaxLength,
+  Validate,
 } from 'class-validator';
 import { USER_VALIDATION_ERRORS } from '../../app.constant';
+import { TeenageValidator } from '../../validators/teenage.validator';
 
 const {
   NAME_REQUIRED,
@@ -21,6 +23,7 @@ const {
   SPECIALTY_LENGTH_NOT_VALID,
   EMAIL_NOT_UPDATE,
   ROLE_NOT_UPDATE,
+  TEENAGE_CONSTRAINT,
 } = USER_VALIDATION_ERRORS;
 
 export class UpdateUserDto {
@@ -33,6 +36,7 @@ export class UpdateUserDto {
   @IsOptional()
   public city?: AvailableCities;
 
+  @Validate(TeenageValidator, { message: TEENAGE_CONSTRAINT })
   @IsDateString({}, { message: BIRTHDAY_NOT_VALID })
   @IsOptional()
   public birthday?: Date;
