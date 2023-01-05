@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { Task } from '@taskforce/shared-types';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Task, TaskStatus } from '@taskforce/shared-types';
+import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskQuery } from './query/task.query';
+import {
+  ALLOWED_STATUS_CHANGES,
+  CHANGE_STATUS_NOT_VALID,
+} from './task.constant';
 import { TaskEntity } from './task.entity';
 import { TaskRepository } from './task.repository';
 
@@ -30,5 +35,26 @@ export class TaskService {
 
   public async getTasks(query: TaskQuery): Promise<Task[]> {
     return await this.taskRepository.find(query);
+  }
+
+  public async changeStatus(dto: ChangeStatusDto): Promise<Task> {
+    const { taskId, newStatus } = dto;
+    const task = await this.taskRepository.findById(taskId);
+
+    const currentStatus = task.status;
+
+    const isAvailableChange = ALLOWED_STATUS_CHANGES[currentStatus].includes(
+      newStatus as TaskStatus
+    );
+
+    if (isAvailableChange) {
+      const updatedTaskEntity = new TaskEntity({
+        ...task,
+        status: newStatus as TaskStatus,
+      });
+      return await this.taskRepository.update(taskId, updatedTaskEntity);
+    } else {
+      throw new BadRequestException(CHANGE_STATUS_NOT_VALID);
+    }
   }
 }

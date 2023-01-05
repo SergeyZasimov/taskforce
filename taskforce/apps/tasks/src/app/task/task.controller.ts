@@ -12,6 +12,7 @@ import {
 import { HttpStatus } from '@nestjs/common/enums';
 import { ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
+import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskQuery } from './query/task.query';
@@ -21,6 +22,11 @@ import { TaskService } from './task.service';
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
+
+  @Patch('change-status')
+  public async changeStatus(@Body() dto: ChangeStatusDto) {
+    return fillObject(TaskRdo, this.taskService.changeStatus(dto));
+  }
 
   @ApiParam({
     name: 'id',

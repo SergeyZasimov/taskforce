@@ -1,3 +1,5 @@
+import { TaskStatus } from '@taskforce/shared-types';
+
 export const CREATE_TASK_VALIDATION_ERROR = {
   TITLE_REQUIRED: 'Заголовок задания - обязательное поле',
   TITLE_LENGTH_NOT_VALID:
@@ -22,3 +24,13 @@ export const CREATE_TASK_VALIDATION_ERROR = {
 };
 
 export const RABBITMQ_SERVICE_NAME = 'TASKS_NOTIFY';
+
+export const ALLOWED_STATUS_CHANGES = {
+  [TaskStatus.New]: [TaskStatus.Cancel, TaskStatus.Process],
+  [TaskStatus.Cancel]: [],
+  [TaskStatus.Complete]: [],
+  [TaskStatus.Process]: [TaskStatus.Complete, TaskStatus.Fail],
+  [TaskStatus.Fail]: [],
+};
+
+export const CHANGE_STATUS_NOT_VALID = 'Неверное изменение статуса';
