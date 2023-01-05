@@ -3,15 +3,15 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ENV_FILE_PATH } from './app.constant';
-import databaseConfig from './config/database.config';
+import databaseConfig from '../config/database.config';
 import { validateEnvironments } from './env.validation';
 import { MongooseModule } from '@nestjs/mongoose/dist';
-import { getMongoDbConfig } from './config/mongodb.config';
-import { jwtOptions } from './config/jwt.config';
-import { rabbitMqOptions } from './config/rabbitmq.config';
+import { getMongoDbConfig } from '../config/mongodb.config';
+import { rabbitMqOptions } from '../config/rabbitmq.config';
 import { ReviewModule } from './review/review.module';
+import { multerOptions } from '../config/multer.config';
+import { jwtOptions } from '../config/jwt.config';
 import { ProfileModule } from './profile/profile.module';
-import { multerOptions } from './config/multer.config';
 
 @Module({
   imports: [

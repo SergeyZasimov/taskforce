@@ -11,12 +11,12 @@ import {
 import { Patch } from '@nestjs/common/decorators';
 import { ApiResponse, ApiTags } from '@nestjs/swagger/dist';
 import { fillObject } from '@taskforce/core';
-import { MongoidValidationPipe } from '../pipes/mongoid-validation.pipe';
+import { MongoidValidationPipe } from '../../pipes/mongoid-validation.pipe';
 import { AuthService } from './auth.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { UserRdo } from './rdo/user.rdo';
 

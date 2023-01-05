@@ -10,7 +10,7 @@ import {
 } from 'class-validator';
 import { Cities } from 'libs/shared-types/src/lib/const';
 import { USER_VALIDATION_ERRORS } from '../../app.constant';
-import { TeenageValidator } from '../../validators/teenage.validator';
+import { TeenageValidator } from '../../../validators/teenage.validator';
 
 const {
   NAME_LENGTH_NOT_VALID,

@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { fillObject } from '@taskforce/core';
-import { MongoidValidationPipe } from '../pipes/mongoid-validation.pipe';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewQuery } from './query/review.query';
 import { ReviewRdo } from './rdo/review.rdo';

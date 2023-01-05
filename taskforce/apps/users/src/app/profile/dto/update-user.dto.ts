@@ -12,7 +12,7 @@ import {
   Validate,
 } from 'class-validator';
 import { USER_VALIDATION_ERRORS } from '../../app.constant';
-import { TeenageValidator } from '../../validators/teenage.validator';
+import { TeenageValidator } from '../../../validators/teenage.validator';
 
 const {
   NAME_REQUIRED,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserRole } from '@taskforce/shared-types';
-import { ChangeTaskCounterQuery } from '../query/change-tasks-counter.query';
+import { ChangeTaskCounterQuery } from '../../query/change-tasks-counter.query';
 import { UserEntity } from '../user/user.entity';
 import { UserRepository } from '../user/user.repository';
 import { UpdateUserAvatarDto } from './dto/update-user-avatar.dto';

@@ -6,8 +6,8 @@ import {
   User,
   UserRole,
 } from '@taskforce/shared-types';
-import { Model, Types } from 'mongoose';
-import { ChangeTaskCounterQuery } from '../query/change-tasks-counter.query';
+import { Model } from 'mongoose';
+import { ChangeTaskCounterQuery } from '../../query/change-tasks-counter.query';
 import { UserEntity } from './user.entity';
 import { UserModel } from './user.model';
 
