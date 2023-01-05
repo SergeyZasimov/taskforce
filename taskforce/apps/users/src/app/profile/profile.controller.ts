@@ -8,7 +8,11 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { UploadedFile, UseInterceptors } from '@nestjs/common/decorators';
+import {
+  Patch,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common/decorators';
 import {
   FileTypeValidator,
   MaxFileSizeValidator,
@@ -52,9 +56,9 @@ export class ProfileController {
     return fillObject(ProfileRdo, updatedUser, (await updatedUser).role);
   }
 
-  @Post(':id')
+  @Patch('')
   public async update(
-    @Param('id', MongoidValidationPipe) id: string,
+    @GetCurrentUser('sub') id: string,
     @Body() dto: UpdateUserDto
   ) {
     return this.profileService.update(id, dto);
@@ -62,19 +66,19 @@ export class ProfileController {
 
   @Get(':id/change-tasks-counter')
   public async incTasks(
-    @Param('id') id: string,
+    @Param('id', MongoidValidationPipe) id: string,
     @Query() query: ChangeTaskCounterQuery
   ) {
     return this.profileService.changeTasksCounter(id, query);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'User details',
     type: ProfileRdo,
   })
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
   public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existUser = await this.profileService.getUser(id);
     return fillObject(ProfileRdo, existUser, existUser.role);

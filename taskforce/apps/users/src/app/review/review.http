@@ -2,22 +2,9 @@
 
 POST http://localhost:3333/api/review/create HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTFhYjMwZjU0ZTZiZWIwZmU5MzkzNmUiLCJlbWFpbCI6IkN5bnRoaWFfQWx0ZW53ZXJ0aDUxQG1haWwucnUiLCJyb2xlIjoi0LjRgdC_0L7Qu9C90LjRgtC10LvRjCIsImlhdCI6MTY3Mjg5NDY5MywiZXhwIjoxNjcyODk4MjkzfQ.2BzZDvzefnpR6EHgash4Uth92HsLvS_IYUugKWpzRBU
 
 {
-  "authorId": "63aebc286a8cf9c071bdda50",
-  "contractorId": "63aebc286a8cf9c071bdda51",
-  "taskId": 2,
-  "text": "Lorem ipsum dolor sit amet, consectetuer adipiscin",
-  "rating": 3
-}
-
-### Create Review
-
-POST http://localhost:3333/api/review/create HTTP/1.1
-Content-Type: application/json
-
-{
-  "authorId": "63aebc286a8cf9c071bdda55",
   "contractorId": "63aebc286a8cf9c071bdda51",
   "taskId": 2,
   "text": "Lorem ipsum dolor sit amet, consectetuer adipiscin",
@@ -32,6 +19,7 @@ GET http://localhost:3333/api/review?contractorId=7deb879fadc8c622ddb3095b
 
 POST http://localhost:3333/api/review/create HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjg5NTA0MiwiZXhwIjoxNjcyODk4NjQyfQ.M7N9RCk2Th8tFPm9G8Pp1ygqx9gNjz_G4CVVm6y8s4M
 
 {
   "contractorId": "63aebc286a8cf9c071bdda5",

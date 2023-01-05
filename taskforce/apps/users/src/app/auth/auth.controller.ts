@@ -19,6 +19,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { UserRdo } from './rdo/user.rdo';
+import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -49,9 +50,10 @@ export class AuthController {
     return fillObject(LoggedUserRdo, loggedUser);
   }
 
-  @Patch(':id/change-password')
+  @UseGuards(JwtAuthGuard)
+  @Patch('change-password')
   public async changePassword(
-    @Param('id', MongoidValidationPipe) id: string,
+    @GetCurrentUser('sub') id: string,
     @Body() dto: ChangePasswordDto
   ) {
     return this.authService.changePassword(id, dto);
