@@ -4,8 +4,8 @@ import { TaskController } from './task.controller';
 import { TaskRepository } from './task.repository';
 import { ClientsModule } from '@nestjs/microservices';
 import { RABBITMQ_SERVICE_NAME } from './task.constant';
-import { getRabbitMqConfig } from '../congfig/rabbitmq.config';
 import { ConfigService } from '@nestjs/config';
+import { getRabbitMqConfig } from '../../config/rabbitmq.config';
 
 @Module({
   imports: [

@@ -5,7 +5,7 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { TaskModule } from './task/task.module';
 import { ConfigModule } from '@nestjs/config';
 import { ENV_FILE_PATH } from './app.constant';
-import { rabbitMqOptions } from './congfig/rabbitmq.config';
+import { rabbitMqOptions } from '../config/rabbitmq.config';
 
 @Module({
   imports: [
