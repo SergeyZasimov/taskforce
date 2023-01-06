@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { fillObject } from '@taskforce/core';
 import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../../decorators/get-current-user.decorator';
-import { Role } from '../../decorators/roles.decorator';
+import { Role } from '../../decorators/role.decorator';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { RoleGuard } from '../../guards/role.guard';
 import { CreateReviewDto } from './dto/create-review.dto';

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { Task, TaskStatus, UserRole } from '@taskforce/shared-types';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -6,7 +10,9 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskQuery } from './query/task.query';
 import {
   ALLOWED_STATUS_CHANGES,
+  ALLOWED_STATUS_CHANGES_BY_ROLE,
   CHANGE_STATUS_NOT_VALID,
+  CHANGE_STATUS_ROLE_NOT_VALID,
 } from './task.constant';
 import { TaskEntity } from './task.entity';
 import { TaskRepository } from './task.repository';
@@ -50,6 +56,14 @@ export class TaskService {
     const isAvailableChange = ALLOWED_STATUS_CHANGES[currentStatus].includes(
       newStatus as TaskStatus
     );
+
+    const isValidChangeByRole = ALLOWED_STATUS_CHANGES_BY_ROLE[role].includes(
+      newStatus as TaskStatus
+    );
+
+    if (!isValidChangeByRole) {
+      throw new ForbiddenException(CHANGE_STATUS_ROLE_NOT_VALID);
+    }
 
     if (isAvailableChange) {
       const updatedTaskEntity = new TaskEntity({

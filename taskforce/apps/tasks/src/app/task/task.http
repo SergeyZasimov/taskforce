@@ -57,10 +57,10 @@ GET {{baseUrl}}/tasks?sortingOption=feedbacks&sortingDirection=asc&city=Влад
 ### Change Task Status
 PATCH {{baseUrl}}/tasks/change-status HTTP/1.1
 Content-Type: {{contentType}}
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjk3NzM4NiwiZXhwIjoxNjcyOTgwOTg2fQ.vq_PVtAiSltq-7R0y3Y7AZESB_Fpn0Vy3Z1xZwHvNm0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhY2M2ZTk0M2VjNDJmYzM1MTk2ZTI5MDkiLCJlbWFpbCI6IkZhbm55X0phc3RAZ21haWwuY29tIiwicm9sZSI6ItC40YHQv9C-0LvQvdC40YLQtdC70YwiLCJpYXQiOjE2NzMwMTM3OTgsImV4cCI6MTY3MzAxNzM5OH0.kw-JCadQxSRKIsGm3vEI9f0r1HPuUOq8lEFTKGUKr_w
 
 {
-  "taskId": 2,
+  "taskId": 5,
   "newStatus": "Complete"
 }
 

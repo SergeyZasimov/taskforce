@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentQuery } from './query/comment.query';
@@ -26,6 +27,7 @@ export class CommentController {
     description: 'Create new comment',
     type: CommentRdo,
   })
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   public async create(@Body() dto: CreateCommentDto) {
     const newComment = await this.commentService.createComment(dto);

@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { FeedbackService } from './feedback.service';
 import { FeedbackQuery } from './query/feedback.query';
@@ -16,6 +17,7 @@ export class FeedbackController {
     description: 'Show feedbacks by task ID',
     type: FeedbackRdo,
   })
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   public async index(@Query() { taskId }: FeedbackQuery) {
     const feedbacks = await this.feedbackService.getFeedbacksByTaskId(taskId);
@@ -27,6 +29,7 @@ export class FeedbackController {
     description: 'Create new feedback',
     type: FeedbackRdo,
   })
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   public async create(@Body() dto: CreateFeedbackDto) {
     const newFeedback = await this.feedbackService.create(dto);

@@ -1,4 +1,4 @@
-import { TaskStatus } from '@taskforce/shared-types';
+import { TaskStatus, UserRole } from '@taskforce/shared-types';
 
 export const CREATE_TASK_VALIDATION_ERROR = {
   TITLE_REQUIRED: 'Заголовок задания - обязательное поле',
@@ -33,4 +33,16 @@ export const ALLOWED_STATUS_CHANGES = {
   [TaskStatus.Fail]: [],
 };
 
+export const ALLOWED_STATUS_CHANGES_BY_ROLE = {
+  [UserRole.Customer]: [
+    TaskStatus.Cancel,
+    TaskStatus.Process,
+    TaskStatus.Complete,
+  ],
+  [UserRole.Contractor]: [TaskStatus.Fail],
+};
+
 export const CHANGE_STATUS_NOT_VALID = 'Неверное изменение статуса';
+
+export const CHANGE_STATUS_ROLE_NOT_VALID =
+  'Недопустимая роль пользователя для изменения статуса';

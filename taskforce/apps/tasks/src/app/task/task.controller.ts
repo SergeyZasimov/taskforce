@@ -11,11 +11,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
-import { ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiParam, ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
 import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
+import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { RoleGuard } from '../guards/role.guard';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -68,6 +70,9 @@ export class TaskController {
     description: 'Crate new task',
     type: TaskRdo,
   })
+  @UseGuards(JwtAuthGuard)
+  @Role(UserRole.Customer)
+  @UseGuards(RoleGuard)
   @Post('/')
   public async create(@Body() dto: CreateTaskDto) {
     const newTask = await this.taskService.createTask(dto);
@@ -84,6 +89,9 @@ export class TaskController {
     description: 'Update task information by ID',
     type: TaskRdo,
   })
+  @UseGuards(JwtAuthGuard)
+  @Role(UserRole.Customer)
+  @UseGuards(RoleGuard)
   @Patch('/:id')
   public async update(@Param('id') id: number, @Body() dto: UpdateTaskDto) {
     const updatedTask = await this.taskService.updateTask(id, dto);
@@ -100,6 +108,9 @@ export class TaskController {
     description: 'Delete task by ID',
     type: TaskRdo,
   })
+  @UseGuards(JwtAuthGuard)
+  @Role(UserRole.Customer)
+  @UseGuards(RoleGuard)
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(@Param('id') id: number) {
