@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Task, TaskStatus } from '@taskforce/shared-types';
+import { Task, TaskStatus, UserRole } from '@taskforce/shared-types';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -37,7 +37,11 @@ export class TaskService {
     return await this.taskRepository.find(query);
   }
 
-  public async changeStatus(dto: ChangeStatusDto): Promise<Task> {
+  public async changeStatus(
+    dto: ChangeStatusDto,
+    role: UserRole
+  ): Promise<Task> {
+    console.log(role);
     const { taskId, newStatus } = dto;
     const task = await this.taskRepository.findById(taskId);
 

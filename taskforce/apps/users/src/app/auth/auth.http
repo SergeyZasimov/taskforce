@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3333/api
+@baseUrl = http://localhost:3332/api
 @contentType = application/json
 @accessToken = {{login.response.body.accessToken}}
 

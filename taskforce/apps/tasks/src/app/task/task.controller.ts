@@ -8,10 +8,14 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
+import { UserRole } from '@taskforce/shared-types';
+import { GetCurrentUser } from '../decorators/get-current-user.decorator';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -23,9 +27,13 @@ import { TaskService } from './task.service';
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Patch('change-status')
-  public async changeStatus(@Body() dto: ChangeStatusDto) {
-    return fillObject(TaskRdo, this.taskService.changeStatus(dto));
+  public async changeStatus(
+    @Body() dto: ChangeStatusDto,
+    @GetCurrentUser('role') role: UserRole
+  ) {
+    return fillObject(TaskRdo, this.taskService.changeStatus(dto, role));
   }
 
   @ApiParam({

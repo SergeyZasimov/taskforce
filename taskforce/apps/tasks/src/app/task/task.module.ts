@@ -4,8 +4,11 @@ import { TaskController } from './task.controller';
 import { TaskRepository } from './task.repository';
 import { ClientsModule } from '@nestjs/microservices';
 import { RABBITMQ_SERVICE_NAME } from './task.constant';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getRabbitMqConfig } from '../../config/rabbitmq.config';
+import { JwtModule } from '@nestjs/jwt';
+import { getJwtConfig } from '../../config/jwt.config';
+import { JwtStrategy } from '../strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -16,8 +19,13 @@ import { getRabbitMqConfig } from '../../config/rabbitmq.config';
         inject: [ConfigService],
       },
     ]),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getJwtConfig,
+    }),
   ],
-  providers: [TaskService, TaskRepository],
+  providers: [TaskService, TaskRepository, JwtStrategy],
   controllers: [TaskController],
 })
 export class TaskModule {}
