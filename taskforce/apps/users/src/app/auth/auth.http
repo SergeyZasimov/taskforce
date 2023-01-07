@@ -23,7 +23,7 @@ POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "email": "Fanny_Jast@gmail.com",
+  "email": "Alberta92@hotmail.com",
   "password": "secret"
 }
 

@@ -20,7 +20,7 @@ export const CREATE_TASK_VALIDATION_ERROR = {
   TAG_LENGTH_NOT_VALID:
     'Длина тегов должна быть не менее 3 символов, и не более 10',
   TAG_STARTS_WITH_NOT_VALID: 'Теги должны начинаться с буквы',
-  STATUS_NOT_VALID: 'Неверный статус задания',
+  STATUS_NOT_UPDATE: 'Нельзя устанавливать статус задания',
 };
 
 export const RABBITMQ_SERVICE_NAME = 'TASKS_NOTIFY';

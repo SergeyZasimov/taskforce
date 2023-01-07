@@ -31,11 +31,19 @@ export class TaskService {
   }
 
   public async updateTask(id: number, dto: UpdateTaskDto): Promise<Task> {
+    const task = await this.taskRepository.findById(id);
+    if (task.customerId !== dto.customerId) {
+      throw new BadRequestException('Нельзя редактировать чужую задачу.');
+    }
     const updatedTaskEntity = new TaskEntity(dto);
     return await this.taskRepository.update(id, updatedTaskEntity);
   }
 
-  public async deleteTask(id: number): Promise<void> {
+  public async deleteTask(id: number, customerId: string): Promise<void> {
+    const task = await this.taskRepository.findById(id);
+    if (task.customerId !== customerId) {
+      throw new BadRequestException('Нельзя удалять чужую задачу.');
+    }
     await this.taskRepository.delete(id);
   }
 
@@ -47,7 +55,6 @@ export class TaskService {
     dto: ChangeStatusDto,
     role: UserRole
   ): Promise<Task> {
-    console.log(role);
     const { taskId, newStatus } = dto;
     const task = await this.taskRepository.findById(taskId);
 

@@ -37,7 +37,14 @@ export class TaskRdo {
     example: 'facbf9678dea73a5df67165c',
   })
   @Expose()
-  public userId: string;
+  public customerId: string;
+
+  @ApiProperty({
+    description: 'User ID of the task executor',
+    example: 'facbf9678dea73a5df67165c',
+  })
+  @Expose()
+  public contractorId: string;
 
   @ApiProperty({
     description: 'Task completion price',

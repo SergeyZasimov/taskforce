@@ -78,7 +78,7 @@ export class TaskRepository
       data: {
         title: entityData.title,
         description: entityData.description,
-        userId: entityData.userId,
+        customerId: entityData.customerId,
         executionTerm: entityData.executionTerm,
         image: entityData.image,
         address: entityData.address,
@@ -127,7 +127,8 @@ export class TaskRepository
       data: {
         title: entityData.title,
         description: entityData.description,
-        userId: entityData.userId,
+        customerId: entityData.customerId,
+        contractorId: entityData.contractorId,
         executionTerm: entityData.executionTerm,
         image: entityData.image,
         address: entityData.address,

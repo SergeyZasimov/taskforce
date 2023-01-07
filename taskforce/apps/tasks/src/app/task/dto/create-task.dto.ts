@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category, Tag } from '@taskforce/shared-types';
+import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
 import {
   ArrayMaxSize,
   IsDateString,
+  IsEmpty,
   IsMongoId,
   IsNumber,
   IsOptional,
@@ -30,6 +31,7 @@ const {
   TITLE_LENGTH_NOT_VALID,
   TITLE_REQUIRED,
   USER_ID_NOT_VALID,
+  STATUS_NOT_UPDATE,
 } = CREATE_TASK_VALIDATION_ERROR;
 
 export class CreateTaskDto {
@@ -71,7 +73,8 @@ export class CreateTaskDto {
     required: true,
   })
   @IsMongoId({ message: USER_ID_NOT_VALID })
-  public userId: string;
+  @IsOptional()
+  public customerId?: string;
 
   @ApiProperty({
     description: 'Task completion price',
@@ -131,4 +134,8 @@ export class CreateTaskDto {
   @ArrayMaxSize(5, { message: TAGS_SIZE_NOT_VALID })
   @IsOptional()
   public tags?: Tag[];
+
+  @IsEmpty({ message: STATUS_NOT_UPDATE })
+  @IsOptional()
+  public status: TaskStatus;
 }

@@ -70,12 +70,17 @@ export class TaskController {
     description: 'Crate new task',
     type: TaskRdo,
   })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
-  @UseGuards(RoleGuard)
   @Post('/')
-  public async create(@Body() dto: CreateTaskDto) {
-    const newTask = await this.taskService.createTask(dto);
+  public async create(
+    @Body() dto: CreateTaskDto,
+    @GetCurrentUser('sub') userId: string
+  ) {
+    const newTask = await this.taskService.createTask({
+      ...dto,
+      customerId: userId,
+    });
     return fillObject(TaskRdo, newTask);
   }
 
@@ -89,12 +94,18 @@ export class TaskController {
     description: 'Update task information by ID',
     type: TaskRdo,
   })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
-  @UseGuards(RoleGuard)
   @Patch('/:id')
-  public async update(@Param('id') id: number, @Body() dto: UpdateTaskDto) {
-    const updatedTask = await this.taskService.updateTask(id, dto);
+  public async update(
+    @Param('id') id: number,
+    @Body() dto: UpdateTaskDto,
+    @GetCurrentUser('sub') userId: string
+  ) {
+    const updatedTask = await this.taskService.updateTask(id, {
+      ...dto,
+      customerId: userId,
+    });
     return fillObject(TaskRdo, updatedTask);
   }
 
@@ -108,12 +119,14 @@ export class TaskController {
     description: 'Delete task by ID',
     type: TaskRdo,
   })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
-  @UseGuards(RoleGuard)
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  public async delete(@Param('id') id: number) {
-    await this.taskService.deleteTask(id);
+  public async delete(
+    @Param('id') id: number,
+    @GetCurrentUser('sub') customerId: string
+  ) {
+    await this.taskService.deleteTask(id, customerId);
   }
 }

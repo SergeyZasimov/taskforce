@@ -2,20 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
 import {
   Length,
-  IsString,
   IsMongoId,
   IsNumber,
   Min,
   IsOptional,
-  MinDate,
   IsDateString,
   Matches,
-  ValidationArguments,
   ArrayMaxSize,
   IsEnum,
   Validate,
+  IsEmpty,
 } from 'class-validator';
-import dayjs = require('dayjs');
 import { CREATE_TASK_VALIDATION_ERROR } from '../task.constant';
 import { ExecutionTermValidator } from '../validators/execution-term.validator';
 
@@ -31,7 +28,7 @@ const {
   TAG_STARTS_WITH_NOT_VALID,
   TITLE_LENGTH_NOT_VALID,
   USER_ID_NOT_VALID,
-  STATUS_NOT_VALID,
+  STATUS_NOT_UPDATE,
 } = CREATE_TASK_VALIDATION_ERROR;
 
 export class UpdateTaskDto {
@@ -74,7 +71,7 @@ export class UpdateTaskDto {
   })
   @IsMongoId({ message: USER_ID_NOT_VALID })
   @IsOptional()
-  public userId: string;
+  public customerId?: string;
 
   @ApiProperty({
     description: 'Task completion price',
@@ -135,13 +132,7 @@ export class UpdateTaskDto {
   @IsOptional()
   public tags?: Tag[];
 
-  @ApiProperty({
-    description: 'Task status',
-    example: 'new',
-    enum: TaskStatus,
-    required: false,
-  })
-  @IsEnum(TaskStatus, { message: STATUS_NOT_VALID })
+  @IsEmpty({ message: STATUS_NOT_UPDATE })
   @IsOptional()
-  public status?: TaskStatus;
+  public status: TaskStatus;
 }
