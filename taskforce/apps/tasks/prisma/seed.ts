@@ -6,10 +6,31 @@ const prisma = new PrismaClient();
 const MOCK_COUNT = 10;
 const SUB_MOCK_COUNT = 5;
 
-const userIds = faker.helpers.uniqueArray(
-  faker.database.mongodbObjectId,
-  MOCK_COUNT
-);
+const customers = [
+  'd93dd208cbc1ace5ad3c2fd7',
+  'bbebcaf545aa5cede2b4dcb8',
+  'be30ac0cecfd4c392f9de49e',
+  'f975ddb603e0a1aad9c3a5ba',
+  'cccddec92305fb6a8dcd91ec',
+  '92edf4dd25254fd6fdbc8e84',
+  '07aa3ec3caaabeb4e7afcacb',
+  'f1bfb0141fda772e6ad7811e',
+  '5a7c80cdd95e6ae705f55e16',
+  'e2be58f2349474f3c8cc7eb1',
+];
+
+const contractors = [
+  '9047b99ccaffbf9e3c8feeb6',
+  'd42dd0be5ad9cfc23cce1b95',
+  '1d4dbb5b9eacd8e3e45deeb0',
+  '5cb2dfe2f2eefceceabfc945',
+  '15c66672cfac89f3178389fb',
+  'c78c1b8b091c3aee1aac8fe8',
+  'bf6ef82ddb87a7ad19b1c75f',
+  'edb8bce3b278b8cc98dddc2b',
+  'dd447d27aa8b05fbca7c6b7b',
+  'cb6e051969af6fee6af552df',
+];
 
 const categories: { title: string }[] = faker.helpers.uniqueArray(
   () => ({
@@ -42,7 +63,10 @@ async function fillDb() {
   const tagIds = await prisma.tag.findMany({ select: { id: true } });
 
   for (let i = 1; i <= MOCK_COUNT; i++) {
-    const currentUserIds = faker.helpers.shuffle(userIds);
+    const status = faker.helpers.maybe(
+      () => Status[faker.helpers.arrayElement(Object.keys(Status))],
+      { probability: 0.7 }
+    );
 
     await prisma.task.upsert({
       where: { id: i },
@@ -56,11 +80,12 @@ async function fillDb() {
         image: faker.helpers.maybe(() => faker.image.imageUrl(), {
           probability: 0.5,
         }),
-        status: faker.helpers.maybe(
-          () => Status[faker.helpers.arrayElement(Object.keys(Status))],
-          { probability: 0.7 }
-        ),
-        userId: currentUserIds[0],
+        status,
+        customerId: faker.helpers.arrayElement(customers),
+        contractorId:
+          status && status !== Status.New
+            ? faker.helpers.arrayElement(contractors)
+            : null,
         address: `${faker.helpers.arrayElement(
           cities
         )} ${faker.address.streetAddress()}`,
@@ -79,28 +104,34 @@ async function fillDb() {
               { length: Number(faker.random.numeric()) },
               () => ({
                 text: faker.lorem.sentence(),
-                userId: faker.helpers.arrayElement(currentUserIds.slice(1)),
+                userId: faker.helpers.arrayElement([
+                  ...customers,
+                  ...contractors,
+                ]),
               })
             ),
           },
         },
-        feedbacks: {
-          createMany: {
-            data: Array.from(
-              { length: Number(faker.random.numeric()) },
-              () => ({
-                text: faker.lorem.sentence(),
-                price: faker.helpers.maybe(
-                  () => Number(faker.commerce.price()),
-                  {
-                    probability: 0.7,
-                  }
-                ),
-                userId: faker.helpers.arrayElement(currentUserIds.slice(1)),
-              })
-            ),
-          },
-        },
+        feedbacks:
+          !status || status === Status.New
+            ? {
+                createMany: {
+                  data: Array.from(
+                    { length: Number(faker.random.numeric()) },
+                    () => ({
+                      text: faker.lorem.sentence(),
+                      price: faker.helpers.maybe(
+                        () => Number(faker.commerce.price()),
+                        {
+                          probability: 0.7,
+                        }
+                      ),
+                      userId: faker.helpers.arrayElement(contractors),
+                    })
+                  ),
+                },
+              }
+            : undefined,
       },
     });
   }
