@@ -29,12 +29,4 @@ export class CreateCommentDto {
   })
   @IsInt({ message: TASK_ID_NOT_VALID })
   public taskId: number;
-
-  @ApiProperty({
-    description: 'ID of the comment author',
-    example: 'facbf9678dea73a5df67165c',
-    required: true,
-  })
-  @IsMongoId({ message: USER_ID_NO_VALID })
-  public userId: string;
 }

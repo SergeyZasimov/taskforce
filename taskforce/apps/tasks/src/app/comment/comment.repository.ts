@@ -23,15 +23,15 @@ export class CommentRepository
     return await this.prisma.comment.create({ data: { ...entity.toObject() } });
   }
 
-  public findById(id: number): Promise<Comment> {
-    return Promise.resolve(undefined);
+  public findById(id: number): Promise<Comment> | null {
+    return this.prisma.comment.findFirst({ where: { id } });
   }
 
   public update(id: number, entity: CommentEntity): Promise<Comment> {
     return Promise.resolve(undefined);
   }
 
-  public delete(id: number): Promise<void> {
-    return Promise.resolve(undefined);
+  public async delete(id: number): Promise<void> {
+    await this.prisma.comment.delete({ where: { id } });
   }
 }
