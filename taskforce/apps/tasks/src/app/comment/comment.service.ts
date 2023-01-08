@@ -8,8 +8,8 @@ import { CommentEntity } from './comment.entity';
 export class CommentService {
   constructor(private readonly commentRepository: CommentRepository) {}
 
-  public async getComments(taskId: number): Promise<Comment[]> {
-    return await this.commentRepository.findByTaskId(taskId);
+  public async getComments(taskId: number, page: number): Promise<Comment[]> {
+    return await this.commentRepository.findByTaskId(taskId, page);
   }
 
   public async createComment(dto: CreateCommentDto): Promise<Comment> {

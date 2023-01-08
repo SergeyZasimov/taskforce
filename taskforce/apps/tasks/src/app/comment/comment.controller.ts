@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -17,8 +25,8 @@ export class CommentController {
     type: CommentRdo,
   })
   @Get('/')
-  public async showAllByTaskId(@Query() { taskId }: CommentQuery) {
-    const comments = await this.commentService.getComments(taskId);
+  public async showAllByTaskId(@Query() { taskId, page }: CommentQuery) {
+    const comments = await this.commentService.getComments(taskId, page);
     return fillObject(CommentRdo, comments);
   }
 

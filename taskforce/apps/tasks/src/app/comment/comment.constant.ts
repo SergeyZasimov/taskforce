@@ -5,3 +5,5 @@ export const CREATE_COMMENT_VALIDATION_ERROR = {
   TASK_ID_NOT_VALID: 'Неверный ID задания',
   USER_ID_NO_VALID: 'Неверный ID пользователя',
 };
+
+export const DEFAULT_COMMENT_LIST_SIZE = 50;

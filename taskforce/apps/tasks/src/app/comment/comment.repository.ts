@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CommentEntity } from './comment.entity';
 import { Comment } from '@taskforce/shared-types';
 import { Injectable } from '@nestjs/common/decorators';
+import { DEFAULT_COMMENT_LIST_SIZE } from './comment.constant';
 
 @Injectable()
 export class CommentRepository
@@ -10,8 +11,12 @@ export class CommentRepository
 {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async findByTaskId(taskId: number): Promise<Comment[]> {
-    return await this.prisma.comment.findMany({ where: { taskId } });
+  public async findByTaskId(taskId: number, page: number): Promise<Comment[]> {
+    return await this.prisma.comment.findMany({
+      where: { taskId },
+      take: DEFAULT_COMMENT_LIST_SIZE,
+      skip: page > 0 ? DEFAULT_COMMENT_LIST_SIZE * (page - 1) : undefined,
+    });
   }
 
   public async create(entity: CommentEntity): Promise<Comment> {
