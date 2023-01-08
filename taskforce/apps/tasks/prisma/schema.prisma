@@ -61,13 +61,13 @@ model Comment {
 }
 
 model Feedback {
-  id        Int      @id @default(autoincrement())
-  text      String?
-  price     Decimal? @db.Decimal(8, 2)
-  userId    String
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId    Int
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  text         String?
+  price        Decimal? @db.Decimal(8, 2)
+  contractorId String
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId       Int
+  createdAt    DateTime @default(now())
 
   @@map("Feedbacks")
 }

@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  MaxLength,
   Min,
 } from 'class-validator';
 import { CREATE_FEEDBACK_VALIDATION_ERROR } from '../feedback.constant';
@@ -14,7 +13,6 @@ const {
   PRICE_NEGATIVE,
   PRICE_NOT_VALID,
   TASK_ID_NOT_VALID,
-  TEXT_LENGTH_NOT_VALID,
   USER_ID_NOT_VALID,
 } = CREATE_FEEDBACK_VALIDATION_ERROR;
 
@@ -45,7 +43,8 @@ export class CreateFeedbackDto {
     required: true,
   })
   @IsMongoId({ message: USER_ID_NOT_VALID })
-  public userId: string;
+  @IsOptional()
+  public contractorId?: string;
 
   @ApiProperty({
     description: 'ID of the task to which the feedback',
