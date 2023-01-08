@@ -4,6 +4,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Task, TaskStatus, UserRole } from '@taskforce/shared-types';
+import { FeedbackRepository } from '../feedback/feedback.repository';
+import { AssignContractorDto } from './dto/assign-contractor.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -19,7 +21,10 @@ import { TaskRepository } from './task.repository';
 
 @Injectable()
 export class TaskService {
-  constructor(private readonly taskRepository: TaskRepository) {}
+  constructor(
+    private readonly taskRepository: TaskRepository,
+    private readonly feedbackRepository: FeedbackRepository
+  ) {}
 
   public async getTask(id: number): Promise<Task> {
     return this.taskRepository.findById(id);
@@ -58,9 +63,8 @@ export class TaskService {
     const { taskId, newStatus } = dto;
     const task = await this.taskRepository.findById(taskId);
 
-    const currentStatus = task.status;
-
-    const isAvailableChange = ALLOWED_STATUS_CHANGES[currentStatus].includes(
+    const isAvailableChange = this.checkStatusChange(
+      task.status,
       newStatus as TaskStatus
     );
 
@@ -72,14 +76,70 @@ export class TaskService {
       throw new ForbiddenException(CHANGE_STATUS_ROLE_NOT_VALID);
     }
 
-    if (isAvailableChange) {
-      const updatedTaskEntity = new TaskEntity({
-        ...task,
-        status: newStatus as TaskStatus,
-      });
-      return await this.taskRepository.update(taskId, updatedTaskEntity);
-    } else {
+    if (!isAvailableChange) {
       throw new BadRequestException(CHANGE_STATUS_NOT_VALID);
     }
+
+    const updatedTaskEntity = new TaskEntity({
+      ...task,
+      status: newStatus as TaskStatus,
+    });
+    return await this.taskRepository.update(taskId, updatedTaskEntity);
+  }
+
+  public async assignContractor(
+    dto: AssignContractorDto,
+    customerId: string
+  ): Promise<Task> {
+    const { taskId, contractorId } = dto;
+    const task = await this.taskRepository.findById(taskId);
+    if (task.customerId !== customerId) {
+      throw new BadRequestException('Нельзя редактировать чужую задачу.');
+    }
+    const taskFeedbacks = await this.feedbackRepository.findByTaskId(taskId);
+    const isValidAssign = taskFeedbacks.find(
+      (feedback) => feedback.contractorId === contractorId
+    );
+
+    if (!isValidAssign) {
+      throw new BadRequestException(
+        'Назначать исполнителя можно только из списка откликнувшихся'
+      );
+    }
+
+    const contractorTasks = await this.taskRepository.findByContractorId(
+      contractorId
+    );
+
+    const isInvalidContractor = contractorTasks.find(
+      (task) => task.status === TaskStatus.Process
+    );
+
+    if (isInvalidContractor) {
+      throw new BadRequestException(
+        'Нельзя назначить исполнителя, у которого есть задача в работе'
+      );
+    }
+
+    const newStatus = TaskStatus.Process;
+    const isAvailableChange = this.checkStatusChange(task.status, newStatus);
+
+    if (!isAvailableChange) {
+      throw new BadRequestException(CHANGE_STATUS_NOT_VALID);
+    }
+
+    const updatedTaskEntity = new TaskEntity({
+      ...task,
+      contractorId,
+      status: newStatus,
+    });
+    return this.taskRepository.update(taskId, updatedTaskEntity);
+  }
+
+  private checkStatusChange(
+    currentStatus: TaskStatus,
+    newStatus: TaskStatus
+  ): boolean {
+    return ALLOWED_STATUS_CHANGES[currentStatus].includes(newStatus);
   }
 }

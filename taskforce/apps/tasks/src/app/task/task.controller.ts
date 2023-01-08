@@ -18,6 +18,7 @@ import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RoleGuard } from '../guards/role.guard';
+import { AssignContractorDto } from './dto/assign-contractor.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -36,6 +37,16 @@ export class TaskController {
     @GetCurrentUser('role') role: UserRole
   ) {
     return fillObject(TaskRdo, this.taskService.changeStatus(dto, role));
+  }
+
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role(UserRole.Customer)
+  @Patch('assign-contractor')
+  public async assignContractor(
+    @Body() dto: AssignContractorDto,
+    @GetCurrentUser('sub') customerId: string
+  ) {
+    return await this.taskService.assignContractor(dto, customerId);
   }
 
   @ApiParam({

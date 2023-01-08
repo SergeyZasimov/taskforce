@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker/locale/ru';
 
 const prisma = new PrismaClient();
 
-const MOCK_COUNT = 10;
+const MOCK_COUNT = 20;
 const SUB_MOCK_COUNT = 5;
 
 const customers = [
@@ -126,7 +126,7 @@ async function fillDb() {
                           probability: 0.7,
                         }
                       ),
-                      userId: faker.helpers.arrayElement(contractors),
+                      contractorId: faker.helpers.arrayElement(contractors),
                     })
                   ),
                 },

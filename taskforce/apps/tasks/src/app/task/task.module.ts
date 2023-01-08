@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
 import { TaskRepository } from './task.repository';
@@ -9,6 +9,7 @@ import { getRabbitMqConfig } from '../../config/rabbitmq.config';
 import { JwtModule } from '@nestjs/jwt';
 import { getJwtConfig } from '../../config/jwt.config';
 import { JwtStrategy } from '../strategies/jwt.strategy';
+import { FeedbackModule } from '../feedback/feedback.module';
 
 @Module({
   imports: [
@@ -24,8 +25,10 @@ import { JwtStrategy } from '../strategies/jwt.strategy';
       inject: [ConfigService],
       useFactory: getJwtConfig,
     }),
+    forwardRef(() => FeedbackModule),
   ],
   providers: [TaskService, TaskRepository, JwtStrategy],
   controllers: [TaskController],
+  exports: [TaskRepository],
 })
 export class TaskModule {}

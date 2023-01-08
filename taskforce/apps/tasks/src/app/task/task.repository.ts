@@ -26,6 +26,17 @@ export class TaskRepository
     return this.convertTask(task);
   }
 
+  public async findByContractorId(contractorId: string): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: { contractorId },
+      include: {
+        category: true,
+        tags: true,
+      },
+    });
+    return tasks.map((task) => this.convertTask(task));
+  }
+
   public async find({
     category: queryCategory,
     limit,

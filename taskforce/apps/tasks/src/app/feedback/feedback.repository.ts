@@ -26,7 +26,7 @@ export class FeedbackRepository
     const newFeedback = await this.prisma.feedback.create({
       data: {
         text: entity.text,
-        userId: entity.userId,
+        contractorId: entity.contractorId,
         price: entity.price && new Prisma.Decimal(entity.price),
         task: { connect: { id: entity.taskId } },
       },
