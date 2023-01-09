@@ -22,6 +22,7 @@ import { AssignContractorDto } from './dto/assign-contractor.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { MyTasksQuery } from './query/my-tasks.query';
 import { TaskQuery } from './query/task.query';
 import { TaskRdo } from './rdo/task.rdo';
 import { TaskService } from './task.service';
@@ -47,6 +48,17 @@ export class TaskController {
     @GetCurrentUser('sub') customerId: string
   ) {
     return await this.taskService.assignContractor(dto, customerId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('my-tasks')
+  public async getMyTasks(
+    @GetCurrentUser('sub') userId: string,
+    @GetCurrentUser('role') role: string,
+    @Query() { status }: MyTasksQuery
+  ) {
+    const tasks = this.taskService.getMyTasks(userId, role, status);
+    return fillObject(TaskRdo, tasks);
   }
 
   @ApiParam({

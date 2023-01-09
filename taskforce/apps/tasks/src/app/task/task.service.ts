@@ -136,6 +136,17 @@ export class TaskService {
     return this.taskRepository.update(taskId, updatedTaskEntity);
   }
 
+  public async getMyTasks(
+    userId: string,
+    role: string,
+    status: TaskStatus
+  ): Promise<Task[]> {
+    if (role === UserRole.Contractor) {
+      return this.taskRepository.findByContractorId(userId, status);
+    }
+    return this.taskRepository.findByCustomerId(userId, status);
+  }
+
   private checkStatusChange(
     currentStatus: TaskStatus,
     newStatus: TaskStatus

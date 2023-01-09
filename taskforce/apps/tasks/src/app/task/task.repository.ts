@@ -26,12 +26,41 @@ export class TaskRepository
     return this.convertTask(task);
   }
 
-  public async findByContractorId(contractorId: string): Promise<Task[]> {
+  public async findByContractorId(
+    contractorId: string,
+    status?: TaskStatus
+  ): Promise<Task[]> {
     const tasks = await this.prisma.task.findMany({
-      where: { contractorId },
+      where: { contractorId, status },
       include: {
         category: true,
         tags: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
+      },
+      orderBy: {
+        status: 'asc',
+      },
+    });
+    return tasks.map((task) => this.convertTask(task));
+  }
+
+  public async findByCustomerId(
+    customerId: string,
+    status?: TaskStatus
+  ): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: { customerId, status },
+      include: {
+        category: true,
+        tags: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     return tasks.map((task) => this.convertTask(task));
