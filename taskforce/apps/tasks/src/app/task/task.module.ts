@@ -10,6 +10,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { getJwtConfig } from '../../config/jwt.config';
 import { JwtStrategy } from '../strategies/jwt.strategy';
 import { FeedbackModule } from '../feedback/feedback.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { getMulterConfig } from '../../config/multer.config';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { FeedbackModule } from '../feedback/feedback.module';
       inject: [ConfigService],
       useFactory: getJwtConfig,
     }),
+    MulterModule.registerAsync(getMulterConfig()),
     forwardRef(() => FeedbackModule),
   ],
   providers: [TaskService, TaskRepository, JwtStrategy],

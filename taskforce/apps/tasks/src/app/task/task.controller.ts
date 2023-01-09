@@ -2,15 +2,21 @@ import {
   Body,
   Controller,
   Delete,
+  FileTypeValidator,
   Get,
   HttpCode,
+  MaxFileSizeValidator,
   Param,
+  ParseFilePipe,
   Patch,
   Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiParam, ApiResponse } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
 import { UserRole } from '@taskforce/shared-types';
@@ -59,6 +65,28 @@ export class TaskController {
   ) {
     const tasks = this.taskService.getMyTasks(userId, role, status);
     return fillObject(TaskRdo, tasks);
+  }
+
+  @Post(':id/upload-image')
+  @UseInterceptors(FileInterceptor('file'))
+  @UseGuards(JwtAuthGuard)
+  public async uploadFile(
+    @Param('id') id: number,
+    @GetCurrentUser('sub') customerId: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1_000_000 }),
+          new FileTypeValidator({ fileType: /[\w/-]+.(jpg|png|jpeg)/ }),
+        ],
+      })
+    )
+    file: Express.Multer.File
+  ) {
+    const updatedTask = this.taskService.updateImage(id, customerId, {
+      image: file.filename,
+    });
+    return fillObject(TaskRdo, updatedTask);
   }
 
   @ApiParam({

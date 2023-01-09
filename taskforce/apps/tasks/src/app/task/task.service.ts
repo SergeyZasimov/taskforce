@@ -8,6 +8,7 @@ import { FeedbackRepository } from '../feedback/feedback.repository';
 import { AssignContractorDto } from './dto/assign-contractor.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateImageDto } from './dto/update-image.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskQuery } from './query/task.query';
 import {
@@ -145,6 +146,24 @@ export class TaskService {
       return this.taskRepository.findByContractorId(userId, status);
     }
     return this.taskRepository.findByCustomerId(userId, status);
+  }
+
+  public async updateImage(
+    id: number,
+    customerId: string,
+    dto: UpdateImageDto
+  ): Promise<Task> {
+    const { image } = dto;
+    const task = await this.taskRepository.findById(id);
+    if (task.customerId !== customerId) {
+      throw new BadRequestException('Нельзя редактировать чужую задачу.');
+    }
+    const imagePath = `http://${process.env.HOST}:${process.env.PORT}/${process.env.UPLOAD_DEST}/${image}`;
+    const updatedTaskEntity = await new TaskEntity({
+      ...task,
+      image: imagePath,
+    });
+    return this.taskRepository.update(id, updatedTaskEntity);
   }
 
   private checkStatusChange(

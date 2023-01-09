@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ENV_FILE_PATH } from './app.constant';
 import { rabbitMqOptions } from '../config/rabbitmq.config';
 import { jwtOptions } from '../config/jwt.config';
+import { multerOptions } from '../config/multer.config';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { jwtOptions } from '../config/jwt.config';
       cache: true,
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
-      load: [rabbitMqOptions, jwtOptions],
+      load: [rabbitMqOptions, jwtOptions, multerOptions],
     }),
   ],
   controllers: [],
