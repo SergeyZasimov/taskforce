@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserRole } from '@taskforce/shared-types';
-import { ChangeTaskCounterQuery } from '../../query/change-tasks-counter.query';
+import { NotFoundException } from '@nestjs/common/exceptions';
+import { User } from '@taskforce/shared-types';
+import { USER_NOT_FOUND } from '../app.constant';
 import { UserEntity } from '../user/user.entity';
 import { UserRepository } from '../user/user.repository';
 import { UpdateUserAvatarDto } from './dto/update-user-avatar.dto';
@@ -14,22 +15,11 @@ export class ProfileService {
     return this.userRepository.update(id, new UserEntity(dto));
   }
 
-  public async changeTasksCounter(
-    id: string,
-    query: ChangeTaskCounterQuery
-  ): Promise<User> {
-    return this.userRepository.changeTasksCounter(id, query);
-  }
-
   public async getUser(id: string): Promise<User> {
     const existUser = await this.userRepository.findById(id);
 
     if (!existUser) {
-      throw new Error('User not found');
-    }
-
-    if (existUser.role === UserRole.Contractor) {
-      return this.userRepository.findContractorById(id);
+      throw new NotFoundException(USER_NOT_FOUND);
     }
 
     return existUser;

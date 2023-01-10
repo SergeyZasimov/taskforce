@@ -10,6 +10,8 @@ import { Document } from 'mongoose';
 export class UserModel extends Document implements User {
   @Prop({
     required: true,
+    minlength: 3,
+    maxlength: 50,
   })
   public name: string;
 
@@ -34,6 +36,7 @@ export class UserModel extends Document implements User {
 
   @Prop({
     default: '',
+    match: [/[\w/-]+.(jpg|png|jpeg)/],
   })
   public avatar: string;
 
@@ -46,7 +49,6 @@ export class UserModel extends Document implements User {
     required: true,
     type: String,
     enum: UserRole,
-    default: UserRole.Customer,
     immutable: true,
   })
   public role: UserRole;
@@ -63,34 +65,6 @@ export class UserModel extends Document implements User {
     default: [],
   })
   public specialty: string[];
-
-  @Prop({
-    required: false,
-    default: 0,
-    min: 0,
-  })
-  public tasksCount: number;
-
-  @Prop({
-    required: false,
-    default: 0,
-    min: 0,
-  })
-  public newTasksCount: number;
-
-  @Prop({
-    required: false,
-    default: 0,
-    min: 0,
-  })
-  public completedTasksCount: number;
-
-  @Prop({
-    required: false,
-    default: 0,
-    min: 0,
-  })
-  public failedTasksCount: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

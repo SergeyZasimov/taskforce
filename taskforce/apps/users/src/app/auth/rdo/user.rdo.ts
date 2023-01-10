@@ -2,53 +2,53 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 
 export class UserRdo {
-  @Expose({ name: '_id' })
-  @Transform(({ obj }) => obj._id.toString())
   @ApiProperty({
-    description: 'User ID',
+    description: 'ID пользователя',
     example: '6382db68d4aa0280d04bb17f',
   })
+  @Expose({ name: '_id' })
+  @Transform(({ obj }) => obj._id.toString())
   public id: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User name',
+    description: 'Имя пользователя',
     example: 'John Smith',
   })
+  @Expose()
   public name: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User email',
+    description: 'Email пользователя',
     example: 'user@mail.com',
   })
+  @Expose()
   public email: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'URL to avatar image',
+    description: 'Аватар',
     example: 'http://localhost:3333/upload/user1-avatar.png',
   })
+  @Expose()
   public avatar: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'One of the available cities',
+    description: 'Город пользователя',
     example: 'Москва',
   })
+  @Expose()
   public city: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User role',
-    example: 'Customer',
+    description: 'Роль пользователя',
+    example: 'заказчик',
   })
+  @Expose()
   public role: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User birthday',
+    description: 'День рождения пользователя',
     example: '2022-11-20',
   })
+  @Expose()
   public birthday: string;
 }

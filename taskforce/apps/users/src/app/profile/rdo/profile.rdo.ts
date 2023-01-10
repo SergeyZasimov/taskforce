@@ -4,81 +4,78 @@ import { Expose, Transform } from 'class-transformer';
 import * as dayjs from 'dayjs';
 
 export class ProfileRdo {
-  @Expose({ name: '_id' })
-  @Transform(({ obj }) => obj._id.toString())
   @ApiProperty({
-    description: 'User ID',
+    description: 'ID пользователя',
     example: '6382db68d4aa0280d04bb17f',
   })
+  @Expose({ name: '_id' })
+  @Transform(({ obj }) => obj._id.toString())
   public id: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User name',
+    description: 'Имя пользователя',
     example: 'John Smith',
   })
+  @Expose()
   public name: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User email',
+    description: 'Email пользователя',
     example: 'user@mail.com',
   })
+  @Expose()
   public email: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'URL to avatar image',
+    description: 'Аватар',
     example: 'http://localhost:3333/upload/user1-avatar.png',
   })
+  @Expose()
   public avatar: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'One of the available cities',
+    description: 'Город пользователя',
     example: 'Москва',
   })
+  @Expose()
   public city: string;
 
-  @Expose()
   @ApiProperty({
-    description: 'User role',
+    description: 'Роль пользователя',
     example: 'Customer',
   })
+  @Expose()
   public role: string;
 
   @ApiProperty({
-    description: 'User birthday',
-    example: '2022-11-20',
+    description: 'Возраст пользователя',
+    example: '23',
   })
   @Expose({ name: 'birthday' })
   @Transform(({ value }) => dayjs().diff(dayjs(value), 'y'))
   public age: number;
 
-  @Expose({ groups: [UserRole.Customer] })
-  public tasksCount: number;
-
-  @Expose({ groups: [UserRole.Customer] })
-  public newTasksCount: number;
-
-  @Expose({ groups: [UserRole.Contractor] })
-  public completedTasksCount: number;
-
-  @Expose({ groups: [UserRole.Contractor] })
-  public failedTasksCount: number;
-
+  @ApiProperty({
+    description: 'Специализация пользователя(для "исполнителя")',
+    example: '["строительство", "ремонт"]',
+    type: 'string[]',
+    required: false,
+  })
   @Expose({ groups: [UserRole.Contractor] })
   public specialty: string[];
 
+  @ApiProperty({
+    description: 'Дата регистрации',
+    example: '2022-12-27T16:15:59.031Z',
+  })
   @Expose({ name: 'createdAt' })
   public register: string;
 
+  @ApiProperty({
+    description: 'Информация о пользователе',
+    example:
+      'Соответствующих напрямую рамки модернизации обучения позиции обществом предпосылки принципов сомнений. Роль мира экономической кадров отношении рамки работы отношении формировании проблем. Прежде формирования общественной.',
+  })
   @Expose()
   public resume: string;
-
-  @Expose({ groups: [UserRole.Contractor] })
-  public rating: number;
-
-  @Expose({ groups: [UserRole.Contractor] })
-  public ratingPlace: number;
 }

@@ -10,7 +10,7 @@ import {
 } from 'class-validator';
 import { Cities } from 'libs/shared-types/src/lib/const';
 import { USER_VALIDATION_ERRORS } from '../../app.constant';
-import { TeenageValidator } from '../../../validators/teenage.validator';
+import { TeenageValidator } from '../../validators/teenage.validator';
 
 const {
   NAME_LENGTH_NOT_VALID,
@@ -26,7 +26,7 @@ const {
 
 export class CreateUserDto {
   @ApiProperty({
-    description: 'User name',
+    description: 'Имя пользователя',
     example: 'John Smith',
     minLength: 3,
     maxLength: 50,
@@ -37,7 +37,7 @@ export class CreateUserDto {
   public name: string;
 
   @ApiProperty({
-    description: 'User email',
+    description: 'Email пользователя',
     example: 'user@mail.com',
     required: true,
   })
@@ -45,7 +45,7 @@ export class CreateUserDto {
   public email: string;
 
   @ApiProperty({
-    description: 'User password',
+    description: 'Пароль пользователя',
     example: 'secret',
     minLength: 6,
     maxLength: 12,
@@ -58,7 +58,7 @@ export class CreateUserDto {
   public password: string;
 
   @ApiProperty({
-    description: 'One of the available cities',
+    description: 'Один из доступных городов',
     example: 'Москва',
     enum: Cities,
     required: true,
@@ -67,8 +67,8 @@ export class CreateUserDto {
   public city: AvailableCities;
 
   @ApiProperty({
-    description: 'User birthday',
-    example: '2022-11-20',
+    description: 'День рождения пользователя',
+    example: '1970-11-20',
     required: true,
   })
   @Validate(TeenageValidator, { message: TEENAGE_CONSTRAINT })
@@ -76,8 +76,8 @@ export class CreateUserDto {
   public birthday: string;
 
   @ApiProperty({
-    description: 'One of the role',
-    example: 'Customer',
+    description: 'Одна из ролей',
+    example: 'заказчик',
     enum: UserRole,
     required: true,
   })

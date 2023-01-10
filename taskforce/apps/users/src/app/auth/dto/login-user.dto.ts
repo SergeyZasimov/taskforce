@@ -7,7 +7,7 @@ const { EMAIL_REQUIRED, PASSWORD_REQUIRED, PASSWORD_LENGTH_NOT_VALID } =
 
 export class LoginUserDto {
   @ApiProperty({
-    description: 'User email',
+    description: 'Email пользователя',
     example: 'user@mail.com',
     required: true,
   })
@@ -15,7 +15,7 @@ export class LoginUserDto {
   public email: string;
 
   @ApiProperty({
-    description: 'User password',
+    description: 'Пароль пользователя',
     example: 'secret',
     minLength: 6,
     maxLength: 12,
