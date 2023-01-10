@@ -1,6 +1,6 @@
 export type Review = {
-  _id?: string;
-  authorId: string;
+  id?: number;
+  customerId: string;
   contractorId: string;
   taskId: number;
   text: string;

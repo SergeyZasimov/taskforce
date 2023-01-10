@@ -8,6 +8,7 @@ import { ENV_FILE_PATH } from './app.constant';
 import { rabbitMqOptions } from '../config/rabbitmq.config';
 import { jwtOptions } from '../config/jwt.config';
 import { multerOptions } from '../config/multer.config';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { multerOptions } from '../config/multer.config';
       envFilePath: ENV_FILE_PATH,
       load: [rabbitMqOptions, jwtOptions, multerOptions],
     }),
+    ReviewModule,
   ],
   controllers: [],
   providers: [],

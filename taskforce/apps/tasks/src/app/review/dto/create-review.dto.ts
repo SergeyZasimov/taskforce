@@ -1,16 +1,7 @@
-import {
-  IsInt,
-  IsMongoId,
-  IsOptional,
-  IsString,
-  Length,
-  Max,
-  Min,
-} from 'class-validator';
-import { REVIEW_VALIDATION_ERRORS } from '../../app.constant';
+import { IsInt, IsMongoId, IsString, Length, Max, Min } from 'class-validator';
+import { REVIEW_VALIDATION_ERRORS } from '../review.constant';
 
 const {
-  AUTHOR_ID_NOT_VALID,
   RATING_NOT_VALID,
   RATING_REQUIRED,
   TASK_ID_NOT_VALID,
@@ -20,10 +11,6 @@ const {
 } = REVIEW_VALIDATION_ERRORS;
 
 export class CreateReviewDto {
-  @IsMongoId({ message: AUTHOR_ID_NOT_VALID })
-  @IsOptional()
-  public authorId?: string;
-
   @IsMongoId({ message: CONTRACTOR_ID_NOT_VALID })
   public contractorId: string;
 

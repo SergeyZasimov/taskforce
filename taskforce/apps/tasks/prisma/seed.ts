@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker/locale/ru';
 
 const prisma = new PrismaClient();
 
-const MOCK_COUNT = 20;
+const MOCK_COUNT = 50;
 const SUB_MOCK_COUNT = 5;
 
 const customers = [
@@ -49,13 +49,29 @@ const tags: { title: string }[] = faker.helpers.uniqueArray(
 const cities = ['Москва', 'Санкт-Петербург', 'Владивосток'];
 
 async function fillDb() {
-  await prisma.category.createMany({
-    data: categories,
+  categories.forEach(async (category, index) => {
+    await prisma.category.upsert({
+      where: { id: index },
+      update: {
+        title: category.title,
+      },
+      create: {
+        title: category.title,
+      },
+    });
   });
   console.info('Categories were created');
 
-  await prisma.tag.createMany({
-    data: tags,
+  tags.forEach(async (tag, index) => {
+    await prisma.tag.upsert({
+      where: { id: index },
+      update: {
+        title: tag.title,
+      },
+      create: {
+        title: tag.title,
+      },
+    });
   });
   console.info('Tags were created');
 
@@ -63,10 +79,13 @@ async function fillDb() {
   const tagIds = await prisma.tag.findMany({ select: { id: true } });
 
   for (let i = 1; i <= MOCK_COUNT; i++) {
-    const status = faker.helpers.maybe(
-      () => Status[faker.helpers.arrayElement(Object.keys(Status))],
-      { probability: 0.7 }
-    );
+    const status = Status[faker.helpers.arrayElement(Object.keys(Status))];
+
+    const customerId = faker.helpers.arrayElement(customers);
+    const contractorId =
+      status !== Status.New && status !== Status.Cancel
+        ? faker.helpers.arrayElement(contractors)
+        : null;
 
     await prisma.task.upsert({
       where: { id: i },
@@ -81,11 +100,8 @@ async function fillDb() {
           probability: 0.5,
         }),
         status,
-        customerId: faker.helpers.arrayElement(customers),
-        contractorId:
-          status && status !== Status.New
-            ? faker.helpers.arrayElement(contractors)
-            : null,
+        customerId,
+        contractorId,
         address: `${faker.helpers.arrayElement(
           cities
         )} ${faker.address.streetAddress()}`,
@@ -104,16 +120,17 @@ async function fillDb() {
               { length: Number(faker.random.numeric()) },
               () => ({
                 text: faker.lorem.sentence(),
-                userId: faker.helpers.arrayElement([
-                  ...customers,
-                  ...contractors,
-                ]),
+                userId: faker.helpers.arrayElement(
+                  [...customers, ...contractors].filter(
+                    (id) => id !== customerId
+                  )
+                ),
               })
             ),
           },
         },
         feedbacks:
-          !status || status === Status.New
+          status === Status.New
             ? {
                 createMany: {
                   data: Array.from(
@@ -134,6 +151,24 @@ async function fillDb() {
             : undefined,
       },
     });
+
+    if (status === Status.Complete) {
+      faker.helpers.maybe(
+        async () => {
+          await prisma.review.create({
+            data: {
+              taskId: i,
+              contractorId,
+              customerId,
+              text: faker.lorem.sentence(3),
+              rating: faker.datatype.number({ min: 1, max: 5 }),
+            },
+          });
+          console.info('Review was created');
+        },
+        { probability: 0.5 }
+      );
+    }
   }
   console.info('Tasks were created');
 }

@@ -220,6 +220,14 @@ export class TaskRepository
     await this.prisma.task.delete({ where: { id } });
   }
 
+  public async getFailedSheet() {
+    return await this.prisma.task.groupBy({
+      by: ['contractorId'],
+      where: { status: TaskStatus.Fail },
+      _count: { id: true },
+    });
+  }
+
   private convertTask(prismaTask): Task {
     return {
       ...prismaTask,

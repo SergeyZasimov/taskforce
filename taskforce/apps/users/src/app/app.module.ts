@@ -8,7 +8,6 @@ import { validateEnvironments } from './env.validation';
 import { MongooseModule } from '@nestjs/mongoose/dist';
 import { getMongoDbConfig } from '../config/mongodb.config';
 import { rabbitMqOptions } from '../config/rabbitmq.config';
-import { ReviewModule } from './review/review.module';
 import { multerOptions } from '../config/multer.config';
 import { jwtOptions } from '../config/jwt.config';
 import { ProfileModule } from './profile/profile.module';
@@ -25,7 +24,6 @@ import { ProfileModule } from './profile/profile.module';
     MongooseModule.forRootAsync(getMongoDbConfig()),
     UserModule,
     AuthModule,
-    ReviewModule,
     ProfileModule,
   ],
   controllers: [],

@@ -72,6 +72,18 @@ model Feedback {
   @@map("Feedbacks")
 }
 
+model Review {
+  id           Int      @id @default(autoincrement())
+  text         String
+  rating       Int
+  taskId       Int
+  customerId   String
+  contractorId String
+  createdAt    DateTime @default(now())
+
+  @@map("Reviews")
+}
+
 enum Status {
   New
   Cancel
