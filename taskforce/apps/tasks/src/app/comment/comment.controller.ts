@@ -47,7 +47,7 @@ const {
   DELETE_COMMENT,
 } = COMMENT_RESPONSE_DESCRIPTION;
 
-@ApiTags('Comments')
+@ApiTags('Комментарии')
 @Controller('comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}

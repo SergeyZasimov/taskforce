@@ -1,10 +1,15 @@
+import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
-import { BadRequestException } from '@nestjs/common/exceptions';
 import { Feedback, TaskStatus } from '@taskforce/shared-types';
 import { TaskRepository } from '../task/task.repository';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
+import { FEEDBACK_EXCEPTION_MESSAGE } from './feedback.constant';
 import { FeedbackEntity } from './feedback.entity';
 import { FeedbackRepository } from './feedback.repository';
+
+const { TASK_NOT_FOUND, TASK_STATUS_NOT_VALID, FEEDBACK_EXIST } =
+  FEEDBACK_EXCEPTION_MESSAGE;
 
 @Injectable()
 export class FeedbackService {
@@ -14,15 +19,27 @@ export class FeedbackService {
   ) {}
 
   public async getFeedbacksByTaskId(taskId: number): Promise<Feedback[]> {
+    const existTask = await this.taskRepository.findById(taskId);
+    if (!existTask) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
     return await this.feedbackRepository.findByTaskId(taskId);
   }
 
   public async create(dto: CreateFeedbackDto): Promise<Feedback> {
     const existTask = await this.taskRepository.findById(dto.taskId);
+    if (!existTask) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
     if (existTask.status !== TaskStatus.New) {
-      throw new BadRequestException(
-        'Отклик можно оставлять только к задаче со статусом "Новое"'
-      );
+      throw new BadRequestException(TASK_STATUS_NOT_VALID);
+    }
+    const existFeedback = await this.feedbackRepository.findByTaskAndContractor(
+      dto.taskId,
+      dto.contractorId
+    );
+    if (existFeedback) {
+      throw new BadRequestException(FEEDBACK_EXIST);
     }
     const newFeedbackEntity = new FeedbackEntity(dto);
     return await this.feedbackRepository.create(newFeedbackEntity);

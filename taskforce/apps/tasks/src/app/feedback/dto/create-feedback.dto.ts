@@ -1,12 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsInt,
-  IsMongoId,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsInt, IsMongoId, IsNumber, IsOptional, Min } from 'class-validator';
 import { CREATE_FEEDBACK_VALIDATION_ERROR } from '../feedback.constant';
 
 const {
@@ -18,17 +11,16 @@ const {
 
 export class CreateFeedbackDto {
   @ApiProperty({
-    description: 'Feedback text',
+    description: 'Текст отклика',
     example:
       'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
     required: false,
   })
-  @IsString()
   @IsOptional()
   public text?: string;
 
   @ApiProperty({
-    description: 'Execution price',
+    description: 'Предложенная стоимость выполнения',
     example: '360.99',
     required: false,
   })
@@ -38,7 +30,7 @@ export class CreateFeedbackDto {
   public price?: number;
 
   @ApiProperty({
-    description: 'ID of the feedback author',
+    description: 'ID исполнителя',
     example: 'facbf9678dea73a5df67165c',
     required: true,
   })
@@ -47,7 +39,7 @@ export class CreateFeedbackDto {
   public contractorId?: string;
 
   @ApiProperty({
-    description: 'ID of the task to which the feedback',
+    description: 'ID задачи',
     example: '5',
     required: true,
   })

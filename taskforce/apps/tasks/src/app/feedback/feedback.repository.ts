@@ -22,6 +22,16 @@ export class FeedbackRepository
     }));
   }
 
+  public async findByTaskAndContractor(
+    taskId: number,
+    contractorId: string
+  ): Promise<Feedback> {
+    const feedback = await this.prisma.feedback.findFirst({
+      where: { taskId, contractorId },
+    });
+    return { ...feedback, price: Number(feedback.price) };
+  }
+
   public async create(entity: FeedbackEntity): Promise<Feedback> {
     const newFeedback = await this.prisma.feedback.create({
       data: {
