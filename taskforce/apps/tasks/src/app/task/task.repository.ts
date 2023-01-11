@@ -229,14 +229,17 @@ export class TaskRepository
   }
 
   private convertTask(prismaTask): Task {
-    return {
-      ...prismaTask,
-      price: Number(prismaTask.price),
-      status: TaskStatus[prismaTask.status],
-      category: prismaTask.category.title,
-      tags: prismaTask.tags.map((tag) => tag.title),
-      commentsCount: prismaTask._count?.comments || 0,
-      feedbacksCount: prismaTask._count?.feedbacks || 0,
-    };
+    if (prismaTask) {
+      return {
+        ...prismaTask,
+        price: Number(prismaTask.price),
+        status: TaskStatus[prismaTask.status],
+        category: prismaTask.category.title,
+        tags: prismaTask.tags.map((tag) => tag.title),
+        commentsCount: prismaTask._count?.comments || 0,
+        feedbacksCount: prismaTask._count?.feedbacks || 0,
+      };
+    }
+    return null;
   }
 }

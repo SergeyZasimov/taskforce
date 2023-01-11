@@ -27,7 +27,7 @@ export class CommentRepository
     return this.prisma.comment.findFirst({ where: { id } });
   }
 
-  public update(id: number, entity: CommentEntity): Promise<Comment> {
+  public update(): Promise<Comment> {
     return Promise.resolve(undefined);
   }
 

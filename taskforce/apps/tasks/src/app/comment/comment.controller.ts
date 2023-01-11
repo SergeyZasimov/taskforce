@@ -10,37 +10,94 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import {
+  COMMENT_API_OPERATION,
+  COMMENT_RESPONSE_DESCRIPTION,
+} from './comment.constant';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentQuery } from './query/comment.query';
 import { CommentRdo } from './rdo/comment.rdo';
+import {
+  BadRequestErrorRdo,
+  NotFoundErrorRdo,
+  UnauthorizedErrorRdo,
+  ForbiddenErrorRdo,
+} from '@taskforce/rdo';
 
+const { SHOW_ALL, CREATE, DELETE } = COMMENT_API_OPERATION;
+
+const {
+  SHOW_ALL_OK,
+  TASK_NOT_FOUND,
+  BAD_REQUEST,
+  CREATE_COMMENT,
+  UNAUTHORIZED,
+  COMMENT_NOT_FOUND,
+  FOREIGN_COMMENT,
+  DELETE_COMMENT,
+} = COMMENT_RESPONSE_DESCRIPTION;
+
+@ApiTags('Comments')
 @Controller('comments')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
+  @ApiOperation({ description: SHOW_ALL })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Show comments by task ID',
+    description: SHOW_ALL_OK,
     type: CommentRdo,
   })
-  @Get('/')
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TASK_NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @Get('')
   public async showAllByTaskId(@Query() { taskId, page }: CommentQuery) {
     const comments = await this.commentService.getComments(taskId, page);
     return fillObject(CommentRdo, comments);
   }
 
+  @ApiOperation({ description: CREATE })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: 'Create new comment',
+    description: CREATE_COMMENT,
     type: CommentRdo,
   })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TASK_NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
   @UseGuards(JwtAuthGuard)
-  @Post('/')
+  @Post('')
   public async create(
     @Body() dto: CreateCommentDto,
     @GetCurrentUser('sub') userId: string
@@ -49,6 +106,27 @@ export class CommentController {
     return fillObject(CommentRdo, newComment);
   }
 
+  @ApiOperation({ description: DELETE })
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: DELETE_COMMENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: COMMENT_NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: FOREIGN_COMMENT,
+    type: ForbiddenErrorRdo,
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')

@@ -19,6 +19,7 @@ async function bootstrap() {
     .setDescription('The Tasks» service API specification')
     .setVersion('1.0')
     .addTag('Tasks')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('spec/tasks', app, document);

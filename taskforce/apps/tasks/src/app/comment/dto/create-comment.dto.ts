@@ -1,17 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsMongoId, IsString, Length } from 'class-validator';
+import { IsInt, IsString, Length } from 'class-validator';
 import { CREATE_COMMENT_VALIDATION_ERROR } from '../comment.constant';
 
-const {
-  TASK_ID_NOT_VALID,
-  TEXT_LENGTH_NOT_VALID,
-  TEXT_REQUIRED,
-  USER_ID_NO_VALID,
-} = CREATE_COMMENT_VALIDATION_ERROR;
+const { TASK_ID_NOT_VALID, TEXT_LENGTH_NOT_VALID, TEXT_REQUIRED } =
+  CREATE_COMMENT_VALIDATION_ERROR;
 
 export class CreateCommentDto {
   @ApiProperty({
-    description: 'Comment text',
+    description: 'Текст комментария',
     example:
       'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
     minLength: 10,
@@ -23,7 +19,7 @@ export class CreateCommentDto {
   public text: string;
 
   @ApiProperty({
-    description: 'ID of the task to which the comment',
+    description: 'ID задачи',
     example: '5',
     required: true,
   })
