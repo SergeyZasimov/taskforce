@@ -3,12 +3,24 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
+import {
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common/exceptions';
 import { Review, TaskStatus } from '@taskforce/shared-types';
-import { isNotEmpty } from 'class-validator';
 import { TaskRepository } from '../task/task.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
+import { REVIEW_EXCEPTION_MESSAGE } from './review.constant';
 import { ReviewEntity } from './review.entity';
 import { ReviewRepository } from './review.repository';
+
+const {
+  TASK_NOT_FOUND,
+  CONFLICT_REVIEW,
+  TASK_NOT_COMPLETE,
+  FOREIGN_TASK,
+  FOREIGN_CONTRACTOR,
+} = REVIEW_EXCEPTION_MESSAGE;
 
 @Injectable()
 export class ReviewService {
@@ -22,29 +34,26 @@ export class ReviewService {
     customerId: string
   ): Promise<Review> {
     const task = await this.taskRepository.findById(dto.taskId);
+    if (!task) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
 
     const existReview = await this.reviewRepository.findByTaskId(dto.taskId);
 
     if (existReview) {
-      throw new BadRequestException('Для этого задания уже есть отзыв');
+      throw new ConflictException(CONFLICT_REVIEW);
     }
 
     if (task.status !== TaskStatus.Complete) {
-      throw new BadRequestException(
-        'Нельзя оставить отзыв. Задача не выполнена'
-      );
+      throw new BadRequestException(TASK_NOT_COMPLETE);
     }
 
     if (task.customerId !== customerId) {
-      throw new ForbiddenException(
-        'Нельзя оставить отзыв. Задача другого заказчика'
-      );
+      throw new ForbiddenException(FOREIGN_TASK);
     }
 
     if (task.contractorId !== dto.contractorId) {
-      throw new BadRequestException(
-        'Нельзя оставить отзыв. Исполнитель не выполнял задания'
-      );
+      throw new BadRequestException(FOREIGN_CONTRACTOR);
     }
 
     const newReviewEntity = new ReviewEntity({ ...dto, customerId });
@@ -80,16 +89,9 @@ export class ReviewService {
       (item) => item.contractorId === contractorId
     );
 
-    if (index === -1) {
-      return {
-        rating: 0,
-        ratingPlace: '-',
-      };
-    }
-
     return {
-      rating: ratingSheet[index].rating,
-      ratingPlace: index + 1,
+      rating: index !== -1 ? ratingSheet[index].rating : 0,
+      ratingPlace: index !== -1 ? index + 1 : 0,
     };
   }
 }

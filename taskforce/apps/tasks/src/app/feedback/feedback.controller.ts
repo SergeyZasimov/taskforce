@@ -49,7 +49,7 @@ export class FeedbackController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: SHOW_ALL_OK,
-    type: FeedbackRdo,
+    type: [FeedbackRdo],
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,

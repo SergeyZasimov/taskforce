@@ -56,7 +56,7 @@ export class CommentController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: SHOW_ALL_OK,
-    type: CommentRdo,
+    type: [CommentRdo],
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
