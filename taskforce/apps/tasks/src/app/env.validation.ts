@@ -13,26 +13,6 @@ const MIN_PORT = 0;
 const MAX_PORT = 65535;
 
 class EnvironmentsConfig {
-  @IsString({ message: EnvValidationMessage.DBNameRequired })
-  public MONGO_DB: string;
-
-  @IsString({ message: EnvValidationMessage.DBHostRequired })
-  public MONGO_HOST: string;
-
-  @IsInt({ message: EnvValidationMessage.DBPortRequired })
-  @Min(MIN_PORT, { message: EnvValidationMessage.DBPortNotValid })
-  @Max(MAX_PORT, { message: EnvValidationMessage.DBPortNotValid })
-  public MONGO_PORT: number;
-
-  @IsString({ message: EnvValidationMessage.DBUserRequired })
-  public MONGO_USER: string;
-
-  @IsString({ message: EnvValidationMessage.DBPasswordRequired })
-  public MONGO_PASSWORD: string;
-
-  @IsString({ message: EnvValidationMessage.DBBaseAuthRequired })
-  public MONGO_AUTH_BASE: string;
-
   @IsString({ message: EnvValidationMessage.JwtSecretRequired })
   public JWT_SECRET: string;
 
@@ -71,7 +51,7 @@ export function validateEnvironments(config: Record<string, unknown>) {
   });
 
   if (errors.length > 0) {
-    throw new Error(errors.toString());
+    console.log(errors.map((error) => error.constraints));
   }
 
   return environmentConfig;

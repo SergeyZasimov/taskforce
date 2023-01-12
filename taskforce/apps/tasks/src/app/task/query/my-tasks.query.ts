@@ -1,8 +1,15 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { TaskStatus } from '@taskforce/shared-types';
 import { IsEnum, IsOptional } from 'class-validator';
+import { TASK_VALIDATION_ERROR } from '../task.constant';
 
 export class MyTasksQuery {
-  @IsEnum(TaskStatus)
+  @ApiProperty({
+    description: 'Статус задачи',
+    example: 'new',
+    enum: TaskStatus,
+  })
+  @IsEnum(TaskStatus, { message: TASK_VALIDATION_ERROR.STATUS_NOT_VALID })
   @IsOptional()
   public status?: TaskStatus;
 }

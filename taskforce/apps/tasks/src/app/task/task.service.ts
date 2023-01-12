@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { Task, TaskStatus, UserRole } from '@taskforce/shared-types';
 import { FeedbackRepository } from '../feedback/feedback.repository';
 import { AssignContractorDto } from './dto/assign-contractor.dto';
@@ -14,11 +15,20 @@ import { TaskQuery } from './query/task.query';
 import {
   ALLOWED_STATUS_CHANGES,
   ALLOWED_STATUS_CHANGES_BY_ROLE,
-  CHANGE_STATUS_NOT_VALID,
-  CHANGE_STATUS_ROLE_NOT_VALID,
+  TASK_EXCEPTION_MESSAGE,
 } from './task.constant';
 import { TaskEntity } from './task.entity';
 import { TaskRepository } from './task.repository';
+
+const {
+  CHANGE_STATUS_NOT_VALID,
+  CHANGE_STATUS_ROLE_NOT_VALID,
+  TASK_NOT_FOUND,
+  FOREIGN_TASK_UPDATE,
+  FOREIGN_TASK_DELETE,
+  FEEDBACK_CONTRACTOR,
+  PROCESS_CONTRACTOR,
+} = TASK_EXCEPTION_MESSAGE;
 
 @Injectable()
 export class TaskService {
@@ -28,27 +38,44 @@ export class TaskService {
   ) {}
 
   public async getTask(id: number): Promise<Task> {
-    return this.taskRepository.findById(id);
+    const existTask = await this.taskRepository.findById(id);
+    if (!existTask) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
+    return existTask;
   }
 
-  public async createTask(dto: CreateTaskDto): Promise<Task> {
-    const newTaskEntity = new TaskEntity(dto);
+  public async createTask(
+    customerId: string,
+    dto: CreateTaskDto
+  ): Promise<Task> {
+    const newTaskEntity = new TaskEntity({ ...dto, customerId });
     return await this.taskRepository.create(newTaskEntity);
   }
 
-  public async updateTask(id: number, dto: UpdateTaskDto): Promise<Task> {
-    const task = await this.taskRepository.findById(id);
-    if (task.customerId !== dto.customerId) {
-      throw new BadRequestException('Нельзя редактировать чужую задачу.');
+  public async updateTask(
+    id: number,
+    dto: UpdateTaskDto,
+    customerId: string
+  ): Promise<Task> {
+    const existTask = await this.taskRepository.findById(id);
+    if (!existTask) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
+    if (existTask.customerId !== customerId) {
+      throw new BadRequestException(FOREIGN_TASK_UPDATE);
     }
     const updatedTaskEntity = new TaskEntity(dto);
     return await this.taskRepository.update(id, updatedTaskEntity);
   }
 
   public async deleteTask(id: number, customerId: string): Promise<void> {
-    const task = await this.taskRepository.findById(id);
-    if (task.customerId !== customerId) {
-      throw new BadRequestException('Нельзя удалять чужую задачу.');
+    const existTask = await this.taskRepository.findById(id);
+    if (!existTask) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
+    if (existTask.customerId !== customerId) {
+      throw new BadRequestException(FOREIGN_TASK_DELETE);
     }
     await this.taskRepository.delete(id);
   }
@@ -62,10 +89,13 @@ export class TaskService {
     role: UserRole
   ): Promise<Task> {
     const { taskId, newStatus } = dto;
-    const task = await this.taskRepository.findById(taskId);
+    const existTask = await this.taskRepository.findById(taskId);
+    if (!existTask) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
 
     const isAvailableChange = this.checkStatusChange(
-      task.status,
+      existTask.status,
       newStatus as TaskStatus
     );
 
@@ -82,7 +112,7 @@ export class TaskService {
     }
 
     const updatedTaskEntity = new TaskEntity({
-      ...task,
+      ...existTask,
       status: newStatus as TaskStatus,
     });
     return await this.taskRepository.update(taskId, updatedTaskEntity);
@@ -94,8 +124,11 @@ export class TaskService {
   ): Promise<Task> {
     const { taskId, contractorId } = dto;
     const task = await this.taskRepository.findById(taskId);
+    if (!task) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
     if (task.customerId !== customerId) {
-      throw new BadRequestException('Нельзя редактировать чужую задачу.');
+      throw new BadRequestException(FOREIGN_TASK_UPDATE);
     }
     const taskFeedbacks = await this.feedbackRepository.findByTaskId(taskId);
     const isValidAssign = taskFeedbacks.find(
@@ -103,9 +136,7 @@ export class TaskService {
     );
 
     if (!isValidAssign) {
-      throw new BadRequestException(
-        'Назначать исполнителя можно только из списка откликнувшихся'
-      );
+      throw new BadRequestException(FEEDBACK_CONTRACTOR);
     }
 
     const contractorTasks = await this.taskRepository.findByContractorId(
@@ -117,9 +148,7 @@ export class TaskService {
     );
 
     if (isInvalidContractor) {
-      throw new BadRequestException(
-        'Нельзя назначить исполнителя, у которого есть задача в работе'
-      );
+      throw new BadRequestException(PROCESS_CONTRACTOR);
     }
 
     const newStatus = TaskStatus.Process;
@@ -155,10 +184,14 @@ export class TaskService {
   ): Promise<Task> {
     const { image } = dto;
     const task = await this.taskRepository.findById(id);
+    if (!task) {
+      throw new NotFoundException(TASK_NOT_FOUND);
+    }
     if (task.customerId !== customerId) {
-      throw new BadRequestException('Нельзя редактировать чужую задачу.');
+      throw new BadRequestException(FOREIGN_TASK_UPDATE);
     }
     const imagePath = `http://${process.env.HOST}:${process.env.PORT}/${process.env.UPLOAD_DEST}/${image}`;
+
     const updatedTaskEntity = await new TaskEntity({
       ...task,
       image: imagePath,

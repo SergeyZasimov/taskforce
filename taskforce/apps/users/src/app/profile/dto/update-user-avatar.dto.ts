@@ -6,6 +6,7 @@ export class UpdateUserAvatarDto {
   @ApiProperty({
     description: 'Путь до изображения',
     example: './avatar.jpg',
+    format: 'binary'
   })
   @Matches(/[\w/-]+.(jpg|png|jpeg)$/, {
     message: USER_VALIDATION_ERRORS.AVATAR_ERROR,

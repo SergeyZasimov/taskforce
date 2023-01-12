@@ -9,6 +9,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { TASK_VALIDATION_ERROR } from '../task.constant';
 
 const DEFAULT_TASK_COUNT_LIMIT = 3;
 const DEFAULT_SORTING_DIRECTION = 'desc';
@@ -17,7 +18,7 @@ const DEFAULT_SORTING_OPTION = 'createdAt';
 export class TaskQuery {
   @ApiProperty({
     name: 'category',
-    description: 'Filtering by category',
+    description: 'Фильтрация по категории',
     type: 'string',
     required: false,
   })
@@ -27,7 +28,7 @@ export class TaskQuery {
 
   @ApiProperty({
     name: 'tags',
-    description: 'Filtering by tags',
+    description: 'Фильтрация по тегу',
     type: 'array',
     required: false,
     items: {
@@ -41,17 +42,18 @@ export class TaskQuery {
 
   @ApiProperty({
     name: 'city',
-    description: 'Filtering by city',
+    description: 'Фильтрация по городу',
     type: 'string',
     required: false,
+    enum: Cities,
   })
-  @IsEnum(Cities)
+  @IsEnum(Cities, { message: TASK_VALIDATION_ERROR.CITY_NOT_VALID })
   @IsOptional()
   public city?: AvailableCities;
 
   @ApiProperty({
     name: 'limit',
-    description: 'The number of tasks that are shown',
+    description: 'Количество отображаемых задач',
     default: '25',
     type: 'number',
     required: false,
@@ -63,7 +65,7 @@ export class TaskQuery {
 
   @ApiProperty({
     name: 'page',
-    description: 'Pagination page',
+    description: 'Страница пагинации',
     type: 'number',
     required: false,
   })
@@ -74,7 +76,7 @@ export class TaskQuery {
 
   @ApiProperty({
     name: 'sortingDirection',
-    description: 'Sorting direction',
+    description: 'Направление сортировки',
     enum: ['asc', 'desc'],
     default: 'desc',
     type: 'string',
@@ -86,7 +88,7 @@ export class TaskQuery {
 
   @ApiProperty({
     name: 'sortingOption',
-    description: 'Sorting option',
+    description: 'Вариант сортировки',
     enum: ['createdAt', 'comments', 'feedbacks'],
     default: 'createdAt',
     type: 'string',

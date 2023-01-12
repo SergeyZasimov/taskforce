@@ -17,13 +17,26 @@ import {
 } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
+import {
+  BadRequestErrorRdo,
+  ForbiddenErrorRdo,
+  NotFoundErrorRdo,
+  UnauthorizedErrorRdo,
+} from '@taskforce/rdo';
 import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RoleGuard } from '../guards/role.guard';
+import { DbIdValidationPipe } from '../pipes/db-id-validation.pipe';
 import { AssignContractorDto } from './dto/assign-contractor.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -31,12 +44,71 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { MyTasksQuery } from './query/my-tasks.query';
 import { TaskQuery } from './query/task.query';
 import { TaskRdo } from './rdo/task.rdo';
+import {
+  TASK_API_OPERATIONS,
+  TASK_RESPONSE_DESCRIPTION,
+} from './task.constant';
 import { TaskService } from './task.service';
 
+const {
+  CHANGE_STATUS,
+  ASSIGN_CONTRACTOR,
+  MY_TASKS,
+  SHOW,
+  SHOW_ALL,
+  CREATE,
+  DELETE,
+  UPDATE,
+} = TASK_API_OPERATIONS;
+
+const {
+  CHANGE_STATUS_OK,
+  BAD_REQUEST,
+  TASK_NOT_FOUND,
+  FORBIDDEN_ROLE,
+  UNAUTHORIZED,
+  ASSIGN_CONTRACTOR_OK,
+  MY_TASKS_OK,
+  SHOW_OK,
+  SHOW_ALL_OK,
+  CREATED_OK,
+  DELETED_OK,
+  UPDATED_OK,
+} = TASK_RESPONSE_DESCRIPTION;
+
+@ApiTags('Задачи')
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
+  @ApiOperation({ description: CHANGE_STATUS })
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    description: CHANGE_STATUS_OK,
+    status: HttpStatus.OK,
+    type: TaskRdo,
+  })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: TASK_NOT_FOUND,
+    status: HttpStatus.NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    description: FORBIDDEN_ROLE,
+    status: HttpStatus.FORBIDDEN,
+    type: ForbiddenErrorRdo,
+  })
   @UseGuards(JwtAuthGuard)
   @Patch('change-status')
   public async changeStatus(
@@ -46,6 +118,34 @@ export class TaskController {
     return fillObject(TaskRdo, this.taskService.changeStatus(dto, role));
   }
 
+  @ApiOperation({ description: ASSIGN_CONTRACTOR })
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    description: ASSIGN_CONTRACTOR_OK,
+    status: HttpStatus.OK,
+    type: TaskRdo,
+  })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: TASK_NOT_FOUND,
+    status: HttpStatus.NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    description: FORBIDDEN_ROLE,
+    status: HttpStatus.FORBIDDEN,
+    type: ForbiddenErrorRdo,
+  })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Patch('assign-contractor')
@@ -56,6 +156,23 @@ export class TaskController {
     return await this.taskService.assignContractor(dto, customerId);
   }
 
+  @ApiOperation({ description: MY_TASKS })
+  @ApiBearerAuth()
+  @ApiResponse({
+    description: MY_TASKS_OK,
+    status: HttpStatus.OK,
+    type: [TaskRdo],
+  })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
   @UseGuards(JwtAuthGuard)
   @Get('my-tasks')
   public async getMyTasks(
@@ -67,9 +184,38 @@ export class TaskController {
     return fillObject(TaskRdo, tasks);
   }
 
-  @Post(':id/upload-image')
+  @ApiOperation({ description: ASSIGN_CONTRACTOR })
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    description: ASSIGN_CONTRACTOR_OK,
+    status: HttpStatus.OK,
+    type: TaskRdo,
+  })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: TASK_NOT_FOUND,
+    status: HttpStatus.NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    description: FORBIDDEN_ROLE,
+    status: HttpStatus.FORBIDDEN,
+    type: ForbiddenErrorRdo,
+  })
   @UseInterceptors(FileInterceptor('file'))
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role(UserRole.Customer)
+  @Post(':id/upload-image')
   public async uploadFile(
     @Param('id') id: number,
     @GetCurrentUser('sub') customerId: string,
@@ -89,26 +235,38 @@ export class TaskController {
     return fillObject(TaskRdo, updatedTask);
   }
 
-  @ApiParam({
-    name: 'id',
-    description: 'Task ID',
-    example: '3',
-  })
+  @ApiOperation({ description: SHOW })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Show task information by ID',
+    description: SHOW_OK,
     type: TaskRdo,
   })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: TASK_NOT_FOUND,
+    status: HttpStatus.NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID задачи',
+    example: '3',
+  })
   @Get('/:id')
-  public async show(@Param('id') id: number) {
+  public async show(@Param('id', DbIdValidationPipe) id: number) {
     const task = await this.taskService.getTask(id);
     return fillObject(TaskRdo, task);
   }
 
+  @ApiOperation({ description: SHOW_ALL })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Show tasks by query parameters',
-    type: TaskRdo,
+    description: SHOW_ALL_OK,
+    type: [TaskRdo],
   })
   @Get('/')
   public async index(@Query() query: TaskQuery) {
@@ -116,66 +274,121 @@ export class TaskController {
     return fillObject(TaskRdo, tasks);
   }
 
+  @ApiOperation({ description: CREATE })
+  @ApiBearerAuth()
   @ApiResponse({
+    description: CREATED_OK,
     status: HttpStatus.CREATED,
-    description: 'Crate new task',
     type: TaskRdo,
+  })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    description: FORBIDDEN_ROLE,
+    status: HttpStatus.FORBIDDEN,
+    type: ForbiddenErrorRdo,
   })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Post('/')
   public async create(
     @Body() dto: CreateTaskDto,
-    @GetCurrentUser('sub') userId: string
+    @GetCurrentUser('sub') customerId: string
   ) {
-    const newTask = await this.taskService.createTask({
-      ...dto,
-      customerId: userId,
-    });
+    const newTask = await this.taskService.createTask(customerId, dto);
     return fillObject(TaskRdo, newTask);
   }
 
-  @ApiParam({
-    name: 'id',
-    description: 'Task ID',
-    example: '3',
-  })
+  @ApiOperation({ description: UPDATE })
+  @ApiBearerAuth()
   @ApiResponse({
+    description: UPDATED_OK,
     status: HttpStatus.OK,
-    description: 'Update task information by ID',
     type: TaskRdo,
   })
+  @ApiResponse({
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
+  })
+  @ApiResponse({
+    description: TASK_NOT_FOUND,
+    status: HttpStatus.NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    description: FORBIDDEN_ROLE,
+    status: HttpStatus.FORBIDDEN,
+    type: ForbiddenErrorRdo,
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID задачи',
+    example: '3',
+  })
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Patch('/:id')
   public async update(
-    @Param('id') id: number,
+    @Param('id', DbIdValidationPipe) id: number,
     @Body() dto: UpdateTaskDto,
-    @GetCurrentUser('sub') userId: string
+    @GetCurrentUser('sub') customerId: string
   ) {
-    const updatedTask = await this.taskService.updateTask(id, {
-      ...dto,
-      customerId: userId,
-    });
+    const updatedTask = await this.taskService.updateTask(id, dto, customerId);
     return fillObject(TaskRdo, updatedTask);
   }
 
-  @ApiParam({
-    name: 'id',
-    description: 'Task ID',
-    example: '3',
+  @ApiOperation({ description: DELETE })
+  @ApiBearerAuth()
+  @ApiResponse({
+    description: DELETED_OK,
+    status: HttpStatus.NO_CONTENT,
   })
   @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
-    description: 'Delete task by ID',
-    type: TaskRdo,
+    description: BAD_REQUEST,
+    status: HttpStatus.BAD_REQUEST,
+    type: BadRequestErrorRdo,
   })
+  @ApiResponse({
+    description: TASK_NOT_FOUND,
+    status: HttpStatus.NOT_FOUND,
+    type: NotFoundErrorRdo,
+  })
+  @ApiResponse({
+    description: UNAUTHORIZED,
+    status: HttpStatus.UNAUTHORIZED,
+    type: UnauthorizedErrorRdo,
+  })
+  @ApiResponse({
+    description: FORBIDDEN_ROLE,
+    status: HttpStatus.FORBIDDEN,
+    type: ForbiddenErrorRdo,
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID задачи',
+    example: '3',
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Delete('/:id')
-  @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(
-    @Param('id') id: number,
+    @Param('id', DbIdValidationPipe) id: number,
     @GetCurrentUser('sub') customerId: string
   ) {
     await this.taskService.deleteTask(id, customerId);

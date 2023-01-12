@@ -1,6 +1,5 @@
 export const REVIEW_VALIDATION_ERRORS = {
   CONTRACTOR_ID_NOT_VALID: 'ID исполнителя должно быть корректным',
-
   TASK_ID_NOT_VALID: 'ID задачи должно быть корректным',
   TEXT_REQUIRED: 'Текст - обязательное поле',
   TEXT_LENGTH_NOT_VALID:

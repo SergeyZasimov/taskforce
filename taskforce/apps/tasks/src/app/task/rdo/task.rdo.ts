@@ -1,24 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
+import { TaskStatus } from '@taskforce/shared-types';
 import { Expose } from 'class-transformer';
 
 export class TaskRdo {
   @ApiProperty({
-    description: 'Task ID',
+    description: 'ID задачи',
     example: '3',
   })
   @Expose()
   public id: number;
 
   @ApiProperty({
-    description: 'Task title',
+    description: 'Заголовок задачи',
     example: 'Lorem ipsum dolor si amet.',
   })
   @Expose()
   public title: string;
 
   @ApiProperty({
-    description: 'Detailed description of the task',
+    description: 'Детальное описание задачи',
     example:
       'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
   })
@@ -26,51 +26,56 @@ export class TaskRdo {
   public description: string;
 
   @ApiProperty({
-    description: 'Task category',
+    description: 'Категория',
     example: 'Works',
   })
   @Expose()
   public category: string;
 
   @ApiProperty({
-    description: 'User ID of the task creator',
+    description: 'ID заказчика',
     example: 'facbf9678dea73a5df67165c',
   })
   @Expose()
   public customerId: string;
 
   @ApiProperty({
-    description: 'User ID of the task executor',
+    description: 'ID исполнителя',
     example: 'facbf9678dea73a5df67165c',
   })
   @Expose()
   public contractorId: string;
 
   @ApiProperty({
-    description: 'Task completion price',
+    description: 'Стоимость выполнения',
     example: '350.50',
   })
   @Expose()
   public price: number;
 
   @ApiProperty({
-    description: 'The deadline for completion the task',
+    description: 'Срок исполнения',
     example: '2022-12-22',
   })
   @Expose()
   public executionTerm: Date;
 
-  @Expose() public image: string;
+  @ApiProperty({
+    description: 'Изображение',
+    example: 'http://localhost:3333/upload/image.jpg',
+  })
+  @Expose()
+  public image: string;
 
   @ApiProperty({
-    description: 'Task address',
+    description: 'Адрес задачи',
     example: 'Москва Ленинградское ш., 23',
   })
   @Expose()
   public address: string;
 
   @ApiProperty({
-    description: 'Task tags',
+    description: 'Теги',
     example: ['new', 'tag'],
     type: 'array',
     items: {
@@ -83,35 +88,28 @@ export class TaskRdo {
   public tags: string[];
 
   @ApiProperty({
-    description: 'Task status',
+    description: 'Статус задачи',
     example: 'new',
   })
   @Expose()
-  public status: TaskStatus;
+  public status: string;
 
   @ApiProperty({
-    description: 'Date the task was created',
+    description: 'Дата создания',
     example: '2022-12-09T03:25:45.222Z',
   })
   @Expose()
   public createdAt: Date;
 
   @ApiProperty({
-    description: 'Date the task was updated',
-    example: '2022-12-09T03:25:45.222Z',
-  })
-  @Expose()
-  public updatedAt: Date;
-
-  @ApiProperty({
-    description: 'Count of comments',
+    description: 'Количество комментариев',
     example: '8',
   })
   @Expose()
   public commentsCount: number;
 
   @ApiProperty({
-    description: 'Count of feedbacks',
+    description: 'Количество откликов',
     example: '8',
   })
   @Expose()

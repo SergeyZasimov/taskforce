@@ -9,6 +9,7 @@ import { rabbitMqOptions } from '../config/rabbitmq.config';
 import { jwtOptions } from '../config/jwt.config';
 import { multerOptions } from '../config/multer.config';
 import { ReviewModule } from './review/review.module';
+import { validateEnvironments } from './env.validation';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ReviewModule } from './review/review.module';
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
       load: [rabbitMqOptions, jwtOptions, multerOptions],
+      validate: validateEnvironments,
     }),
     ReviewModule,
   ],

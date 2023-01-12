@@ -13,6 +13,7 @@ import {
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -33,6 +34,7 @@ import {
   UnauthorizedErrorRdo,
   ForbiddenErrorRdo,
 } from '@taskforce/rdo';
+import { DbIdValidationPipe } from '../pipes/db-id-validation.pipe';
 
 const { SHOW_ALL, CREATE, DELETE } = COMMENT_API_OPERATION;
 
@@ -127,11 +129,16 @@ export class CommentController {
     description: FOREIGN_COMMENT,
     type: ForbiddenErrorRdo,
   })
+  @ApiParam({
+    name: 'id',
+    description: 'ID комментария',
+    example: '3',
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   public async delete(
-    @Param('id') id: number,
+    @Param('id', DbIdValidationPipe) id: number,
     @GetCurrentUser('sub') userId: string
   ) {
     await this.commentService.deleteComment(id, userId);
