@@ -1,15 +1,17 @@
 ### Update User
-POST http://localhost:3333/api/profile/63aebc286a8cf9c071bdda55 HTTP/1.1
+PATCH  http://localhost:3332/api/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzM0OTk2NSwiZXhwIjoxNjczMzUzNTY1fQ.zEwK_qPhgGPI0Q4WsuXJxul4HnoXOY8grKf45EJVa5U
 Content-Type: application/json
 
 {
   "resume": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu",
   "name": "Иван Иванов",
-  "specialty": ["Lorem", "ipsum"],
+  "specialty": ["Lorem", "ipsum"]
 }
 
 ### Update User Not Valid
-POST http://localhost:3333/api/profile/63aebc286a8cf9c071bdda55 HTTP/1.1
+PATCH  http://localhost:3332/api/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzM0OTk2NSwiZXhwIjoxNjczMzUzNTY1fQ.zEwK_qPhgGPI0Q4WsuXJxul4HnoXOY8grKf45EJVa5U
 Content-Type: application/json
 
 {
@@ -20,22 +22,13 @@ Content-Type: application/json
   "email": "user.com"
 }
 
-### Inc Tasks Count
-GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=tasksCount
-
-### Inc New Tasks Count
-GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=newTasksCount
-
-### Decr New Tasks Count
-GET http://localhost:3333/api/profile/63b0690a5a78692210a304dc/change-tasks-counter?counterName=newTasksCount&direction=-1
-
 ### Get User
 GET http://localhost:3333/api/profile/26e1ca8c3072acdabfccc2d2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjc1NDUwNSwiZXhwIjoxNjcyNzU4MTA1fQ.est_4Hs8Kiy8LQT9EHBKktV9Mg3qHEn4Bvw-EOnHMxk
 
 ### Upload Avatar
-POST http://localhost:3333/api/profile/upload-avatar
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjc1Mzk5MCwiZXhwIjoxNjcyNzU3NTkwfQ.KI6BT-iiWOyJiDiwmUwamq_sAMlqS4-0DysfenTs2FA
+POST http://localhost:3332/api/profile/upload-avatar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzM0OTk2NSwiZXhwIjoxNjczMzUzNTY1fQ.zEwK_qPhgGPI0Q4WsuXJxul4HnoXOY8grKf45EJVa5U
 Content-Type: multipart/form-data; boundary=Upload
 
 --Upload

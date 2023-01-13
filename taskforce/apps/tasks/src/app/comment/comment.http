@@ -12,7 +12,7 @@ Content-Type: {{contentType}}
 }
 
 ### Get Comment By Task ID
-GET {{baseUrl}}/comments/3 HTTP/1.1
+GET {{baseUrl}}/comments?taskId=3&page=1 HTTP/1.1
 
 ### Create Comment Not Valid
 POST {{baseUrl}}/comments HTTP/1.1
@@ -23,3 +23,7 @@ Content-Type: {{contentType}}
   "taskId": "2",
   "userId": "6396a84a58dbfb187fc4350"
 }
+
+### Delete Comment
+DELETE {{baseUrl}}/comments/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjY2NkZGVjOTIzMDVmYjZhOGRjZDkxZWMiLCJlbWFpbCI6IkRlZV9Cb3lsZUBtYWlsLnJ1Iiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzMxNjEwMzUsImV4cCI6MTY3MzE2NDYzNX0.2t0QXsEEAJKddZtiVDsIHmbj0QVmtSUQCYDytBebrPw

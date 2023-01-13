@@ -13,8 +13,25 @@ const MIN_PORT = 0;
 const MAX_PORT = 65535;
 
 class EnvironmentsConfig {
-  @IsString({ message: EnvValidationMessage.JwtSecretRequired })
-  public JWT_SECRET: string;
+  @IsString({ message: EnvValidationMessage.DBNameRequired })
+  public MONGO_DB: string;
+
+  @IsString({ message: EnvValidationMessage.DBHostRequired })
+  public MONGO_HOST: string;
+
+  @IsInt({ message: EnvValidationMessage.DBPortRequired })
+  @Min(MIN_PORT, { message: EnvValidationMessage.DBPortNotValid })
+  @Max(MAX_PORT, { message: EnvValidationMessage.DBPortNotValid })
+  public MONGO_PORT: number;
+
+  @IsString({ message: EnvValidationMessage.DBUserRequired })
+  public MONGO_USER: string;
+
+  @IsString({ message: EnvValidationMessage.DBPasswordRequired })
+  public MONGO_PASSWORD: string;
+
+  @IsString({ message: EnvValidationMessage.DBBaseAuthRequired })
+  public MONGO_AUTH_BASE: string;
 
   @IsString({ message: EnvValidationMessage.RabbitUserRequired })
   public RABBIT_USER: string;
@@ -28,8 +45,16 @@ class EnvironmentsConfig {
   @IsString({ message: EnvValidationMessage.RabbitNotifyQueueRequired })
   public RABBIT_NOTIFY_QUEUE: string;
 
-  @IsString({ message: EnvValidationMessage.UploadDestRequired })
-  public UPLOAD_DEST: string;
+  @IsString({ message: EnvValidationMessage.SmtpHostRequired })
+  public SMTP_HOST: string;
+
+  @Min(MIN_PORT, { message: EnvValidationMessage.PortNotValid })
+  @Max(MAX_PORT, { message: EnvValidationMessage.PortNotValid })
+  @IsInt({ message: EnvValidationMessage.SmtpPortRequired })
+  public SMTP_PORT: number;
+
+  @IsString({ message: EnvValidationMessage.MailFromRequired })
+  public MAIL_FROM: string;
 
   @IsOptional()
   public HOST: string;

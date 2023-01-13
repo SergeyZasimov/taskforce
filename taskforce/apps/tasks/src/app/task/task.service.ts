@@ -1,20 +1,30 @@
 import {
   BadRequestException,
   ForbiddenException,
+  Inject,
   Injectable,
 } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { Task, TaskStatus, UserRole } from '@taskforce/shared-types';
+import { ClientProxy } from '@nestjs/microservices';
+import { createEvent } from '@taskforce/core';
+import {
+  SubscribeEvent,
+  Task,
+  TaskStatus,
+  UserRole,
+} from '@taskforce/shared-types';
 import { FeedbackRepository } from '../feedback/feedback.repository';
 import { AssignContractorDto } from './dto/assign-contractor.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { NotifyDto } from './dto/notify.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskQuery } from './query/task.query';
 import {
   ALLOWED_STATUS_CHANGES,
   ALLOWED_STATUS_CHANGES_BY_ROLE,
+  RABBITMQ_SERVICE_NAME,
   TASK_EXCEPTION_MESSAGE,
 } from './task.constant';
 import { TaskEntity } from './task.entity';
@@ -34,7 +44,8 @@ const {
 export class TaskService {
   constructor(
     private readonly taskRepository: TaskRepository,
-    private readonly feedbackRepository: FeedbackRepository
+    private readonly feedbackRepository: FeedbackRepository,
+    @Inject(RABBITMQ_SERVICE_NAME) private readonly rabbitClient: ClientProxy
   ) {}
 
   public async getTask(id: number): Promise<Task> {
@@ -197,6 +208,16 @@ export class TaskService {
       image: imagePath,
     });
     return this.taskRepository.update(id, updatedTaskEntity);
+  }
+
+  public async getNotify(dto: NotifyDto): Promise<void> {
+    const { lastNotify, email } = dto;
+
+    const tasks = await this.taskRepository.findForNotify(lastNotify);
+    this.rabbitClient.emit(createEvent(SubscribeEvent.GetTasks), {
+      email,
+      tasks,
+    });
   }
 
   private checkStatusChange(

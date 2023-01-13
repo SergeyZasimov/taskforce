@@ -10,7 +10,7 @@ export class EmailSubscriberModel extends Document implements Subscriber {
   @Prop({ required: true, unique: true })
   public email: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   public lastNotify?: Date;
 }
 

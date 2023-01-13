@@ -68,12 +68,14 @@ export const TASK_API_OPERATIONS = {
   CREATE: 'Создание задачи',
   UPDATE: 'Редактировать задание',
   DELETE: 'Удаление задания',
+  NOTIFY: 'Рассылка уведомлений',
 };
 
 export const TASK_RESPONSE_DESCRIPTION = {
   CREATED_OK: 'Успешное создание задачи',
   UPDATED_OK: 'Успешное изменение задачи',
   DELETED_OK: 'Успешное удаление задачи',
+  NOTIFY_OK: 'Успешная отправка уведомлений',
   CHANGE_STATUS_OK: 'Успешное изменение статуса',
   ASSIGN_CONTRACTOR_OK: 'Успешное назначение исполнителя',
   SHOW_OK: 'Возвращает информацию о задаче',

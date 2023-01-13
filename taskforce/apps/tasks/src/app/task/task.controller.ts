@@ -42,6 +42,7 @@ import { ChangeStatusDto } from './dto/change-status.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { MyTasksQuery } from './query/my-tasks.query';
+import { NotifyQuery } from './query/notify.query';
 import { TaskQuery } from './query/task.query';
 import { TaskRdo } from './rdo/task.rdo';
 import {
@@ -59,6 +60,7 @@ const {
   CREATE,
   DELETE,
   UPDATE,
+  NOTIFY,
 } = TASK_API_OPERATIONS;
 
 const {
@@ -74,6 +76,7 @@ const {
   CREATED_OK,
   DELETED_OK,
   UPDATED_OK,
+  NOTIFY_OK,
 } = TASK_RESPONSE_DESCRIPTION;
 
 @ApiTags('Задачи')
@@ -182,6 +185,22 @@ export class TaskController {
   ) {
     const tasks = this.taskService.getMyTasks(userId, role, status);
     return fillObject(TaskRdo, tasks);
+  }
+
+  @ApiOperation({ description: NOTIFY })
+  @ApiBearerAuth()
+  @ApiResponse({
+    description: NOTIFY_OK,
+    status: HttpStatus.NO_CONTENT,
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtAuthGuard)
+  @Get('notify')
+  public async getNotify(
+    @GetCurrentUser('email') email: string,
+    @Query() { lastNotify }: NotifyQuery
+  ) {
+    await this.taskService.getNotify({ email, lastNotify });
   }
 
   @ApiOperation({ description: ASSIGN_CONTRACTOR })

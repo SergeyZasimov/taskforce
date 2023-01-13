@@ -27,6 +27,7 @@ import { getMulterConfig } from '../../config/multer.config';
       inject: [ConfigService],
       useFactory: getJwtConfig,
     }),
+    
     MulterModule.registerAsync(getMulterConfig()),
     forwardRef(() => FeedbackModule),
   ],

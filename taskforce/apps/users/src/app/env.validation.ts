@@ -71,7 +71,8 @@ export function validateEnvironments(config: Record<string, unknown>) {
   });
 
   if (errors.length > 0) {
-    throw new Error(errors.toString());
+    const messages = errors.map((error) => Object.values(error.constraints)[0]);
+    throw new Error(messages.join(', '));
   }
 
   return environmentConfig;

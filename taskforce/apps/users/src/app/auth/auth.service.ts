@@ -35,7 +35,7 @@ export class AuthService {
   ) {}
 
   public async register(dto: CreateUserDto): Promise<User> {
-    const { name, email, city, birthday, password } = dto;
+    const { name, email, city, birthday, password, role } = dto;
 
     const existUser = await this.userRepository.findByEmail(email);
 
@@ -48,9 +48,8 @@ export class AuthService {
       name,
       city,
       birthday: dayjs(birthday).toDate(),
-      role: UserRole.Customer,
+      role,
     };
-
 
     const newUserEntity: UserEntity = await new UserEntity(newUser).setPassword(
       password
@@ -58,9 +57,11 @@ export class AuthService {
 
     const createdUser = await this.userRepository.create(newUserEntity);
 
-    this.rabbitClient.emit(createEvent(SubscribeEvent.AddSubscriber), {
-      email: createdUser.email,
-    });
+    if (createdUser.role === UserRole.Contractor) {
+      this.rabbitClient.emit(createEvent(SubscribeEvent.AddSubscriber), {
+        email: createdUser.email,
+      });
+    }
 
     return createdUser;
   }

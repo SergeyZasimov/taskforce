@@ -2,7 +2,7 @@
 @contentType = application/json
 
 ### Get Task
-GET {{baseUrl}}/tasks/3 HTTP/1.1
+GET {{baseUrl}}/tasks/e HTTP/1.1
 
 
 ### Create New Task Not Valid
@@ -72,8 +72,38 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZDRkYmI1Y
 PATCH {{baseUrl}}/tasks/change-status HTTP/1.1
 Content-Type: {{contentType}}
 
-
 {
   "taskId": 9,
   "newStatus": "Cancel"
 }
+
+### Assign Contractor
+PATCH {{baseUrl}}/tasks/assign-contractor HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMWJmYjAxNDFmZGE3NzJlNmFkNzgxMWUiLCJlbWFpbCI6IkpvdmFubnkuSGludHpAaG90bWFpbC5jb20iLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzE1NTI3NiwiZXhwIjoxNjczMTU4ODc2fQ.796-OsTXH_6ncrYeVWF669NCLKgCoDvNN3pQSrVCGWM
+
+{
+  "taskId": 19,
+  "contractorId": "5cb2dfe2f2eefceceabfc945"
+}
+
+### Get My Tasks
+GET {{baseUrl}}/tasks/my-tasks HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDQ0N2QyN2FhOGIwNWZiY2E3YzZiN2IiLCJlbWFpbCI6IkhlcmJlcnQuU3Rhcms4MUB5YS5ydSIsInJvbGUiOiLQuNGB0L_QvtC70L3QuNGC0LXQu9GMIiwiaWF0IjoxNjczMjM3MTM3LCJleHAiOjE2NzMyNDA3Mzd9.gHs-LJyCagF9vWPF7CKBqKxHYmJwJuU1dQGsnn9O77E
+
+### Upload Image
+POST {{baseUrl}}/tasks/1/upload-image
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjY2NkZGVjOTIzMDVmYjZhOGRjZDkxZWMiLCJlbWFpbCI6IkRlZV9Cb3lsZUBtYWlsLnJ1Iiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzMyMzg5NDgsImV4cCI6MTY3MzI0MjU0OH0.D6Y_ZgU3kqq-eA8Db-RPWNnb5vS-MmVT8U_-1ILj56Q
+Content-Type: multipart/form-data; boundary=Upload
+
+--Upload
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: image/png
+
+< ../../../../../../markup/img/avatars/1.png
+--Upload--
+
+### Get Notify
+#?lastNotify=2023-01-13
+GET {{baseUrl}}/tasks/notify HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZGM2Njg0MWQ4MTQxZGI1ZDA5NTMiLCJlbWFpbCI6InVzZXI0MUBtYWlsLmNvbSIsInJvbGUiOiLQuNGB0L_QvtC70L3QuNGC0LXQu9GMIiwiaWF0IjoxNjczNTgzNzQ5LCJleHAiOjE2NzM1ODczNDl9.7tnFtYRdrzcdDeCXGZqJMBSKO_zHSvo5A9mUT1-8C4g

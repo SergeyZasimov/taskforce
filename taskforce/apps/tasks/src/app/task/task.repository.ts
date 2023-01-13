@@ -112,6 +112,22 @@ export class TaskRepository
     return tasks.map((task) => this.convertTask(task));
   }
 
+  public async findForNotify(lastNotify: Date): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: {
+        createdAt: {
+          gt: lastNotify,
+        },
+      },
+      include: {
+        category: true,
+        tags: true,
+      },
+    });
+
+    return tasks.map((task) => this.convertTask(task));
+  }
+
   public async create(entity: TaskEntity): Promise<Task> {
     const entityData = { ...entity.toObject() };
     const newTask = await this.prisma.task.create({

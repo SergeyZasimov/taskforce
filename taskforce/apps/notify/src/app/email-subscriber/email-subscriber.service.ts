@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import {
-  EMAIL_FROM,
+  EMAIL_SUBJECT,
   EMAIL_SUBSCRIBER_EXISTS,
 } from './email-subscriber.constant';
 import { EmailSubscriberEntity } from './email-subscriber.entity';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ConflictException } from '@nestjs/common/exceptions';
+import { NewTasksDto } from './dto/new-tasks.dto';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class EmailSubscriberService {
@@ -23,30 +26,41 @@ export class EmailSubscriberService {
     );
 
     if (existSubscriber) {
-      throw new Error(EMAIL_SUBSCRIBER_EXISTS);
+      throw new ConflictException(EMAIL_SUBSCRIBER_EXISTS);
     }
 
     await this.emailSubscriberRepository.create(
       new EmailSubscriberEntity(subscriber)
     );
 
-    await this.sendMail(
-      email,
-      'Subscribe successfully add',
-      `User ${email} added to subscribers`
-    );
+    await this.mailerService.sendMail({
+      to: email,
+      subject: EMAIL_SUBJECT.ADD_SUBSCRIBER,
+      template: './add-subscriber.hbs',
+      context: {
+        subscriber: `${subscriber.email}`,
+      },
+    });
   }
 
-  private async sendMail(
-    email: string,
-    subject: string,
-    text: string
-  ): Promise<void> {
-    this.mailerService.sendMail({
+  public async getNotify(dto: NewTasksDto): Promise<void> {
+    const { tasks, email } = dto;
+
+    const newSubscriberEntity = new EmailSubscriberEntity({
+      email,
+      lastNotify: dayjs().toDate(),
+    });
+
+    await this.emailSubscriberRepository.update(email, newSubscriberEntity);
+
+    await this.mailerService.sendMail({
       to: email,
-      from: EMAIL_FROM,
-      subject,
-      text,
+      subject: EMAIL_SUBJECT.GET_NOTIFY,
+      template: './get-notify.hbs',
+      context: {
+        subscriber: `${email}`,
+        tasks: tasks,
+      },
     });
   }
 }
