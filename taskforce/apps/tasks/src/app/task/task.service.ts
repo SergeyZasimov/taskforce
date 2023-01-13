@@ -180,7 +180,7 @@ export class TaskService {
   public async getMyTasks(
     userId: string,
     role: string,
-    status: TaskStatus
+    status?: TaskStatus
   ): Promise<Task[]> {
     if (role === UserRole.Contractor) {
       return this.taskRepository.findByContractorId(userId, status);

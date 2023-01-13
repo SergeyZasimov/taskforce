@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "db-prepare": "nx run tasks:db-migrate && nx run tasks:db-generate && nx run tasks:db-fill"
   },
   "private": true,
   "dependencies": {

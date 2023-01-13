@@ -31,7 +31,7 @@ import {
   NotFoundErrorRdo,
   UnauthorizedErrorRdo,
 } from '@taskforce/rdo';
-import { UserRole } from '@taskforce/shared-types';
+import { TaskStatus, UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
