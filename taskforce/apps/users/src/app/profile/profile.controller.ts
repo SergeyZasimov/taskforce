@@ -22,6 +22,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -48,6 +50,21 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @ApiOperation({ description: ApiOperationDescriptions.Upload })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: 'multipart/form-data',
+    schema: {
+      description: 'Путь до изображения',
+      example: './avatar.jpg',
+      type: 'object',
+      properties: {
+        avatar: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: ResponseDescription.UploadAvatar,
@@ -65,7 +82,7 @@ export class ProfileController {
   })
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('avatar'))
   @UseGuards(JwtAuthGuard)
   @Post('upload-avatar')
   public async uploadFile(

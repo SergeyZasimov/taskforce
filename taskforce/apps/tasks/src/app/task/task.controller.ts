@@ -19,6 +19,8 @@ import { HttpStatus } from '@nestjs/common/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -31,7 +33,7 @@ import {
   NotFoundErrorRdo,
   UnauthorizedErrorRdo,
 } from '@taskforce/rdo';
-import { TaskStatus, UserRole } from '@taskforce/shared-types';
+import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -205,6 +207,21 @@ export class TaskController {
 
   @ApiOperation({ description: ASSIGN_CONTRACTOR })
   @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: 'multipart/form-data',
+    schema: {
+      description: 'Путь до изображения',
+      example: './image.jpg',
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     description: ASSIGN_CONTRACTOR_OK,
@@ -231,7 +248,7 @@ export class TaskController {
     status: HttpStatus.FORBIDDEN,
     type: ForbiddenErrorRdo,
   })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('image'))
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Post(':id/upload-image')

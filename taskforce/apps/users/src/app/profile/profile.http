@@ -1,5 +1,7 @@
+@baseUrl = http://localhost:3332/api
+
 ### Update User
-PATCH  http://localhost:3332/api/profile HTTP/1.1
+PATCH  {{baseUrl}}/profile HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzM0OTk2NSwiZXhwIjoxNjczMzUzNTY1fQ.zEwK_qPhgGPI0Q4WsuXJxul4HnoXOY8grKf45EJVa5U
 Content-Type: application/json
 
@@ -10,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Update User Not Valid
-PATCH  http://localhost:3332/api/profile HTTP/1.1
+PATCH  {{baseUrl}}/profile HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzM0OTk2NSwiZXhwIjoxNjczMzUzNTY1fQ.zEwK_qPhgGPI0Q4WsuXJxul4HnoXOY8grKf45EJVa5U
 Content-Type: application/json
 
@@ -23,16 +25,16 @@ Content-Type: application/json
 }
 
 ### Get User
-GET http://localhost:3333/api/profile/26e1ca8c3072acdabfccc2d2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjc1NDUwNSwiZXhwIjoxNjcyNzU4MTA1fQ.est_4Hs8Kiy8LQT9EHBKktV9Mg3qHEn4Bvw-EOnHMxk
+GET {{baseUrl}}/profile/f0aaacafa86eeeb7eddf6e38
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMGFhYWNhZmE4NmVlZWI3ZWRkZjZlMzgiLCJlbWFpbCI6Ik1pY2hlYWxfSGVnbWFubjM1QGhvdG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM1OTgyMDcsImV4cCI6MTY3MzYwMTgwN30.lxufyss94n9smoxizWAo01kPrjfAZ7BdIrsrQGKKcHI
 
 ### Upload Avatar
-POST http://localhost:3332/api/profile/upload-avatar
+POST {{baseUrl}}/profile/upload-avatar
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzM0OTk2NSwiZXhwIjoxNjczMzUzNTY1fQ.zEwK_qPhgGPI0Q4WsuXJxul4HnoXOY8grKf45EJVa5U
 Content-Type: multipart/form-data; boundary=Upload
 
 --Upload
-Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Disposition: form-data; name="avatar"; filename="1.png"
 Content-Type: image/png
 
 < ../../../../../../markup/img/avatars/1.png
