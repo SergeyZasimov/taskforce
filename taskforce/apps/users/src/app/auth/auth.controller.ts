@@ -7,12 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Patch } from '@nestjs/common/decorators';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger/dist';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger/dist';
 import { fillObject } from '@taskforce/core';
 import { AuthService } from './auth.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
@@ -22,95 +17,68 @@ import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { UserRdo } from './rdo/user.rdo';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
-import { ResponseDescription, ApiOperationDescriptions } from '../app.constant';
+import { Route, RouteModule } from '@taskforce/shared-types';
 import {
-  ConflictErrorRdo,
-  BadRequestErrorRdo,
-  UnauthorizedErrorRdo,
-  NotFoundErrorRdo,
-} from '../error/rdo';
+  ApiTag,
+  ApiRegisterOk,
+  ApiRegisterOperation,
+  ApiRegisterBody,
+  ApiUserBadRequest,
+  ApiUserConflict,
+  ApiLoginOperation,
+  ApiLoginBody,
+  ApiLoginOk,
+  ApiUserNotFound,
+  ApiChangePasswordOperation,
+  ApiUserChangePasswordOk,
+  ApiUserUnauthorized,
+  ApiChangePasswordBody,
+  ApiPasswordError,
+} from '@taskforce/api-documentation';
 
-@ApiTags('Auth')
-@Controller('auth')
+@ApiTags(ApiTag.Auth)
+@Controller(RouteModule.Auth)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ description: ApiOperationDescriptions.Register })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: ResponseDescription.CreateUser,
-    type: UserRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ResponseDescription.BadRequest,
-    type: BadRequestErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: ResponseDescription.Conflict,
-    type: ConflictErrorRdo,
-  })
-  @Post('register')
+  @ApiRegisterOperation()
+  @ApiRegisterBody()
+  @ApiRegisterOk()
+  @ApiUserBadRequest()
+  @ApiUserConflict()
+  @Post(Route.Register)
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto);
     return fillObject(UserRdo, newUser);
   }
 
-  @ApiOperation({ description: ApiOperationDescriptions.Login })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: ResponseDescription.LoginUser,
-    type: LoggedUserRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: ResponseDescription.Unauthorized,
-    type: UnauthorizedErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: ResponseDescription.NotFound,
-    type: NotFoundErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ResponseDescription.BadRequest,
-    type: BadRequestErrorRdo,
-  })
+  @ApiLoginOperation()
+  @ApiLoginBody()
+  @ApiLoginOk()
+  @ApiPasswordError()
+  @ApiUserNotFound()
+  @ApiUserBadRequest()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post(Route.Login)
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
     const loggedUser = await this.authService.loginUser(verifiedUser);
     return fillObject(LoggedUserRdo, loggedUser);
   }
 
-  @ApiOperation({ description: ApiOperationDescriptions.PasswordChange })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: ResponseDescription.PasswordChange,
-    type: UserRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: ResponseDescription.Unauthorized,
-    type: UnauthorizedErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ResponseDescription.BadRequest,
-    type: BadRequestErrorRdo,
-  })
+  @ApiChangePasswordOperation()
+  @ApiChangePasswordBody()
+  @ApiUserChangePasswordOk()
+  @ApiUserBadRequest()
+  @ApiPasswordError()
+  @ApiUserUnauthorized()
   @ApiBearerAuth()
-  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  @Patch('change-password')
+  @Patch(Route.ChangePassword)
   public async changePassword(
     @GetCurrentUser('sub') id: string,
     @Body() dto: ChangePasswordDto
   ) {
-    const updateUser = this.authService.changePassword(id, dto);
-    return fillObject(UserRdo, updateUser);
+    await this.authService.changePassword(id, dto);
   }
 }

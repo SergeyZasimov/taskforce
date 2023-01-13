@@ -13,3 +13,4 @@ export * from './lib/subscriber.type';
 export * from './lib/review.type';
 export * from './lib/change-task-counter.enum';
 export * from './lib/access-token-payload.type';
+export * from './lib/route.enum';

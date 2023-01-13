@@ -1,25 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
 
-export class ForbiddenErrorRdo {
+export class NotFoundSchema {
   @ApiProperty({
     description: 'Код статуса',
-    example: 403,
+    example: 404,
   })
-  @Expose()
   public statusCode: number;
 
   @ApiProperty({
     description: 'Сообщение',
-    example: 'Нельзя удалять чужой комментарий',
+    example: 'Пользователь не найден',
   })
-  @Expose()
   public message: string;
 
   @ApiProperty({
     description: 'Имя ошибки',
-    example: 'Forbidden',
+    example: 'Not Found',
   })
-  @Expose()
   public error: string;
 }

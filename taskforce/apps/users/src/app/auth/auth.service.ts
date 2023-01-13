@@ -12,6 +12,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserRepository } from '../user/user.repository';
 import {
   ConflictException,
+  ForbiddenException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common/exceptions';
@@ -78,7 +79,7 @@ export class AuthService {
     const verifyUserEntity = new UserEntity(existUser);
 
     if (!(await verifyUserEntity.comparePassword(password))) {
-      throw new UnauthorizedException(WRONG_PASSWORD_ERROR);
+      throw new ForbiddenException(WRONG_PASSWORD_ERROR);
     }
 
     return verifyUserEntity.toObject();
@@ -99,7 +100,7 @@ export class AuthService {
   public async changePassword(
     id: string,
     dto: ChangePasswordDto
-  ): Promise<User> {
+  ): Promise<void> {
     const { currentPassword, newPassword } = dto;
 
     const existUser = await this.userRepository.findById(id);
@@ -109,11 +110,10 @@ export class AuthService {
     const isValid = await userEntity.comparePassword(currentPassword);
 
     if (!isValid) {
-      throw new UnauthorizedException(WRONG_PASSWORD_ERROR);
+      throw new ForbiddenException(WRONG_PASSWORD_ERROR);
     }
 
     const updatedUserEntity = await userEntity.setPassword(newPassword);
-    const updatedUser = await this.userRepository.update(id, updatedUserEntity);
-    return updatedUser;
+    await this.userRepository.update(id, updatedUserEntity);
   }
 }

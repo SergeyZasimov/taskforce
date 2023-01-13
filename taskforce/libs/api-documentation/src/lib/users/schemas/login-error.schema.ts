@@ -1,18 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
 
-export class UnauthorizedErrorRdo {
+export class PasswordErrorSchema {
   @ApiProperty({
     description: 'Код статуса',
-    example: 401,
+    example: 403,
   })
-  @Expose()
   public statusCode: number;
 
   @ApiProperty({
     description: 'Сообщение',
-    example: 'Unauthorized',
+    example: 'Неверный пароль',
   })
-  @Expose()
   public message: string;
+
+  @ApiProperty({
+    description: 'Имя ошибки',
+    example: 'Forbidden',
+  })
+  public error: string;
 }
