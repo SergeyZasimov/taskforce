@@ -7,10 +7,10 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common/exceptions';
+import { REVIEW_EXCEPTION_MESSAGE } from '@taskforce/api-documentation';
 import { Review, TaskStatus } from '@taskforce/shared-types';
 import { TaskRepository } from '../task/task.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { REVIEW_EXCEPTION_MESSAGE } from './review.constant';
 import { ReviewEntity } from './review.entity';
 import { ReviewRepository } from './review.repository';
 

@@ -101,9 +101,7 @@ export class ProfileController {
   @ApiUserBadRequest()
   @ApiUserUnauthorized()
   @ApiUserNotFound()
-  @ApiBearerAuth()
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
   public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existUser = await this.profileService.getUser(id);
     return fillObject(ProfileRdo, existUser, existUser.role);

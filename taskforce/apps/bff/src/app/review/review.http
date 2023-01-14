@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:3330/api
+
+### Create Review
+
+POST {{baseUrl}}/reviews HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjOTVlMzQzZTAyNTNmNDdkYWVkYTdlMWYiLCJlbWFpbCI6IkFsZXhpZS5IdWVsc0BnbWFpbC5jb20iLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzY5NTM3MSwiZXhwIjoxNjczNjk4OTcxfQ.WApX9ATFzZ6f0SoPBTFRJ9vsTIi588-iJkYAEp0rMNM
+
+{
+  "contractorId": "fedaebef0bba13a767c0e3ad",
+  "taskId": 35,
+  "text": "Lorem ipsum dolor sit amet, consectetuer adipiscin",
+  "rating": 3
+}
+
+### Get Review
+GET {{baseUrl}}/reviews?contractorId=52e59a5fa464c2dddb35ddfb

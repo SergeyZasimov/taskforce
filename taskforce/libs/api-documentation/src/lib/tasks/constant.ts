@@ -1,6 +1,7 @@
 export enum TasksApiTag {
   Comment = 'Комментарии',
   Feedback = 'Отклики',
+  Review = 'Отзывы',
 }
 
 export const COMMENT_API_OPERATION = {
@@ -45,4 +46,29 @@ export const FEEDBACK_EXCEPTION_MESSAGE = {
   TASK_STATUS_NOT_VALID:
     'Отклик можно оставлять только к задаче со статусом "Новое"',
   FEEDBACK_EXIST: 'Отклик исполнителя уже существует',
+};
+
+export const REVIEW_EXCEPTION_MESSAGE = {
+  TASK_NOT_FOUND: 'Задача не найдена',
+  CONFLICT_REVIEW: 'Для этого задания уже есть отзыв',
+  TASK_NOT_COMPLETE: 'Нельзя оставить отзыв. Задача не выполнена',
+  FOREIGN_TASK: 'Нельзя оставить отзыв. Задача другого заказчика',
+  FOREIGN_CONTRACTOR: 'Нельзя оставить отзыв. Исполнитель не выполнял задания',
+};
+
+export const REVIEW_API_OPERATION = {
+  CREATE_REVIEW: 'Создание отзыва',
+  CONTRACTOR_REVIEW: 'Список отзывов по исполнителю',
+  GET_RATING: 'Получить рейтинг исполнителя',
+};
+
+export const REVIEW_RESPONSE_DESCRIPTION = {
+  CREATED: 'Успешное создание отзыва',
+  SHOW_ALL: 'Возвращает список отзывов по исполнителю',
+  RATING: 'Возвращает рейтинг исполнителя',
+  BAD_REQUEST: 'Неверные данные',
+  TASK_NOT_FOUND: 'Задача не найдена',
+  UNAUTHORIZED: 'Пользователь не авторизован',
+  CONFLICT: 'Отзыв уже существует',
+  FORBIDDEN_ROLE: 'Неверная роль пользователя',
 };

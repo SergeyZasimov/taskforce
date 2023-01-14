@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { CommentModule } from './comment/comment.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     ProfileModule,
     CommentModule,
     FeedbackModule,
+    ReviewModule,
   ],
   controllers: [],
   providers: [],

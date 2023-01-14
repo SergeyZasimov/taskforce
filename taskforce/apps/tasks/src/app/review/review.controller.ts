@@ -8,13 +8,28 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiConflictResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import {
+  BadRequestSchema,
+  ConflictSchema,
+  ForbiddenSchema,
+  REVIEW_API_OPERATION,
+  REVIEW_RESPONSE_DESCRIPTION,
+  TaskNotFoundSchema,
+  TasksApiTag,
+  UserUnauthorizedSchema,
+} from '@taskforce/api-documentation';
 import { fillObject } from '@taskforce/core';
-import { UserRole } from '@taskforce/shared-types';
+import { RouteModule, UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -23,10 +38,7 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewQuery } from './query/review.query';
 import { RatingRdo } from './rdo/rating.rdo';
 import { ReviewRdo } from './rdo/review.rdo';
-import {
-  REVIEW_API_OPERATION,
-  REVIEW_RESPONSE_DESCRIPTION,
-} from './review.constant';
+
 import { ReviewService } from './review.service';
 
 const { CONTRACTOR_REVIEW, CREATE_REVIEW, GET_RATING } = REVIEW_API_OPERATION;
@@ -39,10 +51,11 @@ const {
   UNAUTHORIZED,
   SHOW_ALL,
   RATING,
+  FORBIDDEN_ROLE,
 } = REVIEW_RESPONSE_DESCRIPTION;
 
-@ApiTags('Отзывы')
-@Controller('reviews')
+@ApiTags(TasksApiTag.Review)
+@Controller(RouteModule.Reviews)
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
@@ -53,22 +66,17 @@ export class ReviewController {
     description: CREATED,
     type: ReviewRdo,
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: BAD_REQUEST,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
+  @ApiNotFoundResponse({
     description: TASK_NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    description: CONFLICT,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
+  @ApiConflictResponse({ description: CONFLICT, type: ConflictSchema })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Post('')
@@ -80,16 +88,13 @@ export class ReviewController {
     return fillObject(ReviewRdo, review);
   }
 
+  @ApiOperation({ description: CONTRACTOR_REVIEW })
   @ApiResponse({
     status: HttpStatus.OK,
     description: SHOW_ALL,
     type: [ReviewRdo],
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: BAD_REQUEST,
-  })
-  @ApiOperation({ description: CONTRACTOR_REVIEW })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
   @Get('')
   public async getByContractorId(@Query() { contractorId }: ReviewQuery) {
     const reviews = await this.reviewService.getByContractorId(contractorId);

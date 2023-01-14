@@ -6,3 +6,5 @@ export * from './comment-not-found.schema';
 export * from './forbidden.schema';
 export * from './feedback.schema';
 export * from './create-feedback.schema';
+export * from './create-review.schema';
+export * from './review.schema';
