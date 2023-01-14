@@ -1,10 +1,12 @@
 export enum ApiTag {
-  Auth = 'Auth',
+  Auth = 'Авторизация',
+  Profile = 'Профиль',
 }
 
 export enum UsersResponseDescription {
   CreateUser = 'Успешная регистрация пользователя',
   LoginUser = 'Успешная авторизация пользователя',
+  UpdateUser = 'Успешное изменение данных пользователя',
   BadRequest = 'Неверные данные в запросе',
   Conflict = 'Пользователь уже зарегистрирован',
   NotFound = 'Пользователь не найден',

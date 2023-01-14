@@ -14,12 +14,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
-import {
-  BadRequestErrorRdo,
-  NotFoundErrorRdo,
-  UnauthorizedErrorRdo,
-  ConflictErrorRdo,
-} from '@taskforce/rdo';
 import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
@@ -62,22 +56,18 @@ export class ReviewController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: TASK_NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
     description: CONFLICT,
-    type: ConflictErrorRdo,
   })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
@@ -98,7 +88,6 @@ export class ReviewController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiOperation({ description: CONTRACTOR_REVIEW })
   @Get('')
@@ -115,9 +104,9 @@ export class ReviewController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiOperation({ description: GET_RATING })
+  @UseGuards(JwtAuthGuard)
   @Get('get-rating')
   public async getRating(@Query() { contractorId }: ReviewQuery) {
     const rating = await this.reviewService.getRating(contractorId);

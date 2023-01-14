@@ -3,7 +3,7 @@ import { Route, RouteDomain, RouteModule } from '@taskforce/shared-types';
 import got from 'got';
 import { RequestError } from 'got/dist/source/core';
 
-const { Users } = RouteDomain;
+const { UsersUrl: Users } = RouteDomain;
 const { Auth } = RouteModule;
 const { Register, Login, ChangePassword } = Route;
 

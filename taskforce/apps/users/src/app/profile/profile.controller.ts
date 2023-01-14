@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Param,
   Post,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -20,14 +19,7 @@ import {
   ParseFilePipe,
 } from '@nestjs/common/pipes';
 import { FileInterceptor } from '@nestjs/platform-express/multer';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiConsumes,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -37,54 +29,39 @@ import { ProfileService } from './profile.service';
 import { ProfileRdo } from './rdo/profile.rdo';
 import { Express } from 'express';
 import { Multer } from 'multer';
-import { ResponseDescription, ApiOperationDescriptions } from '../app.constant';
+import { UPLOAD_FIELD_NAME } from '../app.constant';
+import { Route, RouteModule } from '@taskforce/shared-types';
 import {
-  BadRequestErrorRdo,
-  NotFoundErrorRdo,
-  UnauthorizedErrorRdo,
-} from '../error/rdo';
+  ApiProfileShowOk,
+  ApiProfileShowOperation,
+  ApiTag,
+  ApiUpdateProfileBody,
+  ApiUpdateProfileOk,
+  ApiUpdateProfileOperation,
+  ApiUploadAvatarBody,
+  ApiUploadAvatarOk,
+  ApiUploadAvatarOperation,
+  ApiUserBadRequest,
+  ApiUserNotFound,
+  ApiUserUnauthorized,
+} from '@taskforce/api-documentation';
 
-@ApiTags('Profile')
-@Controller('profile')
+@ApiTags(ApiTag.Profile)
+@Controller(RouteModule.Profile)
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  @ApiOperation({ description: ApiOperationDescriptions.Upload })
+  @ApiUploadAvatarOperation()
   @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    type: 'multipart/form-data',
-    schema: {
-      description: 'Путь до изображения',
-      example: './avatar.jpg',
-      type: 'object',
-      properties: {
-        avatar: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: ResponseDescription.UploadAvatar,
-    type: ProfileRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ResponseDescription.BadRequest,
-    type: BadRequestErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: ResponseDescription.Unauthorized,
-    type: UnauthorizedErrorRdo,
-  })
+  @ApiUploadAvatarBody(UPLOAD_FIELD_NAME)
+  @ApiUploadAvatarOk()
+  @ApiUserBadRequest()
+  @ApiUserUnauthorized()
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(FileInterceptor(UPLOAD_FIELD_NAME))
   @UseGuards(JwtAuthGuard)
-  @Post('upload-avatar')
+  @Post(Route.UploadAvatar)
   public async uploadFile(
     @GetCurrentUser('sub') id: string,
     @UploadedFile(
@@ -103,22 +80,11 @@ export class ProfileController {
     return fillObject(ProfileRdo, updatedUser, updatedUser.role);
   }
 
-  @ApiOperation({ description: ApiOperationDescriptions.Update })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: ResponseDescription.UploadAvatar,
-    type: ProfileRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ResponseDescription.BadRequest,
-    type: BadRequestErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: ResponseDescription.Unauthorized,
-    type: UnauthorizedErrorRdo,
-  })
+  @ApiUpdateProfileOperation()
+  @ApiUpdateProfileBody()
+  @ApiUpdateProfileOk()
+  @ApiUserBadRequest()
+  @ApiUserUnauthorized()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch('')
@@ -130,27 +96,11 @@ export class ProfileController {
     return fillObject(ProfileRdo, updatedUser, updatedUser.role);
   }
 
-  @ApiOperation({ description: ApiOperationDescriptions.Show })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: ResponseDescription.ShowUser,
-    type: ProfileRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ResponseDescription.BadRequest,
-    type: BadRequestErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: ResponseDescription.Unauthorized,
-    type: UnauthorizedErrorRdo,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: ResponseDescription.NotFound,
-    type: NotFoundErrorRdo,
-  })
+  @ApiProfileShowOperation()
+  @ApiProfileShowOk()
+  @ApiUserBadRequest()
+  @ApiUserUnauthorized()
+  @ApiUserNotFound()
   @ApiBearerAuth()
   @Get(':id')
   @UseGuards(JwtAuthGuard)

@@ -44,7 +44,7 @@ export class CreateUserSchema {
 
   @ApiProperty({
     description: 'Одна из ролей',
-    example: 'заказчик',
+    example: UserRole.Contractor,
     enum: UserRole,
     required: true,
   })

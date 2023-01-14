@@ -25,6 +25,7 @@ export const TASK_VALIDATION_ERROR = {
   STATUS_NOT_VALID: 'Неверный статус задачи',
   IMAGE_NOT_VALID: 'Изображение должно быть в формате jpg или png',
   CITY_NOT_VALID: 'Неверный город',
+  USER_ID_NOT_VALID: 'Неверный ID пользователя'
 };
 
 export const RABBITMQ_SERVICE_NAME = 'TASKS_NOTIFY';

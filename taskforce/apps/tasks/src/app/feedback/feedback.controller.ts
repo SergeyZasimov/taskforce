@@ -21,12 +21,6 @@ import {
 import { FeedbackService } from './feedback.service';
 import { FeedbackQuery } from './query/feedback.query';
 import { FeedbackRdo } from './rdo/feedback.rdo';
-import {
-  BadRequestErrorRdo,
-  NotFoundErrorRdo,
-  UnauthorizedErrorRdo,
-  ForbiddenErrorRdo,
-} from '@taskforce/rdo';
 
 const { CREATE, SHOW_ALL } = FEEDBACK_API_OPERATION;
 
@@ -54,17 +48,14 @@ export class FeedbackController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @UseGuards(JwtAuthGuard)
   @Get('/')
@@ -83,22 +74,18 @@ export class FeedbackController {
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,
     description: FORBIDDEN_ROLE,
-    type: ForbiddenErrorRdo,
   })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Contractor)

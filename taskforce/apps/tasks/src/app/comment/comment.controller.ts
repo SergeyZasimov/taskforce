@@ -28,12 +28,6 @@ import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentQuery } from './query/comment.query';
 import { CommentRdo } from './rdo/comment.rdo';
-import {
-  BadRequestErrorRdo,
-  NotFoundErrorRdo,
-  UnauthorizedErrorRdo,
-  ForbiddenErrorRdo,
-} from '@taskforce/rdo';
 import { DbIdValidationPipe } from '../pipes/db-id-validation.pipe';
 
 const { SHOW_ALL, CREATE, DELETE } = COMMENT_API_OPERATION;
@@ -63,12 +57,10 @@ export class CommentController {
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: TASK_NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @Get('')
   public async showAllByTaskId(@Query() { taskId, page }: CommentQuery) {
@@ -86,17 +78,14 @@ export class CommentController {
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: TASK_NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @UseGuards(JwtAuthGuard)
   @Post('')
@@ -117,17 +106,14 @@ export class CommentController {
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
     description: UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: COMMENT_NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     status: HttpStatus.FORBIDDEN,
     description: FOREIGN_COMMENT,
-    type: ForbiddenErrorRdo,
   })
   @ApiParam({
     name: 'id',

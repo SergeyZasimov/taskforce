@@ -27,6 +27,7 @@ import {
   ApiUserUnauthorized,
   ApiChangePasswordBody,
 } from '@taskforce/api-documentation';
+import { AUTHORIZATION_FIELD } from '../app.constant';
 
 @ApiTags(ApiTag.Auth)
 @Controller(RouteModule.Auth)
@@ -63,7 +64,10 @@ export class AuthController {
   @ApiUserUnauthorized()
   @ApiBearerAuth()
   @Patch(Route.ChangePassword)
-  public async changePassword(@Body() body, @Headers('Authorization') auth) {
+  public async changePassword(
+    @Body() body,
+    @Headers(AUTHORIZATION_FIELD) auth
+  ) {
     return await this.authService.changePassword(body, auth);
   }
 }

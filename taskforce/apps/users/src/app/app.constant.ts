@@ -1,5 +1,7 @@
 export const ENV_FILE_PATH = 'environments/.users.env';
 
+export const UPLOAD_FIELD_NAME = 'avatar';
+
 export enum EnvValidationMessage {
   DBHostRequired = 'MongoDB host is required',
   DBNameRequired = 'Database name is required',

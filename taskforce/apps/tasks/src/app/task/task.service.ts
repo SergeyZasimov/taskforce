@@ -220,6 +220,16 @@ export class TaskService {
     });
   }
 
+  public async getCounter(
+    userId: string,
+    status?: TaskStatus
+  ): Promise<number> {
+    const {
+      _count: { id: count },
+    } = await this.taskRepository.getCounter(userId, status);
+    return count;
+  }
+
   private checkStatusChange(
     currentStatus: TaskStatus,
     newStatus: TaskStatus

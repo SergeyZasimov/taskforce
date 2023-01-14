@@ -107,3 +107,7 @@ Content-Type: image/png
 #?lastNotify=2023-01-13
 GET {{baseUrl}}/tasks/notify HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZGM2Njg0MWQ4MTQxZGI1ZDA5NTMiLCJlbWFpbCI6InVzZXI0MUBtYWlsLmNvbSIsInJvbGUiOiLQuNGB0L_QvtC70L3QuNGC0LXQu9GMIiwiaWF0IjoxNjczNTgzNzQ5LCJleHAiOjE2NzM1ODczNDl9.7tnFtYRdrzcdDeCXGZqJMBSKO_zHSvo5A9mUT1-8C4g
+
+### Get Task Counter
+GET {{baseUrl}}/tasks/tasks-counter?userId=52e59a5fa464c2dddb35ddfb HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2NjU4NDMsImV4cCI6MTY3MzY2OTQ0M30.Lw6jZODmr2VPa1y57ztQtvKgx6D1VaVF5wtoRBdLXsM

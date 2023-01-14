@@ -27,12 +27,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { fillObject } from '@taskforce/core';
-import {
-  BadRequestErrorRdo,
-  ForbiddenErrorRdo,
-  NotFoundErrorRdo,
-  UnauthorizedErrorRdo,
-} from '@taskforce/rdo';
+
 import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
@@ -46,6 +41,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { MyTasksQuery } from './query/my-tasks.query';
 import { NotifyQuery } from './query/notify.query';
 import { TaskQuery } from './query/task.query';
+import { TasksCountQuery } from './query/tasks-count.query';
 import { TaskRdo } from './rdo/task.rdo';
 import {
   TASK_API_OPERATIONS,
@@ -97,22 +93,18 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: TASK_NOT_FOUND,
     status: HttpStatus.NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     description: FORBIDDEN_ROLE,
     status: HttpStatus.FORBIDDEN,
-    type: ForbiddenErrorRdo,
   })
   @UseGuards(JwtAuthGuard)
   @Patch('change-status')
@@ -134,22 +126,18 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: TASK_NOT_FOUND,
     status: HttpStatus.NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     description: FORBIDDEN_ROLE,
     status: HttpStatus.FORBIDDEN,
-    type: ForbiddenErrorRdo,
   })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
@@ -171,12 +159,10 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @UseGuards(JwtAuthGuard)
   @Get('my-tasks')
@@ -205,6 +191,12 @@ export class TaskController {
     await this.taskService.getNotify({ email, lastNotify });
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('tasks-counter')
+  public async getTasksCount(@Query() { userId, status }: TasksCountQuery) {
+    return await this.taskService.getCounter(userId, status);
+  }
+
   @ApiOperation({ description: ASSIGN_CONTRACTOR })
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
@@ -231,29 +223,25 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: TASK_NOT_FOUND,
     status: HttpStatus.NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     description: FORBIDDEN_ROLE,
     status: HttpStatus.FORBIDDEN,
-    type: ForbiddenErrorRdo,
   })
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Post(':id/upload-image')
   public async uploadFile(
-    @Param('id') id: number,
+    @Param('id', DbIdValidationPipe) id: number,
     @GetCurrentUser('sub') customerId: string,
     @UploadedFile(
       new ParseFilePipe({
@@ -280,12 +268,10 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: TASK_NOT_FOUND,
     status: HttpStatus.NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiParam({
     name: 'id',
@@ -320,17 +306,14 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     description: FORBIDDEN_ROLE,
     status: HttpStatus.FORBIDDEN,
-    type: ForbiddenErrorRdo,
   })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
@@ -353,22 +336,18 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: TASK_NOT_FOUND,
     status: HttpStatus.NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     description: FORBIDDEN_ROLE,
     status: HttpStatus.FORBIDDEN,
-    type: ForbiddenErrorRdo,
   })
   @ApiParam({
     name: 'id',
@@ -397,22 +376,18 @@ export class TaskController {
   @ApiResponse({
     description: BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
-    type: BadRequestErrorRdo,
   })
   @ApiResponse({
     description: TASK_NOT_FOUND,
     status: HttpStatus.NOT_FOUND,
-    type: NotFoundErrorRdo,
   })
   @ApiResponse({
     description: UNAUTHORIZED,
     status: HttpStatus.UNAUTHORIZED,
-    type: UnauthorizedErrorRdo,
   })
   @ApiResponse({
     description: FORBIDDEN_ROLE,
     status: HttpStatus.FORBIDDEN,
-    type: ForbiddenErrorRdo,
   })
   @ApiParam({
     name: 'id',

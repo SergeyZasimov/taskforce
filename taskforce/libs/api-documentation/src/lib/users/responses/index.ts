@@ -6,3 +6,7 @@ export * from './password-error.response.decorator';
 export * from './not-found.response.decorator';
 export * from './change-password.response.decorator';
 export * from './unauthorized.response.decorator';
+export * from './upload-avatar.response.decorator';
+export * from './update-profile.response.decorator';
+export * from './profile-show.response.decorator';
+export * from './profile-detail.response.decorator';

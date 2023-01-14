@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:3330/api
+@contentType = application/json
+
+### Update User
+PATCH  {{baseUrl}}/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZjdmYjViZWY3ZDNlZWM3YjA2N2IiLCJlbWFpbCI6InVzZXJAbWFpbC5jb20iLCJyb2xlIjoi0LjRgdC_0L7Qu9C90LjRgtC10LvRjCIsImlhdCI6MTY3MzYyNjk0NywiZXhwIjoxNjczNjMwNTQ3fQ.DotB5oLDwO-MOlDXDN-XEiZLkncu0CVL2vN_8t9bINo
+Content-Type: {{contentType}}
+
+{
+  "resume": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu",
+  "name": "Иван Иванов",
+  "specialty": ["Lorem", "ipsum"]
+}
+
+### Get User
+GET {{baseUrl}}/profile/f0aaacafa86eeeb7eddf6e38
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2NjY4OTIsImV4cCI6MTY3MzY3MDQ5Mn0.eWNae68Tv2I8NvO-kF9mAas8kLB8ot6tKO8TTrptE9M

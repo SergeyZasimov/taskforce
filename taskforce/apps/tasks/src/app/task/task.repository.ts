@@ -244,6 +244,13 @@ export class TaskRepository
     });
   }
 
+  public async getCounter(userId: string, status?: TaskStatus) {
+    return await this.prisma.task.aggregate({
+      where: { OR: [{ customerId: userId }, { contractorId: userId }], status },
+      _count: { id: true },
+    });
+  }
+
   private convertTask(prismaTask): Task {
     if (prismaTask) {
       return {
