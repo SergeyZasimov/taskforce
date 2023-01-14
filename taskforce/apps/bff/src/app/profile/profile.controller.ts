@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   ApiProfileDetailOk,
   ApiProfileShowOperation,
-  ApiTag,
+  UsersApiTag,
   ApiUpdateProfileBody,
   ApiUpdateProfileOk,
   ApiUpdateProfileOperation,
@@ -15,7 +15,7 @@ import { RouteModule } from '@taskforce/shared-types';
 import { AUTHORIZATION_FIELD } from '../app.constant';
 import { ProfileService } from './profile.service';
 
-@ApiTags(ApiTag.Profile)
+@ApiTags(UsersApiTag.Profile)
 @Controller(RouteModule.Profile)
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}

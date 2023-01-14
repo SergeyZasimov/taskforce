@@ -1,10 +1,10 @@
 import { ApiOperation } from '@nestjs/swagger';
-import { ApiOperationDescriptions } from '../constant';
+import { UsersApiOperationDescriptions } from '../constant';
 
 export const ApiRegisterOperation =
   (): MethodDecorator =>
   (target: any, propertyKey: string, descriptor: PropertyDescriptor) =>
-    ApiOperation({ description: ApiOperationDescriptions.Register })(
+    ApiOperation({ description: UsersApiOperationDescriptions.Register })(
       target,
       propertyKey,
       descriptor

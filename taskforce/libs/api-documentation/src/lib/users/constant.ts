@@ -1,4 +1,4 @@
-export enum ApiTag {
+export enum UsersApiTag {
   Auth = 'Авторизация',
   Profile = 'Профиль',
 }
@@ -17,7 +17,7 @@ export enum UsersResponseDescription {
   ShowUser = 'Информация о пользователе',
 }
 
-export enum ApiOperationDescriptions {
+export enum UsersApiOperationDescriptions {
   Register = 'Регистрация пользователя',
   Login = 'Авторизация пользователя',
   PasswordChange = 'Смена пароля',

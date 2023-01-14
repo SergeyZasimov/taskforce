@@ -3,12 +3,12 @@
 
 ### Create New Comment
 POST {{baseUrl}}/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjY2NkZGVjOTIzMDVmYjZhOGRjZDkxZWMiLCJlbWFpbCI6IkRlZV9Cb3lsZUBtYWlsLnJ1Iiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzMxNjEwMzUsImV4cCI6MTY3MzE2NDYzNX0.2t0QXsEEAJKddZtiVDsIHmbj0QVmtSUQCYDytBebrPw
 Content-Type: {{contentType}}
 
 {
   "text": "New Comment for task id 2 by user 6396a84a58dbfb187fc4350e",
-  "taskId": 2,
-  "userId": "6396a84a58dbfb187fc4350e"
+  "taskId": 2
 }
 
 ### Get Comment By Task ID
@@ -25,5 +25,5 @@ Content-Type: {{contentType}}
 }
 
 ### Delete Comment
-DELETE {{baseUrl}}/comments/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjY2NkZGVjOTIzMDVmYjZhOGRjZDkxZWMiLCJlbWFpbCI6IkRlZV9Cb3lsZUBtYWlsLnJ1Iiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzMxNjEwMzUsImV4cCI6MTY3MzE2NDYzNX0.2t0QXsEEAJKddZtiVDsIHmbj0QVmtSUQCYDytBebrPw
+DELETE {{baseUrl}}/comments/s HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2ODAyOTUsImV4cCI6MTY3MzY4Mzg5NX0.-i0FTRWL_qdMUVJLWJ05lgDg5JfeCo7TtigArjow2TE

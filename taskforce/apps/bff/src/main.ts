@@ -16,7 +16,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Taskforce')
-    .setDescription('The «Users» service API specification')
+    .setDescription('The «Taskforce» service API specification')
     .setVersion('1.0')
     .addTag('Taskforce')
     .addBearerAuth()

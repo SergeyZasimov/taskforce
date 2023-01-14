@@ -19,7 +19,6 @@ import { UserRdo } from './rdo/user.rdo';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Route, RouteModule } from '@taskforce/shared-types';
 import {
-  ApiTag,
   ApiRegisterOk,
   ApiRegisterOperation,
   ApiRegisterBody,
@@ -34,9 +33,10 @@ import {
   ApiUserUnauthorized,
   ApiChangePasswordBody,
   ApiPasswordError,
+  UsersApiTag,
 } from '@taskforce/api-documentation';
 
-@ApiTags(ApiTag.Auth)
+@ApiTags(UsersApiTag.Auth)
 @Controller(RouteModule.Auth)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

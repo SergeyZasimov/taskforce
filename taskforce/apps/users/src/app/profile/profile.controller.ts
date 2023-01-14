@@ -34,7 +34,6 @@ import { Route, RouteModule } from '@taskforce/shared-types';
 import {
   ApiProfileShowOk,
   ApiProfileShowOperation,
-  ApiTag,
   ApiUpdateProfileBody,
   ApiUpdateProfileOk,
   ApiUpdateProfileOperation,
@@ -44,9 +43,10 @@ import {
   ApiUserBadRequest,
   ApiUserNotFound,
   ApiUserUnauthorized,
+  UsersApiTag,
 } from '@taskforce/api-documentation';
 
-@ApiTags(ApiTag.Profile)
+@ApiTags(UsersApiTag.Profile)
 @Controller(RouteModule.Profile)
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}

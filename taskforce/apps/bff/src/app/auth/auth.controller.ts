@@ -11,7 +11,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RouteModule, Route } from '@taskforce/shared-types';
 import { AuthService } from './auth.service';
 import {
-  ApiTag,
+  UsersApiTag,
   ApiRegisterOk,
   ApiRegisterOperation,
   ApiRegisterBody,
@@ -29,7 +29,7 @@ import {
 } from '@taskforce/api-documentation';
 import { AUTHORIZATION_FIELD } from '../app.constant';
 
-@ApiTags(ApiTag.Auth)
+@ApiTags(UsersApiTag.Auth)
 @Controller(RouteModule.Auth)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
