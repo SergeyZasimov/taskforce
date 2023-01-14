@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsOptional } from 'class-validator';
 
 export class FeedbackRdo {
   @ApiProperty({
@@ -38,11 +37,4 @@ export class FeedbackRdo {
   })
   @Expose()
   public createdAt: Date;
-
-  @ApiProperty({
-    description: 'ID задачи',
-    example: '23',
-  })
-  @Expose()
-  public taskId: number;
 }

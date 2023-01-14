@@ -1,5 +1,6 @@
 export enum TasksApiTag {
   Comment = 'Комментарии',
+  Feedback = 'Отклики',
 }
 
 export const COMMENT_API_OPERATION = {
@@ -23,4 +24,25 @@ export const COMMENT_EXCEPTION_MESSAGE = {
   TASK_NOT_FOUND: 'Задача не найдена',
   COMMENT_NOT_FOUND: 'Комментарий не найден',
   FOREIGN_COMMENT: 'Нельзя удалять чужой комментарий',
+};
+
+export const FEEDBACK_API_OPERATION = {
+  SHOW_ALL: 'Список откликов для определенной задачи',
+  CREATE: 'Создание отклика',
+};
+
+export const FEEDBACK_RESPONSE_DESCRIPTION = {
+  SHOW_ALL_OK: 'Возвращает список откликов для определенной задачи',
+  CREATED: 'Успешное создание отклика',
+  BAD_REQUEST: 'Неверные данные',
+  TASK_NOT_FOUND: 'Задача не найдена',
+  UNAUTHORIZED: 'Пользователь не авторизован',
+  FORBIDDEN_ROLE: 'Неверная роль пользователя',
+};
+
+export const FEEDBACK_EXCEPTION_MESSAGE = {
+  TASK_NOT_FOUND: 'Задача не найдена',
+  TASK_STATUS_NOT_VALID:
+    'Отклик можно оставлять только к задаче со статусом "Новое"',
+  FEEDBACK_EXIST: 'Отклик исполнителя уже существует',
 };

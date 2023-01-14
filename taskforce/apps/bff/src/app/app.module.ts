@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { CommentModule } from './comment/comment.module';
+import { FeedbackModule } from './feedback/feedback.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CommentModule } from './comment/comment.module';
     AuthModule,
     ProfileModule,
     CommentModule,
+    FeedbackModule,
   ],
   controllers: [],
   providers: [],

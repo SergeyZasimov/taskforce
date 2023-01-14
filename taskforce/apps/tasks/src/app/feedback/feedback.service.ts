@@ -26,7 +26,10 @@ export class FeedbackService {
     return await this.feedbackRepository.findByTaskId(taskId);
   }
 
-  public async create(dto: CreateFeedbackDto): Promise<Feedback> {
+  public async create(
+    dto: CreateFeedbackDto,
+    contractorId: string
+  ): Promise<Feedback> {
     const existTask = await this.taskRepository.findById(dto.taskId);
     if (!existTask) {
       throw new NotFoundException(TASK_NOT_FOUND);
@@ -36,12 +39,13 @@ export class FeedbackService {
     }
     const existFeedback = await this.feedbackRepository.findByTaskAndContractor(
       dto.taskId,
-      dto.contractorId
+      contractorId
     );
+    console.log(existFeedback);
     if (existFeedback) {
       throw new BadRequestException(FEEDBACK_EXIST);
     }
-    const newFeedbackEntity = new FeedbackEntity(dto);
+    const newFeedbackEntity = new FeedbackEntity({ ...dto, contractorId });
     return await this.feedbackRepository.create(newFeedbackEntity);
   }
 }

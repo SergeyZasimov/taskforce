@@ -1,11 +1,21 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import {
+  BadRequestSchema,
+  ForbiddenSchema,
+  TaskNotFoundSchema,
+  UserUnauthorizedSchema,
+} from '@taskforce/api-documentation';
 import { fillObject } from '@taskforce/core';
 import { UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
@@ -16,7 +26,6 @@ import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import {
   FEEDBACK_API_OPERATION,
   FEEDBACK_RESPONSE_DESCRIPTION,
-  FEEDBACK_EXCEPTION_MESSAGE,
 } from './feedback.constant';
 import { FeedbackService } from './feedback.service';
 import { FeedbackQuery } from './query/feedback.query';
@@ -27,7 +36,7 @@ const { CREATE, SHOW_ALL } = FEEDBACK_API_OPERATION;
 const {
   SHOW_ALL_OK,
   BAD_REQUEST,
-  NOT_FOUND,
+  TASK_NOT_FOUND,
   UNAUTHORIZED,
   CREATED,
   FORBIDDEN_ROLE,
@@ -45,17 +54,14 @@ export class FeedbackController {
     description: SHOW_ALL_OK,
     type: [FeedbackRdo],
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: BAD_REQUEST,
+  @ApiNotFoundResponse({
+    description: TASK_NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: NOT_FOUND,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
   @UseGuards(JwtAuthGuard)
   @Get('/')
@@ -71,22 +77,16 @@ export class FeedbackController {
     description: CREATED,
     type: FeedbackRdo,
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: BAD_REQUEST,
+  @ApiNotFoundResponse({
+    description: TASK_NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: NOT_FOUND,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: FORBIDDEN_ROLE,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Contractor)
   @Post('/')
@@ -94,10 +94,7 @@ export class FeedbackController {
     @Body() dto: CreateFeedbackDto,
     @GetCurrentUser('sub') contractorId: string
   ) {
-    const newFeedback = await this.feedbackService.create({
-      ...dto,
-      contractorId,
-    });
+    const newFeedback = await this.feedbackService.create(dto, contractorId);
     return fillObject(FeedbackRdo, newFeedback);
   }
 }

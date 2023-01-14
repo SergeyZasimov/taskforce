@@ -9,6 +9,7 @@ export enum RouteModule {
   Tasks = 'tasks',
   Reviews = 'reviews',
   Comments = 'comments',
+  Feedbacks = 'feedbacks'
 }
 
 export enum Route {

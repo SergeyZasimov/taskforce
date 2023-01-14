@@ -29,7 +29,7 @@ export class FeedbackRepository
     const feedback = await this.prisma.feedback.findFirst({
       where: { taskId, contractorId },
     });
-    return { ...feedback, price: Number(feedback.price) };
+    return feedback ? { ...feedback, price: Number(feedback.price) } : null;
   }
 
   public async create(entity: FeedbackEntity): Promise<Feedback> {

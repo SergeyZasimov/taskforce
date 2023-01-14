@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:3330/api
+@contentType = application/json
+
+### Get feedbacks for Task
+GET {{baseUrl}}/feedbacks?taskId=18 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2ODgwNzksImV4cCI6MTY3MzY5MTY3OX0.WSkVbgOQ1ZJ3iMrS8Qlv3hzkmLh_cqmr32PU0IyLmYs
+
+### Create New Feedback
+POST {{baseUrl}}/feedbacks HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYTJkMTIzMGEyMmQ5OGZhYmU5MWNlZTciLCJlbWFpbCI6IktlaXRoNTVAeWFob28uY29tIiwicm9sZSI6ItC40YHQv9C-0LvQvdC40YLQtdC70YwiLCJpYXQiOjE2NzM2ODk5NDUsImV4cCI6MTY3MzY5MzU0NX0.Snbqb5IZoDDfK1njJl3tVauFyCoSHkOw5X-PySynzWc
+Content-Type: {{contentType}}
+
+{
+  "text": "New Feedback",
+  "taskId": 24
+}
+
+### Create Feedback Not Valid
+POST {{baseUrl}}/feedbacks HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiYTJkMTIzMGEyMmQ5OGZhYmU5MWNlZTciLCJlbWFpbCI6IktlaXRoNTVAeWFob28uY29tIiwicm9sZSI6ItC40YHQv9C-0LvQvdC40YLQtdC70YwiLCJpYXQiOjE2NzM2ODk5NDUsImV4cCI6MTY3MzY5MzU0NX0.Snbqb5IZoDDfK1njJl3tVauFyCoSHkOw5X-PySynzWc
+Content-Type: {{contentType}}
+
+{
+  "text": "Not Valid Feedback",
+  "price": -234.789,
+  "taskId": "2",
+}

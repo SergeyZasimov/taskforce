@@ -19,7 +19,7 @@ export const FEEDBACK_RESPONSE_DESCRIPTION = {
   SHOW_ALL_OK: 'Возвращает список откликов для определенной задачи',
   CREATED: 'Успешное создание отклика',
   BAD_REQUEST: 'Неверные данные',
-  NOT_FOUND: 'Задача не найдена',
+  TASK_NOT_FOUND: 'Задача не найдена',
   UNAUTHORIZED: 'Пользователь не авторизован',
   FORBIDDEN_ROLE: 'Неверная роль пользователя',
 };
