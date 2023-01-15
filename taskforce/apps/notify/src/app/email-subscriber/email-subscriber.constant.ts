@@ -5,3 +5,5 @@ export const EMAIL_SUBJECT = {
   ADD_SUBSCRIBER: 'Успешная подписка на рассылку уведомлений',
   GET_NOTIFY: 'Список новых задач',
 };
+
+export const EMAIL_REQUIRED = 'E-mail - обязательное поле';

@@ -80,6 +80,13 @@ export class ProfileController {
     return fillObject(ProfileRdo, updatedUser, updatedUser.role);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get(Route.MyProfile)
+  public async showMyProfile(@GetCurrentUser('sub') id: string) {
+    const existUser = await this.profileService.getUser(id);
+    return fillObject(ProfileRdo, existUser, existUser.role);
+  }
+
   @ApiUpdateProfileOperation()
   @ApiUpdateProfileBody()
   @ApiUpdateProfileOk()

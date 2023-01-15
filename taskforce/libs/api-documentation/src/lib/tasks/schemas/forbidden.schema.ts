@@ -9,7 +9,7 @@ export class ForbiddenSchema {
 
   @ApiProperty({
     description: 'Сообщение',
-    example: 'Нельзя удалять чужой комментарий',
+    example: 'Неверная роль пользователя',
     type: 'string[]',
   })
   public message: string[];

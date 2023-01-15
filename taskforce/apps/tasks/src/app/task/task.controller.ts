@@ -18,17 +18,30 @@ import {
 import { HttpStatus } from '@nestjs/common/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
   ApiConsumes,
+  ApiForbiddenResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import {
+  BadRequestSchema,
+  ForbiddenSchema,
+  TaskNotFoundSchema,
+  TasksApiTag,
+  UserUnauthorizedSchema,
+} from '@taskforce/api-documentation';
 import { fillObject } from '@taskforce/core';
 
-import { UserRole } from '@taskforce/shared-types';
+import { Route, RouteModule, UserRole } from '@taskforce/shared-types';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -77,8 +90,8 @@ const {
   NOTIFY_OK,
 } = TASK_RESPONSE_DESCRIPTION;
 
-@ApiTags('Задачи')
-@Controller('tasks')
+@ApiTags(TasksApiTag.Task)
+@Controller(RouteModule.Tasks)
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
@@ -90,29 +103,27 @@ export class TaskController {
     status: HttpStatus.OK,
     type: TaskRdo,
   })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiNotFoundResponse({
     description: TASK_NOT_FOUND,
-    status: HttpStatus.NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
-    status: HttpStatus.UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    description: FORBIDDEN_ROLE,
-    status: HttpStatus.FORBIDDEN,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
   @UseGuards(JwtAuthGuard)
-  @Patch('change-status')
+  @Patch(Route.ChangeStatus)
   public async changeStatus(
     @Body() dto: ChangeStatusDto,
-    @GetCurrentUser('role') role: UserRole
+    @GetCurrentUser('role') role: UserRole,
+    @GetCurrentUser('sub') customerId: string
   ) {
-    return fillObject(TaskRdo, this.taskService.changeStatus(dto, role));
+    return fillObject(
+      TaskRdo,
+      this.taskService.changeStatus(dto, role, customerId)
+    );
   }
 
   @ApiOperation({ description: ASSIGN_CONTRACTOR })
@@ -123,25 +134,19 @@ export class TaskController {
     status: HttpStatus.OK,
     type: TaskRdo,
   })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiNotFoundResponse({
     description: TASK_NOT_FOUND,
-    status: HttpStatus.NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
-    status: HttpStatus.UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    description: FORBIDDEN_ROLE,
-    status: HttpStatus.FORBIDDEN,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
-  @Patch('assign-contractor')
+  @Patch(Route.AssignContractor)
   public async assignContractor(
     @Body() dto: AssignContractorDto,
     @GetCurrentUser('sub') customerId: string
@@ -156,16 +161,13 @@ export class TaskController {
     status: HttpStatus.OK,
     type: [TaskRdo],
   })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
-    status: HttpStatus.UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
   @UseGuards(JwtAuthGuard)
-  @Get('my-tasks')
+  @Get(Route.MyTasks)
   public async getMyTasks(
     @GetCurrentUser('sub') userId: string,
     @GetCurrentUser('role') role: string,
@@ -177,13 +179,14 @@ export class TaskController {
 
   @ApiOperation({ description: NOTIFY })
   @ApiBearerAuth()
-  @ApiResponse({
-    description: NOTIFY_OK,
-    status: HttpStatus.NO_CONTENT,
+  @ApiNoContentResponse({ description: NOTIFY_OK })
+  @ApiUnauthorizedResponse({
+    description: UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
   @UseGuards(JwtAuthGuard)
-  @Get('notify')
+  @Get(Route.GetNotify)
   public async getNotify(
     @GetCurrentUser('email') email: string,
     @Query() { lastNotify }: NotifyQuery
@@ -191,6 +194,11 @@ export class TaskController {
     await this.taskService.getNotify({ email, lastNotify });
   }
 
+  @ApiBearerAuth()
+  @ApiUnauthorizedResponse({
+    description: UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
+  })
   @UseGuards(JwtAuthGuard)
   @Get('tasks-counter')
   public async getTasksCount(@Query() { userId, status }: TasksCountQuery) {
@@ -265,13 +273,10 @@ export class TaskController {
     description: SHOW_OK,
     type: TaskRdo,
   })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiNotFoundResponse({
     description: TASK_NOT_FOUND,
-    status: HttpStatus.NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
   @ApiParam({
     name: 'id',
@@ -290,6 +295,7 @@ export class TaskController {
     description: SHOW_ALL_OK,
     type: [TaskRdo],
   })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
   @Get('/')
   public async index(@Query() query: TaskQuery) {
     const tasks = await this.taskService.getTasks(query);
@@ -303,18 +309,12 @@ export class TaskController {
     status: HttpStatus.CREATED,
     type: TaskRdo,
   })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
-    status: HttpStatus.UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    description: FORBIDDEN_ROLE,
-    status: HttpStatus.FORBIDDEN,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Post('/')
@@ -333,22 +333,16 @@ export class TaskController {
     status: HttpStatus.OK,
     type: TaskRdo,
   })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiNotFoundResponse({
     description: TASK_NOT_FOUND,
-    status: HttpStatus.NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
-    status: HttpStatus.UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    description: FORBIDDEN_ROLE,
-    status: HttpStatus.FORBIDDEN,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
   @ApiParam({
     name: 'id',
     description: 'ID задачи',
@@ -369,32 +363,22 @@ export class TaskController {
 
   @ApiOperation({ description: DELETE })
   @ApiBearerAuth()
-  @ApiResponse({
-    description: DELETED_OK,
-    status: HttpStatus.NO_CONTENT,
-  })
-  @ApiResponse({
-    description: BAD_REQUEST,
-    status: HttpStatus.BAD_REQUEST,
-  })
-  @ApiResponse({
+  @ApiOkResponse({ description: DELETED_OK })
+  @ApiNotFoundResponse({
     description: TASK_NOT_FOUND,
-    status: HttpStatus.NOT_FOUND,
+    type: TaskNotFoundSchema,
   })
-  @ApiResponse({
+  @ApiUnauthorizedResponse({
     description: UNAUTHORIZED,
-    status: HttpStatus.UNAUTHORIZED,
+    type: UserUnauthorizedSchema,
   })
-  @ApiResponse({
-    description: FORBIDDEN_ROLE,
-    status: HttpStatus.FORBIDDEN,
-  })
+  @ApiBadRequestResponse({ description: BAD_REQUEST, type: BadRequestSchema })
+  @ApiForbiddenResponse({ description: FORBIDDEN_ROLE, type: ForbiddenSchema })
   @ApiParam({
     name: 'id',
     description: 'ID задачи',
     example: '3',
   })
-  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role(UserRole.Customer)
   @Delete('/:id')

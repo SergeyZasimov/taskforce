@@ -7,6 +7,7 @@ import { ProfileModule } from './profile/profile.module';
 import { CommentModule } from './comment/comment.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { ReviewModule } from './review/review.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ReviewModule } from './review/review.module';
     CommentModule,
     FeedbackModule,
     ReviewModule,
+    TaskModule,
   ],
   controllers: [],
   providers: [],

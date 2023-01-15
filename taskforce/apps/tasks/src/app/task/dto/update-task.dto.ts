@@ -2,14 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
 import {
   Length,
-  IsMongoId,
   IsNumber,
   Min,
   IsOptional,
   IsDateString,
   Matches,
   ArrayMaxSize,
-  IsEnum,
   Validate,
   IsEmpty,
 } from 'class-validator';

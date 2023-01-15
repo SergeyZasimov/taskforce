@@ -10,6 +10,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { ConflictException } from '@nestjs/common/exceptions';
 import { NewTasksDto } from './dto/new-tasks.dto';
 import * as dayjs from 'dayjs';
+import { GetSubscriberDto } from './dto/get-subscriber.dto';
 
 @Injectable()
 export class EmailSubscriberService {
@@ -62,5 +63,9 @@ export class EmailSubscriberService {
         tasks: tasks,
       },
     });
+  }
+
+  public async getSubscriber(dto: GetSubscriberDto) {
+    return await this.emailSubscriberRepository.findByEmail(dto.email);
   }
 }

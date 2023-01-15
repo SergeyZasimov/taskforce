@@ -97,12 +97,17 @@ export class TaskService {
 
   public async changeStatus(
     dto: ChangeStatusDto,
-    role: UserRole
+    role: UserRole,
+    customerId: string
   ): Promise<Task> {
     const { taskId, newStatus } = dto;
     const existTask = await this.taskRepository.findById(taskId);
     if (!existTask) {
       throw new NotFoundException(TASK_NOT_FOUND);
+    }
+
+    if (existTask.customerId !== customerId) {
+      throw new BadRequestException(FOREIGN_TASK_UPDATE);
     }
 
     const isAvailableChange = this.checkStatusChange(

@@ -8,3 +8,8 @@ export * from './feedback.schema';
 export * from './create-feedback.schema';
 export * from './create-review.schema';
 export * from './review.schema';
+export * from './task.schema';
+export * from './change-status.schema';
+export * from './assign-contractor.schema';
+export * from './create-task.schema';
+export * from './update-task.update';
