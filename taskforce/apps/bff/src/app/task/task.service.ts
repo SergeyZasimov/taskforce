@@ -44,11 +44,9 @@ export class TaskService {
   }
 
   public async getTasks(query, path?, auth?) {
-    console.log(query);
     const queryString = Object.entries(query)
       .map(([key, value]) => `${key}=${value}`)
       .join('&');
-    console.log(queryString);
     try {
       const tasks: Task[] = await got
         .get(
