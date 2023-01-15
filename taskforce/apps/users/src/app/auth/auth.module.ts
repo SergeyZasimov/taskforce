@@ -3,13 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule } from '@nestjs/microservices';
 import { PassportModule } from '@nestjs/passport';
+import { RABBITMQ_SERVICE_NAME } from '../app.constant';
 import { getJwtConfig } from '../config/jwt.config';
 import { getRabbitMqConfig } from '../config/rabbitmq.config';
 import { UserModule } from '../user/user.module';
-import { RABBITMQ_SERVICE_NAME } from './auth.constant';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtStrategy } from '../strategies/jwt.strategy';
 
 @Module({
   imports: [

@@ -5,7 +5,11 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { TaskModule } from './task/task.module';
 import { ConfigModule } from '@nestjs/config';
 import { ENV_FILE_PATH } from './app.constant';
-import { rabbitMqOptions } from './congfig/rabbitmq.config';
+import { rabbitMqOptions } from '../config/rabbitmq.config';
+import { jwtOptions } from '../config/jwt.config';
+import { multerOptions } from '../config/multer.config';
+import { ReviewModule } from './review/review.module';
+import { validateEnvironments } from './env.validation';
 
 @Module({
   imports: [
@@ -17,8 +21,10 @@ import { rabbitMqOptions } from './congfig/rabbitmq.config';
       cache: true,
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
-      load: [rabbitMqOptions],
+      load: [rabbitMqOptions, jwtOptions, multerOptions],
+      validate: validateEnvironments,
     }),
+    ReviewModule,
   ],
   controllers: [],
   providers: [],

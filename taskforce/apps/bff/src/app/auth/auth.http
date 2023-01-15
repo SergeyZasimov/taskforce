@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:3330/api
+@contentType = application/json
+
+### Register User Not Valid
+POST {{baseUrl}}/auth/register HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "user",
+  "email": "user56@mail.com",
+  "password": "secret",
+  "city": "Москва",
+  "birthday": "2005-01-03",
+  "role": "заказчик"
+}
+
+### Register User Bad Request
+POST {{baseUrl}}/auth/register HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "us",
+  "email": "usermail.com",
+  "password": "secret",
+  "city": "Воронеж",
+  "birthday": "2020-11-20"
+}
+
+### Login User
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "Cecile.Collins27@gmail.com",
+  "password": "secret"
+}
+
+### Login User Bad Request
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "Cecile.Collins27@gmail.com",
+  "password": "secret5"
+}
+
+### Change Password
+PATCH {{baseUrl}}/auth/change-password
+Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZjdmYjViZWY3ZDNlZWM3YjA2N2IiLCJlbWFpbCI6InVzZXJAbWFpbC5jb20iLCJyb2xlIjoi0LjRgdC_0L7Qu9C90LjRgtC10LvRjCIsImlhdCI6MTY3MzYxMDYwOSwiZXhwIjoxNjczNjE0MjA5fQ.sxFuMtslSQtvJj8xPcxy4sgewSOf725LZ9jOC37qPgY
+
+{
+  "currentPassword": "secret",
+  "newPassword": "newSecret"
+}

@@ -2,7 +2,7 @@ export type Feedback = {
   id?: number;
   text?: string;
   price?: number;
-  userId: string;
+  contractorId?: string;
   taskId: number;
   createdAt?: Date;
 };

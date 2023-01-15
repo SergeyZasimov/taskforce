@@ -1,0 +1,38 @@
+@baseUrl = http://localhost:3333/api
+
+### Create Review
+
+POST {{baseUrl}}/reviews HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTNkZDIwOGNiYzFhY2U1YWQzYzJmZDciLCJlbWFpbCI6Ik15cm9uMjBAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzI1NzY2OCwiZXhwIjoxNjczMjYxMjY4fQ.tSc7A-VyWpXwLosu_wDqBm6DwzzUp4XcLmp3MaTa1p8
+
+{
+  "contractorId": "1d4dbb5b9eacd8e3e45deeb0",
+  "taskId": 7,
+  "text": "Lorem ipsum dolor sit amet, consectetuer adipiscin",
+  "rating": 3
+}
+
+### Get Review
+GET {{baseUrl}}/reviews?contractorId=edb8bce3b278b8cc98dddc2b
+
+
+### Create Review Not Valid
+
+POST {{baseUrl}}/reviews HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWNkYWJkNzAzOTFmMTI2NWNlODRjMmMiLCJlbWFpbCI6IlpvaWxhMzRAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3Mjg5NTA0MiwiZXhwIjoxNjcyODk4NjQyfQ.M7N9RCk2Th8tFPm9G8Pp1ygqx9gNjz_G4CVVm6y8s4M
+
+{
+  "contractorId": "63aebc286a8cf9c071bdda5",
+  "taskId": "2",
+  "text": "Lorem ipsum dolor sit amet",
+  "rating": "3"
+}
+
+### Get Review Not Valid
+GET {{baseUrl}}/reviews?contractorId=52e59a5fa464c2dddb35ddfb
+
+### Get Rating
+GET {{baseUrl}}/reviews/get-rating?contractorId=5cb2dfe2f2eefceceabfc945
+

@@ -14,8 +14,8 @@ export class UserRepository
     @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>
   ) {}
 
-  public async findById(id: string): Promise<User> | null {
-    return await this.userModel.findById(id);
+  public async findById(id: string): Promise<User> {
+    return this.userModel.findById(id);
   }
 
   public async findByEmail(email: string): Promise<User> | null {

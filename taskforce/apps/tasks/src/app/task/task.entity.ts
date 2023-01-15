@@ -13,7 +13,8 @@ export class TaskEntity implements Entity<TaskEntity>, Task {
   title: string;
   description: string;
   category: Category;
-  userId: string;
+  customerId: string;
+  contractorId?: string;
   price?: number;
   executionTerm?: Date;
   image?: string;
@@ -42,7 +43,8 @@ export class TaskEntity implements Entity<TaskEntity>, Task {
     this.title = item.title;
     this.description = item.description;
     this.category = item.category;
-    this.userId = item.userId;
+    this.customerId = item.customerId;
+    this.contractorId = item.contractorId;
     this.price = item.price;
     this.executionTerm = item.executionTerm;
     this.image = item.image;

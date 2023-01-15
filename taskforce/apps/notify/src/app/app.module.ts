@@ -7,6 +7,7 @@ import { rabbitMqOptions } from './config/rabbitmq.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { getMongodbConfig, mongodbOptions } from './config/mongodb.config';
 import { EmailSubscriberModule } from './email-subscriber/email-subscriber.module';
+import { validateEnvironments } from './env.validation';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { EmailSubscriberModule } from './email-subscriber/email-subscriber.modul
       isGlobal: true,
       envFilePath: ENV_FILE_PATH,
       load: [smtpOptions, rabbitMqOptions, mongodbOptions],
+      validate: validateEnvironments,
     }),
     MailerModule.forRootAsync(getSmtpConfig()),
     MongooseModule.forRootAsync(getMongodbConfig()),

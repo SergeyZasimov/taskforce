@@ -1,15 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsNumber } from 'class-validator';
+import { IsInt } from 'class-validator';
+import { FEEDBACK_QUERY_VALIDATION_ERROR } from '../feedback.constant';
 
 export class FeedbackQuery {
   @ApiProperty({
     name: 'taskId',
-    description: 'ID of the task to which the feedbacks',
+    description: 'ID задачи',
     type: 'number',
     example: '23',
   })
   @Transform(({ value }) => +value)
-  @IsNumber()
+  @IsInt({ message: FEEDBACK_QUERY_VALIDATION_ERROR.TASK_ID_REQUIRED })
   taskId: number;
 }

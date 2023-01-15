@@ -22,11 +22,21 @@ export class FeedbackRepository
     }));
   }
 
+  public async findByTaskAndContractor(
+    taskId: number,
+    contractorId: string
+  ): Promise<Feedback> {
+    const feedback = await this.prisma.feedback.findFirst({
+      where: { taskId, contractorId },
+    });
+    return feedback ? { ...feedback, price: Number(feedback.price) } : null;
+  }
+
   public async create(entity: FeedbackEntity): Promise<Feedback> {
     const newFeedback = await this.prisma.feedback.create({
       data: {
         text: entity.text,
-        userId: entity.userId,
+        contractorId: entity.contractorId,
         price: entity.price && new Prisma.Decimal(entity.price),
         task: { connect: { id: entity.taskId } },
       },

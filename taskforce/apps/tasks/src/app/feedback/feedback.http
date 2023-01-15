@@ -3,25 +3,17 @@
 
 ### Create New Feedback
 POST {{baseUrl}}/feedbacks HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2ODgwNzksImV4cCI6MTY3MzY5MTY3OX0.WSkVbgOQ1ZJ3iMrS8Qlv3hzkmLh_cqmr32PU0IyLmYs
 Content-Type: {{contentType}}
 
 {
   "text": "New Feedback",
   "taskId": 2,
-  "userId": "3f637fb1eccee5a5feef0de7"
-}
-
-### Create New Feedback
-POST {{baseUrl}}/feedbacks HTTP/1.1
-Content-Type: {{contentType}}
-
-{
-  "taskId": 2,
-  "userId": "6396a84a58dbfb187fc4350f"
 }
 
 ### Get feedbacks for Task
 GET {{baseUrl}}/feedbacks?taskId=2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2ODAyOTUsImV4cCI6MTY3MzY4Mzg5NX0.-i0FTRWL_qdMUVJLWJ05lgDg5JfeCo7TtigArjow2T
 
 ### Create Feedback Not Valid
 POST {{baseUrl}}/feedbacks HTTP/1.1
@@ -31,5 +23,4 @@ Content-Type: {{contentType}}
   "text": "Not Valid Feedback",
   "price": -234.789,
   "taskId": "2",
-  "userId": "3f637fb1eccee5a5feef0de"
 }

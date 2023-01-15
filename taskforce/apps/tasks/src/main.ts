@@ -19,6 +19,7 @@ async function bootstrap() {
     .setDescription('The Tasks» service API specification')
     .setVersion('1.0')
     .addTag('Tasks')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('spec/tasks', app, document);
@@ -30,9 +31,10 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT || 3333;
+  const host = process.env.HOST || 'localhost';
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://${host}:${port}/${globalPrefix}`
   );
 }
 

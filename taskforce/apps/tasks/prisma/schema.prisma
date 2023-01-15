@@ -23,7 +23,8 @@ model Task {
   address       String?
   tags          Tag[]
   status        Status     @default(New)
-  userId        String
+  customerId    String
+  contractorId  String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   comments      Comment[]
@@ -60,15 +61,27 @@ model Comment {
 }
 
 model Feedback {
-  id        Int      @id @default(autoincrement())
-  text      String?
-  price     Decimal? @db.Decimal(8, 2)
-  userId    String
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId    Int
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  text         String?
+  price        Decimal? @db.Decimal(8, 2)
+  contractorId String
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId       Int
+  createdAt    DateTime @default(now())
 
   @@map("Feedbacks")
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  text         String
+  rating       Int
+  taskId       Int
+  customerId   String
+  contractorId String
+  createdAt    DateTime @default(now())
+
+  @@map("Reviews")
 }
 
 enum Status {

@@ -26,6 +26,46 @@ export class TaskRepository
     return this.convertTask(task);
   }
 
+  public async findByContractorId(
+    contractorId: string,
+    status?: TaskStatus
+  ): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: { contractorId, status },
+      include: {
+        category: true,
+        tags: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
+      },
+      orderBy: {
+        status: 'asc',
+      },
+    });
+    return tasks.map((task) => this.convertTask(task));
+  }
+
+  public async findByCustomerId(
+    customerId: string,
+    status?: TaskStatus
+  ): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: { customerId, status },
+      include: {
+        category: true,
+        tags: true,
+        _count: {
+          select: { comments: true, feedbacks: true },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    return tasks.map((task) => this.convertTask(task));
+  }
+
   public async find({
     category: queryCategory,
     limit,
@@ -72,13 +112,29 @@ export class TaskRepository
     return tasks.map((task) => this.convertTask(task));
   }
 
+  public async findForNotify(lastNotify: Date): Promise<Task[]> {
+    const tasks = await this.prisma.task.findMany({
+      where: {
+        createdAt: {
+          gt: lastNotify,
+        },
+      },
+      include: {
+        category: true,
+        tags: true,
+      },
+    });
+
+    return tasks.map((task) => this.convertTask(task));
+  }
+
   public async create(entity: TaskEntity): Promise<Task> {
     const entityData = { ...entity.toObject() };
     const newTask = await this.prisma.task.create({
       data: {
         title: entityData.title,
         description: entityData.description,
-        userId: entityData.userId,
+        customerId: entityData.customerId,
         executionTerm: entityData.executionTerm,
         image: entityData.image,
         address: entityData.address,
@@ -127,7 +183,8 @@ export class TaskRepository
       data: {
         title: entityData.title,
         description: entityData.description,
-        userId: entityData.userId,
+        customerId: entityData.customerId,
+        contractorId: entityData.contractorId,
         executionTerm: entityData.executionTerm,
         image: entityData.image,
         address: entityData.address,
@@ -179,15 +236,33 @@ export class TaskRepository
     await this.prisma.task.delete({ where: { id } });
   }
 
+  public async getFailedSheet() {
+    return await this.prisma.task.groupBy({
+      by: ['contractorId'],
+      where: { status: TaskStatus.Fail },
+      _count: { id: true },
+    });
+  }
+
+  public async getCounter(userId: string, status?: TaskStatus) {
+    return await this.prisma.task.aggregate({
+      where: { OR: [{ customerId: userId }, { contractorId: userId }], status },
+      _count: { id: true },
+    });
+  }
+
   private convertTask(prismaTask): Task {
-    return {
-      ...prismaTask,
-      price: Number(prismaTask.price),
-      status: TaskStatus[prismaTask.status],
-      category: prismaTask.category.title,
-      tags: prismaTask.tags.map((tag) => tag.title),
-      commentsCount: prismaTask._count?.comments || 0,
-      feedbacksCount: prismaTask._count?.feedbacks || 0,
-    };
+    if (prismaTask) {
+      return {
+        ...prismaTask,
+        price: Number(prismaTask.price),
+        status: TaskStatus[prismaTask.status],
+        category: prismaTask.category.title,
+        tags: prismaTask.tags.map((tag) => tag.title),
+        commentsCount: prismaTask._count?.comments || 0,
+        feedbacksCount: prismaTask._count?.feedbacks || 0,
+      };
+    }
+    return null;
   }
 }

@@ -9,7 +9,8 @@ export type Task = {
   title: string;
   description: string;
   category: Category;
-  userId: string;
+  customerId?: string;
+  contractorId?: string;
   price?: number;
   executionTerm?: Date;
   image?: string;

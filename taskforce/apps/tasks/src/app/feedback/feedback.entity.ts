@@ -4,7 +4,7 @@ import { Feedback } from '@taskforce/shared-types';
 export class FeedbackEntity implements Entity<FeedbackEntity>, Feedback {
   public text?: string;
   public price?: number;
-  public userId: string;
+  public contractorId: string;
   public taskId: number;
 
   constructor(feedback: Feedback) {
@@ -18,7 +18,7 @@ export class FeedbackEntity implements Entity<FeedbackEntity>, Feedback {
   public fillEntity(item: Feedback): void {
     this.text = item.text;
     this.price = item.price;
-    this.userId = item.userId;
+    this.contractorId = item.contractorId;
     this.taskId = item.taskId;
   }
 }

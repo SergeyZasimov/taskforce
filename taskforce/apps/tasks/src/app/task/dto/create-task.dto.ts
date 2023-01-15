@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Category, Tag } from '@taskforce/shared-types';
+import { Category, Tag, TaskStatus } from '@taskforce/shared-types';
 import {
   ArrayMaxSize,
   IsDateString,
-  IsMongoId,
+  IsEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -12,7 +12,7 @@ import {
   Min,
   Validate,
 } from 'class-validator';
-import { CREATE_TASK_VALIDATION_ERROR } from '../task.constant';
+import { TASK_VALIDATION_ERROR } from '../task.constant';
 import { ExecutionTermValidator } from '../validators/execution-term.validator';
 
 const {
@@ -29,12 +29,12 @@ const {
   TAG_STARTS_WITH_NOT_VALID,
   TITLE_LENGTH_NOT_VALID,
   TITLE_REQUIRED,
-  USER_ID_NOT_VALID,
-} = CREATE_TASK_VALIDATION_ERROR;
+  STATUS_NOT_UPDATE,
+} = TASK_VALIDATION_ERROR;
 
 export class CreateTaskDto {
   @ApiProperty({
-    description: 'Task title',
+    description: 'Заголовок задачи',
     example: 'Lorem ipsum dolor si amet.',
     minLength: 20,
     maxLength: 50,
@@ -45,7 +45,7 @@ export class CreateTaskDto {
   public title: string;
 
   @ApiProperty({
-    description: 'Detailed description of the task',
+    description: 'Детальное описание задачи',
     example:
       'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
     minLength: 100,
@@ -57,7 +57,7 @@ export class CreateTaskDto {
   public description: string;
 
   @ApiProperty({
-    description: 'Task category',
+    description: 'Категория',
     type: 'string',
     example: 'Works',
     required: true,
@@ -66,15 +66,7 @@ export class CreateTaskDto {
   public category: Category;
 
   @ApiProperty({
-    description: 'User ID of the task creator',
-    example: 'facbf9678dea73a5df67165c',
-    required: true,
-  })
-  @IsMongoId({ message: USER_ID_NOT_VALID })
-  public userId: string;
-
-  @ApiProperty({
-    description: 'Task completion price',
+    description: 'Стоимость выполнения',
     example: '350.50',
     required: false,
   })
@@ -84,7 +76,7 @@ export class CreateTaskDto {
   public price?: number;
 
   @ApiProperty({
-    description: 'The deadline for completion the task',
+    description: 'Срок исполнения',
     example: '2022-12-22',
     required: false,
   })
@@ -96,7 +88,7 @@ export class CreateTaskDto {
   public executionTerm?: Date;
 
   @ApiProperty({
-    description: 'Task address',
+    description: 'Адрес задачи',
     example: 'Москва Ленинградское ш., 23',
     minLength: 10,
     maxLength: 255,
@@ -107,7 +99,7 @@ export class CreateTaskDto {
   public address?: string;
 
   @ApiProperty({
-    description: 'Task tags',
+    description: 'Теги',
     example: ['new', 'tag'],
     maxItems: 5,
     type: 'array',
@@ -131,4 +123,8 @@ export class CreateTaskDto {
   @ArrayMaxSize(5, { message: TAGS_SIZE_NOT_VALID })
   @IsOptional()
   public tags?: Tag[];
+
+  @IsEmpty({ message: STATUS_NOT_UPDATE })
+  @IsOptional()
+  public status: TaskStatus;
 }

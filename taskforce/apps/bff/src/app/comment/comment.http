@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:3330/api
+@contentType = application/json
+
+
+### Get Comment By Task ID
+GET {{baseUrl}}/comments?taskId=10 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2Nzc2ODEsImV4cCI6MTY3MzY4MTI4MX0.XmbS77CX_N5BJ25ZpD5xflAT_28lEyvOSV_Mdca5KXw
+
+
+### Create New Comment
+POST {{baseUrl}}/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2ODAyOTUsImV4cCI6MTY3MzY4Mzg5NX0.-i0FTRWL_qdMUVJLWJ05lgDg5JfeCo7TtigArjow2TE
+Content-Type: {{contentType}}
+
+{
+  "text": "New Comment for task id 2",
+  "taskId": 2
+}
+
+### Delete Comment
+DELETE {{baseUrl}}/comments/s HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2ODAyOTUsImV4cCI6MTY3MzY4Mzg5NX0.-i0FTRWL_qdMUVJLWJ05lgDg5JfeCo7TtigArjow2T

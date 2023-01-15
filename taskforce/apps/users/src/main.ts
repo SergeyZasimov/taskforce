@@ -20,6 +20,7 @@ async function bootstrap() {
     .setDescription('The «Users» service API specification')
     .setVersion('1.0')
     .addTag('Users')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('spec/users', app, document);
@@ -27,9 +28,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const port = process.env.PORT || 3333;
+  const host = process.env.HOST || 'localhost';
   await app.listen(port);
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://${host}:${port}/${globalPrefix}`
   );
 }
 

@@ -5,46 +5,66 @@ import { Document } from 'mongoose';
 
 @Schema({
   collection: 'users',
+  timestamps: true,
 })
 export class UserModel extends Document implements User {
   @Prop({
     required: true,
+    minlength: 3,
+    maxlength: 50,
   })
-  name: string;
+  public name: string;
 
   @Prop({
     required: true,
     unique: true,
+    immutable: true,
   })
-  email: string;
+  public email: string;
 
   @Prop({
     required: true,
     type: String,
     enum: Cities,
   })
-  city: AvailableCities;
+  public city: AvailableCities;
 
   @Prop({
     required: true,
   })
-  passwordHash: string;
+  public passwordHash: string;
 
-  @Prop()
-  avatar: string;
+  @Prop({
+    default: '',
+    match: [/[\w/-]+.(jpg|png|jpeg)/],
+  })
+  public avatar: string;
 
   @Prop({
     required: true,
   })
-  birthday: Date;
+  public birthday: Date;
 
   @Prop({
     required: true,
     type: String,
     enum: UserRole,
-    default: UserRole.Customer,
+    immutable: true,
   })
-  role: UserRole;
+  public role: UserRole;
+
+  @Prop({
+    required: false,
+    maxlength: 300,
+    default: '',
+  })
+  public resume: string;
+
+  @Prop({
+    required: false,
+    default: [],
+  })
+  public specialty: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);

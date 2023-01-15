@@ -2,12 +2,13 @@
 @contentType = application/json
 
 ### Get Task
-GET {{baseUrl}}/tasks/3 HTTP/1.1
+GET {{baseUrl}}/tasks/e HTTP/1.1
 
 
-### Create New Task Not Valid
+### Create New Task
 POST {{baseUrl}}/tasks HTTP/1.1
 Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwN2FhM2VjM2NhYWFiZWI0ZTdhZmNhY2IiLCJlbWFpbCI6Ikdlb2ZmcmV5LkRhcmVAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzA5OTQ0MiwiZXhwIjoxNjczMTAzMDQyfQ.J6v0dPnFjUpB_eGuKEIoXPpQc_V5jxGABV23fzTqi4Q
 
 {
   "title": "Lorem ipsum dolor sit ame",
@@ -21,16 +22,18 @@ Content-Type: {{contentType}}
 }
 
 ### Update Task
-PATCH {{baseUrl}}/tasks/5 HTTP/1.1
+PATCH {{baseUrl}}/tasks/1 HTTP/1.1
 Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwN2FhM2VjM2NhYWFiZWI0ZTdhZmNhY2IiLCJlbWFpbCI6Ikdlb2ZmcmV5LkRhcmVAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzA5OTQ0MiwiZXhwIjoxNjczMTAzMDQyfQ.J6v0dPnFjUpB_eGuKEIoXPpQc_V5jxGABV23fzTqi4Q
 
 {
-  "status": "Fail",
   "category": "новая 3 категория"
 }
 
 ### Delete Task
-DELETE  {{baseUrl}}/tasks/14 HTTP/1.1
+DELETE  {{baseUrl}}/tasks/11 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwN2FhM2VjM2NhYWFiZWI0ZTdhZmNhY2IiLCJlbWFpbCI6Ikdlb2ZmcmV5LkRhcmVAeWEucnUiLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzA5OTQ0MiwiZXhwIjoxNjczMTAzMDQyfQ.J6v0dPnFjUpB_eGuKEIoXPpQc_V5jxGABV23fzTqi4Q
+
 
 ### Create New Task Not Valid
 POST {{baseUrl}}/tasks HTTP/1.1
@@ -52,3 +55,59 @@ GET {{baseUrl}}/tasks?category=детское&tags=new,tag&city=Москва
 
 ### Get Tasks Sorting
 GET {{baseUrl}}/tasks?sortingOption=feedbacks&sortingDirection=asc&city=Владивосток&page=1
+
+
+### Change Task Status
+PATCH {{baseUrl}}/tasks/change-status HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZDRkYmI1YjllYWNkOGUzZTQ1ZGVlYjAiLCJlbWFpbCI6IkFsYmVydGE5MkBob3RtYWlsLmNvbSIsInJvbGUiOiLQuNGB0L_QvtC70L3QuNGC0LXQu9GMIiwiaWF0IjoxNjczMDk5ODA0LCJleHAiOjE2NzMxMDM0MDR9.kSk6ziv7Sb_DfGGWRm4CCGAYX683s5X9kiHqzOb7Uvg
+
+{
+  "taskId": 5,
+  "newStatus": "Complete"
+}
+
+
+### Change Task Status Not Valid
+PATCH {{baseUrl}}/tasks/change-status HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "taskId": 9,
+  "newStatus": "Cancel"
+}
+
+### Assign Contractor
+PATCH {{baseUrl}}/tasks/assign-contractor HTTP/1.1
+Content-Type: {{contentType}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMWJmYjAxNDFmZGE3NzJlNmFkNzgxMWUiLCJlbWFpbCI6IkpvdmFubnkuSGludHpAaG90bWFpbC5jb20iLCJyb2xlIjoi0LfQsNC60LDQt9GH0LjQuiIsImlhdCI6MTY3MzE1NTI3NiwiZXhwIjoxNjczMTU4ODc2fQ.796-OsTXH_6ncrYeVWF669NCLKgCoDvNN3pQSrVCGWM
+
+{
+  "taskId": 19,
+  "contractorId": "5cb2dfe2f2eefceceabfc945"
+}
+
+### Get My Tasks
+GET {{baseUrl}}/tasks/my-tasks HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDQ0N2QyN2FhOGIwNWZiY2E3YzZiN2IiLCJlbWFpbCI6IkhlcmJlcnQuU3Rhcms4MUB5YS5ydSIsInJvbGUiOiLQuNGB0L_QvtC70L3QuNGC0LXQu9GMIiwiaWF0IjoxNjczMjM3MTM3LCJleHAiOjE2NzMyNDA3Mzd9.gHs-LJyCagF9vWPF7CKBqKxHYmJwJuU1dQGsnn9O77E
+
+### Upload Image
+POST {{baseUrl}}/tasks/1/upload-image
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjY2NkZGVjOTIzMDVmYjZhOGRjZDkxZWMiLCJlbWFpbCI6IkRlZV9Cb3lsZUBtYWlsLnJ1Iiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzMyMzg5NDgsImV4cCI6MTY3MzI0MjU0OH0.D6Y_ZgU3kqq-eA8Db-RPWNnb5vS-MmVT8U_-1ILj56Q
+Content-Type: multipart/form-data; boundary=Upload
+
+--Upload
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: image/png
+
+< ../../../../../../markup/img/avatars/1.png
+--Upload--
+
+### Get Notify
+#?lastNotify=2023-01-13
+GET {{baseUrl}}/tasks/notify HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MzOTRjNzhjODYwOGNkNTg4MmUxMjgiLCJlbWFpbCI6InVzZXJAbWFpbC5jb20iLCJyb2xlIjoi0LjRgdC_0L7Qu9C90LjRgtC10LvRjCIsImlhdCI6MTY3Mzc2MjAyMSwiZXhwIjoxNjczNzY1NjIxfQ.qlra3njt4jcxzGw0gYDEdq7LuSi2yRjUBcaxcY1-Jdk
+
+### Get Task Counter
+GET {{baseUrl}}/tasks/tasks-counter?userId=52e59a5fa464c2dddb35ddfb HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2MwZmQ3ZjY4NDY3YTkwMjEyNjVlNmUiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwicm9sZSI6ItC30LDQutCw0LfRh9C40LoiLCJpYXQiOjE2NzM2NjU4NDMsImV4cCI6MTY3MzY2OTQ0M30.Lw6jZODmr2VPa1y57ztQtvKgx6D1VaVF5wtoRBdLXsM

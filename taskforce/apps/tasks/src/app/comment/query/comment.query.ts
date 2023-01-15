@@ -1,15 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsNumber } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
+import { COMMENT_QUERY_VALIDATION_ERROR } from '../comment.constant';
 
 export class CommentQuery {
-  @ApiProperty({
-    name: 'taskId',
-    description: 'ID of the task to which the comments',
-    type: 'number',
-    example: '23',
-  })
+  @IsInt({ message: COMMENT_QUERY_VALIDATION_ERROR.TASK_IS_REQUIRED })
   @Transform(({ value }) => +value)
-  @IsNumber()
-  taskId: number;
+  public taskId: number;
+
+  @Transform(({ value }) => +value)
+  @IsOptional()
+  public page?: number;
 }
