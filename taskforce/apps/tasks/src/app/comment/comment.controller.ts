@@ -25,10 +25,6 @@ import {
 import { fillObject } from '@taskforce/core';
 import { GetCurrentUser } from '../decorators/get-current-user.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import {
-  COMMENT_API_OPERATION,
-  COMMENT_RESPONSE_DESCRIPTION,
-} from './comment.constant';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentQuery } from './query/comment.query';
@@ -38,6 +34,8 @@ import {
   ApiCommentQuery,
   BadRequestSchema,
   CommentNotFoundSchema,
+  COMMENT_API_OPERATION,
+  COMMENT_RESPONSE_DESCRIPTION,
   ForbiddenSchema,
   TaskNotFoundSchema,
   TasksApiTag,

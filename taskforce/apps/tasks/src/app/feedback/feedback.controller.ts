@@ -12,6 +12,8 @@ import {
 } from '@nestjs/swagger';
 import {
   BadRequestSchema,
+  FEEDBACK_API_OPERATION,
+  FEEDBACK_RESPONSE_DESCRIPTION,
   ForbiddenSchema,
   TaskNotFoundSchema,
   UserUnauthorizedSchema,
@@ -23,10 +25,6 @@ import { Role } from '../decorators/role.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { RoleGuard } from '../guards/role.guard';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
-import {
-  FEEDBACK_API_OPERATION,
-  FEEDBACK_RESPONSE_DESCRIPTION,
-} from './feedback.constant';
 import { FeedbackService } from './feedback.service';
 import { FeedbackQuery } from './query/feedback.query';
 import { FeedbackRdo } from './rdo/feedback.rdo';

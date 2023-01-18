@@ -9,8 +9,10 @@ import {
 } from 'class-validator';
 import { EnvValidationMessage } from './app.constant';
 
-const MIN_PORT = 0;
-const MAX_PORT = 65535;
+const VALID_PORT = {
+  MIN: 0,
+  MAX: 65535,
+} as const;
 
 class EnvironmentsConfig {
   @IsString({ message: EnvValidationMessage.DBNameRequired })
@@ -20,8 +22,8 @@ class EnvironmentsConfig {
   public MONGO_HOST: string;
 
   @IsInt({ message: EnvValidationMessage.DBPortRequired })
-  @Min(MIN_PORT, { message: EnvValidationMessage.DBPortNotValid })
-  @Max(MAX_PORT, { message: EnvValidationMessage.DBPortNotValid })
+  @Min(VALID_PORT.MIN, { message: EnvValidationMessage.DBPortNotValid })
+  @Max(VALID_PORT.MAX, { message: EnvValidationMessage.DBPortNotValid })
   public MONGO_PORT: number;
 
   @IsString({ message: EnvValidationMessage.DBUserRequired })
@@ -48,8 +50,8 @@ class EnvironmentsConfig {
   @IsString({ message: EnvValidationMessage.SmtpHostRequired })
   public SMTP_HOST: string;
 
-  @Min(MIN_PORT, { message: EnvValidationMessage.PortNotValid })
-  @Max(MAX_PORT, { message: EnvValidationMessage.PortNotValid })
+  @Min(VALID_PORT.MIN, { message: EnvValidationMessage.PortNotValid })
+  @Max(VALID_PORT.MAX, { message: EnvValidationMessage.PortNotValid })
   @IsInt({ message: EnvValidationMessage.SmtpPortRequired })
   public SMTP_PORT: number;
 
@@ -59,8 +61,8 @@ class EnvironmentsConfig {
   @IsOptional()
   public HOST: string;
 
-  @Min(MIN_PORT, { message: EnvValidationMessage.PortNotValid })
-  @Max(MAX_PORT, { message: EnvValidationMessage.PortNotValid })
+  @Min(VALID_PORT.MIN, { message: EnvValidationMessage.PortNotValid })
+  @Max(VALID_PORT.MAX, { message: EnvValidationMessage.PortNotValid })
   @IsInt()
   @IsOptional()
   public PORT: number;

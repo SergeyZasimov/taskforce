@@ -1,6 +1,5 @@
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
-import { AvailableCities, User, UserRole } from '@taskforce/shared-types';
-import { Cities } from 'libs/shared-types/src/lib/const';
+import { AvailableCities, Cities, User, UserRole } from '@taskforce/shared-types';
 import { Document } from 'mongoose';
 
 @Schema({

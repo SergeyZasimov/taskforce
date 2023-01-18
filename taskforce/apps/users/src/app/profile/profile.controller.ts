@@ -28,7 +28,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ProfileService } from './profile.service';
 import { ProfileRdo } from './rdo/profile.rdo';
 import { Express } from 'express';
-import { Multer } from 'multer';
 import { UPLOAD_FIELD_NAME } from '../app.constant';
 import { Route, RouteModule } from '@taskforce/shared-types';
 import {
