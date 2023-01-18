@@ -4,10 +4,7 @@ import { Comment } from '@taskforce/shared-types';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentEntity } from './comment.entity';
 import { TaskRepository } from '../task/task.repository';
-import {
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common/exceptions';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { COMMENT_EXCEPTION_MESSAGE } from './comment.constant';
 
 const { TASK_NOT_FOUND, COMMENT_NOT_FOUND, FOREIGN_COMMENT } =

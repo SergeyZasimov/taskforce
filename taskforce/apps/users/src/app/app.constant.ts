@@ -38,7 +38,7 @@ export const USER_VALIDATION_ERRORS = {
   ROLE_NOT_UPDATE: 'Роль нельзя изменить',
   TEENAGE_CONSTRAINT: 'Возраст должен быть больше 18 лет',
   AVATAR_ERROR: 'Изображение должно быть в формате .jpg или .png',
-};
+} as const;
 
 export const RABBITMQ_SERVICE_NAME = 'RABBITMQ_SERVICE';
 

@@ -45,15 +45,15 @@ export class FeedbackRepository
     return { ...newFeedback, price: Number(newFeedback.price) };
   }
 
-  public findById(id: number): Promise<Feedback> {
+  public findById(): Promise<Feedback> {
     return Promise.resolve(undefined);
   }
 
-  public update(id: number, entity: FeedbackEntity): Promise<Feedback> {
+  public update(): Promise<Feedback> {
     return Promise.resolve(undefined);
   }
 
-  public delete(id: number): Promise<void> {
+  public delete(): Promise<void> {
     return Promise.resolve(undefined);
   }
 }

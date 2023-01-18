@@ -36,15 +36,15 @@ export class ReviewRepository
     });
   }
 
-  public findById(id: number): Promise<Review> {
+  public findById(): Promise<Review> {
     return Promise.resolve(undefined);
   }
 
-  public update(id: number, entity: ReviewEntity): Promise<Review> {
+  public update(): Promise<Review> {
     return Promise.resolve(undefined);
   }
 
-  public delete(id: number): Promise<void> {
+  public delete(): Promise<void> {
     return Promise.resolve(undefined);
   }
 }

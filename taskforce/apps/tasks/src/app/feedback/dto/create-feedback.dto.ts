@@ -1,12 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsMongoId, IsNumber, IsOptional, Min } from 'class-validator';
+import { IsInt, IsNumber, IsOptional, Min } from 'class-validator';
 import { CREATE_FEEDBACK_VALIDATION_ERROR } from '../feedback.constant';
 
 const {
   PRICE_NEGATIVE,
   PRICE_NOT_VALID,
   TASK_ID_NOT_VALID,
-  USER_ID_NOT_VALID,
 } = CREATE_FEEDBACK_VALIDATION_ERROR;
 
 export class CreateFeedbackDto {

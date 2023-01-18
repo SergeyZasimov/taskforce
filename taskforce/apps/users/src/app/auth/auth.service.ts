@@ -14,7 +14,6 @@ import {
   ConflictException,
   ForbiddenException,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';

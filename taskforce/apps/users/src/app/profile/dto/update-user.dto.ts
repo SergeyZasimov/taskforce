@@ -13,7 +13,6 @@ import {
 } from 'class-validator';
 import { USER_VALIDATION_ERRORS } from '../../app.constant';
 import { TeenageValidator } from '../../validators/teenage.validator';
-import { ApiProperty } from '@nestjs/swagger';
 
 const {
   NAME_REQUIRED,

@@ -37,6 +37,8 @@ import {
   ForbiddenSchema,
   TaskNotFoundSchema,
   TasksApiTag,
+  TASK_API_OPERATIONS,
+  TASK_RESPONSE_DESCRIPTION,
   UserUnauthorizedSchema,
 } from '@taskforce/api-documentation';
 import { fillObject } from '@taskforce/core';
@@ -56,10 +58,6 @@ import { NotifyQuery } from './query/notify.query';
 import { TaskQuery } from './query/task.query';
 import { TasksCountQuery } from './query/tasks-count.query';
 import { TaskRdo } from './rdo/task.rdo';
-import {
-  TASK_API_OPERATIONS,
-  TASK_RESPONSE_DESCRIPTION,
-} from './task.constant';
 import { TaskService } from './task.service';
 
 const {

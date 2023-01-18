@@ -4,12 +4,12 @@ import {
   PipeTransform,
 } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { BAD_MONGOID_ERROR } from './pipes.constant';
+import { BAD_MONGOID_ERROR, ONLY_PARAM_PIPE_ERROR } from './pipes.constant';
 
 export class MongoidValidationPipe implements PipeTransform {
   transform(value: string, { type }: ArgumentMetadata) {
     if (type !== 'param') {
-      throw new Error('This pipe must user only with params!');
+      throw new Error(ONLY_PARAM_PIPE_ERROR);
     }
 
     if (!Types.ObjectId.isValid(value)) {

@@ -26,7 +26,7 @@ export const TASK_VALIDATION_ERROR = {
   IMAGE_NOT_VALID: 'Изображение должно быть в формате jpg или png',
   CITY_NOT_VALID: 'Неверный город',
   USER_ID_NOT_VALID: 'Неверный ID пользователя'
-};
+} as const;
 
 export const RABBITMQ_SERVICE_NAME = 'TASKS_NOTIFY';
 
@@ -58,32 +58,4 @@ export const TASK_EXCEPTION_MESSAGE = {
     'Назначать исполнителя можно только из списка откликнувшихся',
   PROCESS_CONTRACTOR:
     'Нельзя назначить исполнителя, у которого есть задача в работе',
-};
-
-export const TASK_API_OPERATIONS = {
-  CHANGE_STATUS: 'Изменение статуса задания',
-  ASSIGN_CONTRACTOR: 'Назначение исполнителя',
-  MY_TASKS: 'Список задач пользователя в зависимости от роли',
-  SHOW: 'Информация о задаче',
-  SHOW_ALL: 'Список задач',
-  CREATE: 'Создание задачи',
-  UPDATE: 'Редактировать задание',
-  DELETE: 'Удаление задания',
-  NOTIFY: 'Рассылка уведомлений',
-};
-
-export const TASK_RESPONSE_DESCRIPTION = {
-  CREATED_OK: 'Успешное создание задачи',
-  UPDATED_OK: 'Успешное изменение задачи',
-  DELETED_OK: 'Успешное удаление задачи',
-  NOTIFY_OK: 'Успешная отправка уведомлений',
-  CHANGE_STATUS_OK: 'Успешное изменение статуса',
-  ASSIGN_CONTRACTOR_OK: 'Успешное назначение исполнителя',
-  SHOW_OK: 'Возвращает информацию о задаче',
-  SHOW_ALL_OK: 'Возвращает список задач',
-  MY_TASKS_OK: 'Список задач',
-  BAD_REQUEST: 'Неверные данные',
-  TASK_NOT_FOUND: 'Задача не найдена',
-  UNAUTHORIZED: 'Пользователь не авторизован',
-  FORBIDDEN_ROLE: 'Неверная роль пользователя',
-};
+} as const;

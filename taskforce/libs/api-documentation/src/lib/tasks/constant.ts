@@ -9,7 +9,7 @@ export const COMMENT_API_OPERATION = {
   SHOW_ALL: 'Список сообщений для определенной задачи',
   CREATE: 'Создание комментария',
   DELETE: 'Удаление комментария',
-};
+} as const;
 
 export const COMMENT_RESPONSE_DESCRIPTION = {
   SHOW_ALL_OK: 'Возвращает список комментариев для определенной задачи',
@@ -20,18 +20,12 @@ export const COMMENT_RESPONSE_DESCRIPTION = {
   DELETE_COMMENT: 'Успешное удаление комментария',
   COMMENT_NOT_FOUND: 'Комментарий не найден',
   FOREIGN_COMMENT: 'Комментарий другого пользователя',
-};
-
-export const COMMENT_EXCEPTION_MESSAGE = {
-  TASK_NOT_FOUND: 'Задача не найдена',
-  COMMENT_NOT_FOUND: 'Комментарий не найден',
-  FOREIGN_COMMENT: 'Нельзя удалять чужой комментарий',
-};
+} as const;
 
 export const FEEDBACK_API_OPERATION = {
   SHOW_ALL: 'Список откликов для определенной задачи',
   CREATE: 'Создание отклика',
-};
+} as const;
 
 export const FEEDBACK_RESPONSE_DESCRIPTION = {
   SHOW_ALL_OK: 'Возвращает список откликов для определенной задачи',
@@ -40,28 +34,13 @@ export const FEEDBACK_RESPONSE_DESCRIPTION = {
   TASK_NOT_FOUND: 'Задача не найдена',
   UNAUTHORIZED: 'Пользователь не авторизован',
   FORBIDDEN_ROLE: 'Неверная роль пользователя',
-};
-
-export const FEEDBACK_EXCEPTION_MESSAGE = {
-  TASK_NOT_FOUND: 'Задача не найдена',
-  TASK_STATUS_NOT_VALID:
-    'Отклик можно оставлять только к задаче со статусом "Новое"',
-  FEEDBACK_EXIST: 'Отклик исполнителя уже существует',
-};
-
-export const REVIEW_EXCEPTION_MESSAGE = {
-  TASK_NOT_FOUND: 'Задача не найдена',
-  CONFLICT_REVIEW: 'Для этого задания уже есть отзыв',
-  TASK_NOT_COMPLETE: 'Нельзя оставить отзыв. Задача не выполнена',
-  FOREIGN_TASK: 'Нельзя оставить отзыв. Задача другого заказчика',
-  FOREIGN_CONTRACTOR: 'Нельзя оставить отзыв. Исполнитель не выполнял задания',
-};
+} as const;
 
 export const REVIEW_API_OPERATION = {
   CREATE_REVIEW: 'Создание отзыва',
   CONTRACTOR_REVIEW: 'Список отзывов по исполнителю',
   GET_RATING: 'Получить рейтинг исполнителя',
-};
+} as const;
 
 export const REVIEW_RESPONSE_DESCRIPTION = {
   CREATED: 'Успешное создание отзыва',
@@ -72,7 +51,7 @@ export const REVIEW_RESPONSE_DESCRIPTION = {
   UNAUTHORIZED: 'Пользователь не авторизован',
   CONFLICT: 'Отзыв уже существует',
   FORBIDDEN_ROLE: 'Неверная роль пользователя',
-};
+} as const;
 
 export const TASK_API_OPERATIONS = {
   CHANGE_STATUS: 'Изменение статуса задания',
@@ -84,7 +63,7 @@ export const TASK_API_OPERATIONS = {
   UPDATE: 'Редактировать задание',
   DELETE: 'Удаление задания',
   NOTIFY: 'Рассылка уведомлений',
-};
+} as const;
 
 export const TASK_RESPONSE_DESCRIPTION = {
   CREATED_OK: 'Успешное создание задачи',
@@ -100,4 +79,4 @@ export const TASK_RESPONSE_DESCRIPTION = {
   TASK_NOT_FOUND: 'Задача не найдена',
   UNAUTHORIZED: 'Пользователь не авторизован',
   FORBIDDEN_ROLE: 'Неверная роль пользователя',
-};
+} as const;
